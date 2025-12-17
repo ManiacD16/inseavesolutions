@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #020617; /* slightly darker than before */
+  color: #e5e7eb; /* slate-200-ish */
+}
+
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+/* Added background grid and blur effects */
+.grid-bg {
+  background-image: linear-gradient(rgba(99, 102, 241, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(99, 102, 241, 0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
