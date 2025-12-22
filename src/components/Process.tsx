@@ -9,16 +9,18 @@ interface ProcessStepProps {
 
 function ProcessStep({ number, icon, title, description }: ProcessStepProps) {
   return (
-    <div className="relative">
+    <div className="relative group">
       <div className="flex flex-col items-center text-center">
-        <div className="w-24 h-24 bg-blue-600 rounded-full flex items-center justify-center text-white text-2xl font-bold mb-4 shadow-lg">
-          <div className='absolute text-8xl font-bold text-white/40 select-none pointer-events-none group-hover:text-white/[0.04] transition-colors'>
-          {number}
+        <div className="relative w-24 h-24 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mb-6 shadow-2xl transform transition-all duration-300 group-hover:scale-110 group-hover:shadow-purple-500/50 group-hover:rotate-3">
+          <div className="absolute inset-0.5 bg-slate-900 rounded-2xl flex items-center justify-center">
+            <div className="relative z-10">{icon}</div>
+          </div>
+          <div className='absolute -top-3 -right-3 w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white text-sm font-bold shadow-lg'>
+            {number}
+          </div>
         </div>
-        </div>
-        <div className="mb-4 text-blue-600">{icon}</div>
-        <h3 className="text-white font-medium mb-2">{title}</h3>
-        <p className="text-sm text-neutral-400 leading-relaxed">{description}</p>
+        <h3 className="text-white font-semibold mb-3 text-lg group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-400 group-hover:to-purple-400 transition-all">{title}</h3>
+        <p className="text-sm text-neutral-400 leading-relaxed group-hover:text-neutral-300 transition-colors">{description}</p>
       </div>
     </div>
   );
@@ -53,7 +55,7 @@ export default function Process() {
   ];
 
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 ">
+    <section className="py-20 px-4 sm:px-6 lg:px-8 border-t border-blue-900/50">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-medium text-white tracking-tight mb-4">

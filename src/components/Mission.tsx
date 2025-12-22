@@ -41,7 +41,7 @@ export default function Mission() {
   ];
 
   return (
-    <section id="mission" className="py-20 px-4 sm:px-6 lg:px-8  text-white">
+    <section id="mission" className="py-20 px-4 sm:px-6 lg:px-8  text-white border-t border-blue-900/50">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl sm:text-5xl font-bold mb-6">

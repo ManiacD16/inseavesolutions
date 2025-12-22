@@ -1,5 +1,7 @@
 import Header from "./components/Header"
 import Hero from "./components/Hero"
+import Clients from "./components/Clients"
+import Teams from "./components/Teams"
 import Services from "./components/Services"
 import Portfolio from "./components/Portfolio"
 import Process from "./components/Process"
@@ -24,8 +26,10 @@ function App() {
         <Header />
         <main>
           <Hero />
+          <Clients />
           <Services />
           <Portfolio />
+          <Teams />
           <Process />
           <Mission />
           <Contact />

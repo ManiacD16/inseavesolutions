@@ -1,133 +1,345 @@
-import { Twitter, Linkedin, Github, Mail, Phone, MapPin } from 'lucide-react';
+"use client";
 
-export default function Footer() {
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+import {
+  Linkedin,
+  Github,
+  Twitter,
+  Facebook,
+  Youtube,
+  ArrowRight,
+  Star,
+} from "lucide-react";
+
+const solutionsLeft = [
+  "Managed Services",
+  "IT Consulting & Advisory",
+  "Cyber Security",
+  "Web Development",
+];
+
+const solutionsRight = [
+  "Mobile Development",
+  "Cloud Services",
+  "Network Connectivity",
+  "ERP Solutions",
+];
+
+const companyLeft = [
+  "About us",
+  "Why us",
+  "Team",
+  "Careers",
+  "Partners & Certifications",
+  "Reviews & Awards",
+];
+
+const companyRight = ["Blog", "Case studies", "Events", "FAQ"];
+
+// function LogoMark({ className = "" }: { className?: string }) {
+//   // Simple diamond mark similar to the screenshot
+//   return (
+//     <svg
+//       className={className}
+//       width="34"
+//       height="34"
+//       viewBox="0 0 48 48"
+//       fill="none"
+//       aria-hidden="true"
+//     >
+//       <path
+//         d="M24 4 44 24 24 44 4 24 24 4Z"
+//         stroke="currentColor"
+//         strokeWidth="4"
+//         strokeLinejoin="round"
+//       />
+//       <path
+//         d="M24 14 34 24 24 34 14 24 24 14Z"
+//         fill="currentColor"
+//         opacity="0.12"
+//       />
+//     </svg>
+//   );
+// }
+
+function DotsPattern({ className = "" }: { className?: string }) {
+  // Hand-placed circles to resemble the dotted cluster
+  const dots = [
+    { x: 8, y: 8, r: 2 },
+    { x: 18, y: 10, r: 3 },
+    { x: 32, y: 8, r: 2 },
+    { x: 44, y: 12, r: 2 },
+
+    { x: 10, y: 24, r: 2 },
+    { x: 22, y: 24, r: 3 },
+    { x: 36, y: 22, r: 4 },
+    { x: 48, y: 26, r: 3 },
+
+    { x: 14, y: 40, r: 2 },
+    { x: 26, y: 40, r: 4 },
+    { x: 42, y: 40, r: 2 },
+    { x: 54, y: 42, r: 3 },
+
+    { x: 10, y: 58, r: 2 },
+    { x: 22, y: 58, r: 2 },
+    { x: 38, y: 58, r: 3 },
+    { x: 52, y: 60, r: 2 },
+
+    { x: 16, y: 74, r: 2 },
+    { x: 30, y: 74, r: 3 },
+    { x: 46, y: 76, r: 2 },
+    { x: 58, y: 74, r: 2 },
+  ];
 
   return (
-    <footer className="bg-gray-800/50 text-gray-300 ">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
-          <div>
-            <div className="flex items-center mb-4">
-              <span className="text-2xl font-bold text-white">Insweave</span>
-              <span className="text-2xl font-light text-gray-300 ml-1">Solutions</span>
+    <svg
+      className={className}
+      viewBox="0 0 64 84"
+      fill="none"
+      aria-hidden="true"
+    >
+      {dots.map((d, i) => (
+        <circle key={i} cx={d.x} cy={d.y} r={d.r} fill="currentColor" />
+      ))}
+    </svg>
+  );
+}
+
+export default function Footer() {
+  return (
+    <footer className="w-full">
+      {/* TOP (DARK) */}
+      <div className="bg-black text-gray-300">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14">
+          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-12">
+            {/* LEFT SIDE: Links + Newsletter */}
+            <div className="w-full lg:w-[52%]">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
+                {/* Solutions */}
+                <div>
+                  <h3 className="text-white font-semibold mb-4">Solutions</h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                    <ul className="space-y-2 text-sm">
+                      {solutionsLeft.map((t) => (
+                        <li key={t}>
+                          <a
+                            href="#"
+                            className="hover:text-white transition-colors"
+                          >
+                            {t}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                    <ul className="space-y-2 text-sm">
+                      {solutionsRight.map((t) => (
+                        <li key={t}>
+                          <a
+                            href="#"
+                            className="hover:text-white transition-colors"
+                          >
+                            {t}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+
+                {/* Company */}
+                <div>
+                  <h3 className="text-white font-semibold mb-4">Company</h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                    <ul className="space-y-2 text-sm">
+                      {companyLeft.map((t) => (
+                        <li key={t}>
+                          <a
+                            href="#"
+                            className="hover:text-white transition-colors"
+                          >
+                            {t}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                    <ul className="space-y-2 text-sm">
+                      {companyRight.map((t) => (
+                        <li key={t}>
+                          <a
+                            href="#"
+                            className="hover:text-white transition-colors"
+                          >
+                            {t}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              {/* Newsletter */}
+              <div className="mt-10 max-w-xl">
+                <div className="relative">
+                  <input
+                    type="text"
+                    placeholder="Don't miss out updates"
+                    className="w-full bg-transparent border border-white/25 rounded-sm px-4 py-3 text-sm placeholder:text-gray-500 focus:outline-none focus:border-white/40"
+                  />
+                </div>
+
+                <label className="mt-3 flex items-start gap-2 text-xs text-gray-500">
+                  <input
+                    type="checkbox"
+                    className="mt-1 h-3.5 w-3.5 rounded border-white/25 bg-transparent"
+                  />
+                  <span>
+                    I agree to the Privacy Policy and give my permission to
+                    process my personal data for the purposes specified in the
+                    Privacy Policy.
+                  </span>
+                </label>
+
+                <div className="mt-4">
+                  <button
+                    type="button"
+                    className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium px-6 py-3 rounded-sm transition-colors"
+                  >
+                    Send <ArrowRight className="h-4 w-4" />
+                  </button>
+                </div>
+              </div>
             </div>
-            <p className="text-gray-400 mb-4">
-              Digital infrastructure and comprehensive business solutions for modern enterprises.
-            </p>
-            <div className="flex space-x-4">
-              <a
-                href="#"
-                className="text-gray-400 hover:text-blue-400 transition-colors"
-                aria-label="Twitter"
-              >
-                <Twitter className="h-5 w-5" />
-              </a>
-              <a
-                href="#"
-                className="text-gray-400 hover:text-blue-400 transition-colors"
-                aria-label="LinkedIn"
-              >
-                <Linkedin className="h-5 w-5" />
-              </a>
-              <a
-                href="#"
-                className="text-gray-400 hover:text-blue-400 transition-colors"
-                aria-label="GitHub"
-              >
-                <Github className="h-5 w-5" />
-              </a>
+
+            {/* RIGHT SIDE: Brand + dots */}
+            <div className="w-full lg:w-[44%] relative">
+              <div className="relative overflow-hidden min-h-[260px] lg:min-h-[360px] flex items-center justify-center">
+                {/* Dots cluster */}
+                <DotsPattern className="absolute top-0 left-1/2 -translate-x-1/2 text-indigo-100/90 w-[420px] h-[320px] lg:w-[520px] lg:h-[420px]" />
+
+                {/* Brand */}
+                <div className="relative z-10 text-center pt-10 lg:pt-0">
+                  <div className="flex items-center justify-center mb-3 text-white">
+                    {/* <LogoMark className="text-white" /> */}
+                    <img src="/favicon.svg" />
+                  </div>
+                  {/* <div className="text-white text-2xl font-semibold">
+                    Insweave
+                  </div> */}
+                  {/* <div className="flex items-center justify-center mb-3 text-white">
+                  <img src="/footer.svg" />
+</div> */}
+                  <button
+                    type="button"
+                    className="mt-5 inline-flex items-center justify-center bg-blue-700 hover:bg-blue-600 text-white text-sm font-semibold px-8 py-3 rounded-sm transition-colors"
+                  >
+                    Schedule Consultation
+                  </button>
+                </div>
+              </div>
             </div>
-          </div>
-
-          <div>
-            <h3 className="text-white font-semibold mb-4">Quick Links</h3>
-            <ul className="space-y-2">
-              <li>
-                <button
-                  onClick={() => scrollToSection('services')}
-                  className="hover:text-blue-400 transition-colors"
-                >
-                  Services
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => scrollToSection('portfolio')}
-                  className="hover:text-blue-400 transition-colors"
-                >
-                  Portfolio
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => scrollToSection('mission')}
-                  className="hover:text-blue-400 transition-colors"
-                >
-                  Mission
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => scrollToSection('contact')}
-                  className="hover:text-blue-400 transition-colors"
-                >
-                  Contact
-                </button>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="text-white font-semibold mb-4">Services</h3>
-            <ul className="space-y-2">
-              <li className="hover:text-blue-400 transition-colors cursor-pointer">
-                Web Development
-              </li>
-              <li className="hover:text-blue-400 transition-colors cursor-pointer">
-                App Development
-              </li>
-              <li className="hover:text-blue-400 transition-colors cursor-pointer">
-                E-Commerce
-              </li>
-              <li className="hover:text-blue-400 transition-colors cursor-pointer">
-                Business Services
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="text-white font-semibold mb-4">Contact Info</h3>
-            <ul className="space-y-3">
-              <li className="flex items-start gap-2">
-                <Mail className="h-5 w-5 text-blue-400 mt-0.5 flex-shrink-0" />
-                <span>contact@insweave.in</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <Phone className="h-5 w-5 text-blue-400 mt-0.5 flex-shrink-0" />
-                <span>+91 1234567890</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <MapPin className="h-5 w-5 text-blue-400 mt-0.5 flex-shrink-0" />
-                <span>New Delhi, India</span>
-              </li>
-            </ul>
           </div>
         </div>
+      </div>
 
-        <div className="border-t border-gray-800 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-gray-400 text-sm">
-              CIN: U72900DL2024PTC123456
-            </p>
-            <p className="text-gray-400 text-sm">
-              &copy; {new Date().getFullYear()} Insweave Solutions. All rights reserved.
-            </p>
+      {/* BOTTOM (WHITE STRIP) */}
+      <div className="bg-white text-gray-900">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 items-start">
+            {/* Clutch */}
+           <div className="relative pr-6">
+  <div className="absolute right-0 top-0 bottom-0 w-[4px] rounded-full bg-gray-200" />
+              <div className="text-[11px] tracking-wide text-gray-500">
+                REVIEWED ON
+              </div>
+              <div className="flex items-end gap-3">
+                <div className="text-2xl font-semibold">Clutch</div>
+                <div className="pb-1 text-xs text-gray-500">31 REVIEWS</div>
+              </div>
+              <div className="flex gap-1 mt-2">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Star
+                    key={i}
+                    className="h-4 w-4 fill-red-500 text-red-500"
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Address */}
+                       <div className="relative pr-6">
+  <div className="absolute right-0 w-[4px] h-full rounded-full bg-gray-200" />
+            <div className="text-sm text-gray-700">
+              <div className="font-medium mb-2">
+                Seventh Ave, 20th Floor New York, NY 10018
+              </div>
+            </div>
+            </div>
+
+            {/* Contact */}
+             <div className="relative pr-6">
+  <div className="absolute right-0  w-[4px] h-full rounded-full bg-gray-200" />
+            <div className="text-sm text-gray-700">
+              <div className="mb-2">
+                <span className="text-gray-500">T:</span> 1-800-356-8933
+              </div>
+              <div>
+                <span className="text-gray-500">E:</span> office@insweave.in
+              </div>
+            </div>
+            </div>
+
+            {/* Socials */}
+            <div className="flex flex-wrap gap-12 lg:justify-end lg:col-span-2">
+              <a
+                href="#"
+                className="inline-flex flex-col items-center text-xs text-gray-900 hover:text-gray-900"
+              >
+                <Linkedin className="h-8 w-8" />
+                <span className="mt-1 font-bold">LinkedIn</span>
+              </a>
+              <a
+                href="#"
+                className="inline-flex flex-col items-center text-xs text-gray-900 hover:text-gray-900"
+              >
+                <Github className="h-8 w-8" />
+                <span className="mt-1 font-bold">Github</span>
+              </a>
+              <a
+                href="#"
+                className="inline-flex flex-col items-center text-xs text-gray-900 hover:text-gray-900"
+              >
+                <Twitter className="h-8 w-8" />
+                <span className="mt-1 font-bold">Twitter</span>
+              </a>
+              <a
+                href="#"
+                className="inline-flex flex-col items-center text-xs text-gray-900 hover:text-gray-900"
+              >
+                <Facebook className="h-8 w-8" />
+                <span className="mt-1 font-bold">Facebook</span>
+              </a>
+              <a
+                href="#"
+                className="inline-flex flex-col items-center text-xs text-gray-900 hover:text-gray-900"
+              >
+                <Youtube className="h-8 w-8" />
+                <span className="mt-1 font-bold">Youtube</span>
+              </a>
+            </div>
+          </div>
+
+          <div className="mt-2 border-t border-gray-200 pt-2">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-gray-500">
+              <div>© {new Date().getFullYear()} VamTam. All rights reserved.</div>
+              <div className="flex items-center gap-6">
+                <a href="#" className="hover:text-gray-800">
+                  Terms &amp; Conditions
+                </a>
+                <a href="#" className="hover:text-gray-800">
+                  Privacy Policy
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
