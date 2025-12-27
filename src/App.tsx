@@ -1,43 +1,45 @@
-import Header from "./components/Header"
-import Hero from "./components/Hero"
-import Clients from "./components/Clients"
-import Teams from "./components/Teams"
-import Services from "./components/Services"
-import Portfolio from "./components/Portfolio"
-import Process from "./components/Process"
-import Mission from "./components/Mission"
-import Contact from "./components/Contact"
-import Footer from "./components/Footer"
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-// src/App.tsx
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import Home from "./components/pages/Home";
+import Team from "./components/pages/Team";
+import About from "./components/pages/About";
+import Blog from "./components/pages/Blog";
+import Features from "./components/pages/Features";
+
 function App() {
   return (
-    <div className="min-h-screen bg-[#020617] text-white relative">
-      {/* Background effects */}
-      <div className="fixed inset-0 z-0 pointer-events-none">
-        {/* subtle grid */}
-        <div className="absolute top-0 left-0 w-full h-[800px] grid-bg opacity-40" />
-        {/* soft blobs */}
-        <div className="absolute top-[-20%] left-[20%] w-[600px] h-[600px] bg-indigo-500/20 rounded-full blur-[140px]" />
-        <div className="absolute top-[40%] right-[-10%] w-[500px] h-[500px] bg-violet-500/20 rounded-full blur-[140px]" />
-      </div>
+    <BrowserRouter>
+      <div className="min-h-screen bg-[#020617] text-white relative">
+        {/* Background effects */}
+        <div className="fixed inset-0 z-0 pointer-events-none">
+          <div className="absolute top-0 left-0 w-full h-[800px] grid-bg opacity-40" />
+          <div className="absolute top-[-20%] left-[20%] w-[600px] h-[600px] bg-indigo-500/20 rounded-full blur-[140px]" />
+          <div className="absolute top-[40%] right-[-10%] w-[500px] h-[500px] bg-violet-500/20 rounded-full blur-[140px]" />
+        </div>
 
-      <div className="relative z-10">
-        <Header />
-        <main>
-          <Hero />
-          <Clients />
-          <Services />
-          <Portfolio />
-          <Teams />
-          <Process />
-          <Mission />
-          <Contact />
-        </main>
-        <Footer />
+        <div className="relative z-10">
+          {/* Common Header */}
+          <Header />
+
+          {/* Routes */}
+          <main>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/team" element={<Team />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/features" element={<Features />} />
+            </Routes>
+          </main>
+
+          {/* Common Footer */}
+          <Footer />
+        </div>
       </div>
-    </div>
+    </BrowserRouter>
   );
 }
 
-export default App
+export default App;

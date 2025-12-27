@@ -1,52 +1,96 @@
+"use client";
+
 import { useEffect, useRef, useState } from "react";
 import { Menu, X, ChevronDown, User, ArrowUpRight } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 import SolutionMegaMenu from "./Header/SolutionMegaMenu";
 import CompanyMegaMenu from "./Header/CompanyMegaMenu";
 import { createPortal } from "react-dom";
 
-
-
 export default function Header() {
+  const navigate = useNavigate();
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-const [mounted, setMounted] = useState(false);
-useEffect(() => setMounted(true), []);
-const [companyOpen, setCompanyOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
-  // desktop hover mega
+  useEffect(() => setMounted(true), []);
+
+  // Desktop hover states
+  const [companyOpen, setCompanyOpen] = useState(false);
   const [solutionOpen, setSolutionOpen] = useState(false);
-const closeTimers = useRef<{ company?: number; solution?: number }>({});
+  const [resourcesOpen, setResourcesOpen] = useState(false);
 
-const openCompanyMenu = () => {
-  if (closeTimers.current.company) window.clearTimeout(closeTimers.current.company);
-  setCompanyOpen(true);
-  setSolutionOpen(false);
-};
+  const closeTimers = useRef<{
+    company?: number;
+    solution?: number;
+    resources?: number;
+  }>({});
 
-const closeCompanyMenuSoon = () => {
-  if (closeTimers.current.company) window.clearTimeout(closeTimers.current.company);
-  closeTimers.current.company = window.setTimeout(() => setCompanyOpen(false), 140);
-};
+  /* ---------- COMPANY ---------- */
+  const openCompanyMenu = () => {
+    clearTimeout(closeTimers.current.company);
+    setCompanyOpen(true);
+    setSolutionOpen(false);
+    setResourcesOpen(false);
+  };
 
-const openSolutionMenu = () => {
-  if (closeTimers.current.solution) window.clearTimeout(closeTimers.current.solution);
-  setSolutionOpen(true);
-  setCompanyOpen(false);
-};
+  const closeCompanyMenuSoon = () => {
+    closeTimers.current.company = window.setTimeout(
+      () => setCompanyOpen(false),
+      150
+    );
+  };
 
-const closeSolutionMenuSoon = () => {
-  if (closeTimers.current.solution) window.clearTimeout(closeTimers.current.solution);
-  closeTimers.current.solution = window.setTimeout(() => setSolutionOpen(false), 140);
-};
+  /* ---------- SOLUTION ---------- */
+  const openSolutionMenu = () => {
+    clearTimeout(closeTimers.current.solution);
+    setSolutionOpen(true);
+    setCompanyOpen(false);
+    setResourcesOpen(false);
+  };
 
+  const closeSolutionMenuSoon = () => {
+    closeTimers.current.solution = window.setTimeout(
+      () => setSolutionOpen(false),
+      150
+    );
+  };
+
+  /* ---------- RESOURCES ---------- */
+  const openResourcesMenu = () => {
+    clearTimeout(closeTimers.current.resources);
+    setResourcesOpen(true);
+    setCompanyOpen(false);
+    setSolutionOpen(false);
+  };
+
+  const closeResourcesMenuSoon = () => {
+    closeTimers.current.resources = window.setTimeout(
+      () => setResourcesOpen(false),
+      150
+    );
+  };
+
+  /* ---------- SCROLL OR ROUTE ---------- */
   const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-      setMobileMenuOpen(false);
-      setOpenDropdown(null);
-      setSolutionOpen(false);
-    }
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: "smooth" });
+
+    setMobileMenuOpen(false);
+    setOpenDropdown(null);
+    setCompanyOpen(false);
+    setSolutionOpen(false);
+    setResourcesOpen(false);
+  };
+
+  const goToPage = (path: string) => {
+    navigate(path);
+    setMobileMenuOpen(false);
+    setOpenDropdown(null);
+    setCompanyOpen(false);
+    setSolutionOpen(false);
+    setResourcesOpen(false);
   };
 
   const toggleDropdown = (menu: string) => {
@@ -57,248 +101,198 @@ const closeSolutionMenuSoon = () => {
     <nav className="fixed top-0 w-full z-50 border-b border-white/10 bg-black/50 backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         {/* Logo */}
-        <div className="flex items-center gap-2">
-          <img src="/header.svg" alt="Logo" className="h-8" />
-        </div>
+        <Link to="/">
+          <img src="/header.svg" alt="WebnexFusion" className="h-8" />
+        </Link>
 
-        {/* Desktop Navigation */}
+        {/* ================= DESKTOP NAV ================= */}
         <div className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-300">
-          <button
-            onClick={() => scrollToSection("home")}
-            className="flex items-center gap-1 hover:text-white transition-colors"
-          >
+          <button onClick={() => goToPage("/")} className="hover:text-white">
             Home
-            <ChevronDown className="h-4 w-4" />
           </button>
 
           <button
-            onClick={() => scrollToSection("features")}
-            className="hover:text-white transition-colors"
+            onClick={() => goToPage("/features")}
+            className="hover:text-white"
           >
             Features
           </button>
-<div
-  className="relative"
-  onMouseEnter={openCompanyMenu}
-  onMouseLeave={closeCompanyMenuSoon}
->
-  <button
-    onClick={() => scrollToSection("company")}
-    onFocus={openCompanyMenu}
-    className="flex items-center gap-1 hover:text-white transition-colors"
-  >
-    Company
-    <ChevronDown className="h-4 w-4" />
-  </button>
-</div>
 
-          {/* Solution hover trigger */}
+          {/* Company */}
           <div
-  className="relative"
-  onMouseEnter={openSolutionMenu}
-  onMouseLeave={closeSolutionMenuSoon}
->
-  <button
-    onClick={() => scrollToSection("solution")}
-    onFocus={openSolutionMenu}
-    className="flex items-center gap-1 hover:text-white transition-colors"
-  >
-    Solution
-    <ChevronDown className="h-4 w-4" />
-  </button>
-</div>
-
-          <button
-            onClick={() => scrollToSection("resources")}
-            className="flex items-center gap-1 hover:text-white transition-colors"
+            className="relative"
+            onMouseEnter={openCompanyMenu}
+            onMouseLeave={closeCompanyMenuSoon}
           >
-            Resources
-            <ChevronDown className="h-4 w-4" />
-          </button>
+            <button className="flex items-center gap-1 hover:text-white">
+              Company <ChevronDown className="h-4 w-4" />
+            </button>
+          </div>
+
+          {/* Solution */}
+          <div
+            className="relative"
+            onMouseEnter={openSolutionMenu}
+            onMouseLeave={closeSolutionMenuSoon}
+          >
+            <button className="flex items-center gap-1 hover:text-white">
+              Solution <ChevronDown className="h-4 w-4" />
+            </button>
+          </div>
+
+          {/* -------- RESOURCES -------- */}
+          <div
+            className="relative"
+            onMouseEnter={openResourcesMenu}
+            onMouseLeave={closeResourcesMenuSoon}
+          >
+            <button className="flex items-center gap-1 hover:text-white">
+              Resources <ChevronDown className="h-4 w-4" />
+            </button>
+
+            {resourcesOpen && (
+              <div
+                className="absolute top-full left-0 mt-2 w-48 bg-black/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-xl overflow-hidden"
+                onMouseEnter={openResourcesMenu}
+                onMouseLeave={closeResourcesMenuSoon}
+              >
+                <button
+                  onClick={() => goToPage("/team")}
+                  className="w-full text-left px-4 py-3 text-sm text-gray-300 hover:bg-white/10 hover:text-white"
+                >
+                  Team
+                </button>
+
+                <button
+                  onClick={() => goToPage("/about")}
+                  className="w-full text-left px-4 py-3 text-sm text-gray-300 hover:bg-white/10 hover:text-white"
+                >
+                  About Us
+                </button>
+
+                <button
+                  onClick={() => goToPage("/blog")}
+                  className="w-full text-left px-4 py-3 text-sm text-gray-300 hover:bg-white/10 hover:text-white"
+                >
+                  Blog
+                </button>
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* Desktop Action Buttons */}
+        {/* ================= DESKTOP ACTIONS ================= */}
         <div className="hidden md:flex items-center gap-3">
           <button
             onClick={() => scrollToSection("demo")}
-            className="text-sm font-medium text-gray-300 hover:text-white transition-colors flex items-center gap-1"
+            className="text-gray-300 hover:text-white flex items-center gap-1"
           >
-            Request a Demo <ArrowUpRight className="h-4 w-4" />
+            Request Demo <ArrowUpRight className="h-4 w-4" />
           </button>
 
           <button
-            onClick={() => scrollToSection("login")}
-            className="text-sm font-medium text-white bg-white/10 hover:bg-white/15 border border-white/20 px-5 py-2 rounded-full transition-all flex items-center gap-2"
+            onClick={() => goToPage("/login")}
+            className="px-5 py-2 rounded-full bg-white/10 border border-white/20 text-white hover:bg-white/15 flex items-center gap-2"
           >
             Login <User className="h-4 w-4" />
           </button>
 
           <button
             onClick={() => scrollToSection("contact")}
-            className="text-sm font-medium text-black bg-white hover:bg-neutral-200 px-5 py-2 rounded-full transition-all"
+            className="px-5 py-2 rounded-full bg-white text-black hover:bg-neutral-200"
           >
-            Let&apos;s Talk →
+            Let’s Talk →
           </button>
         </div>
 
-        {/* Mobile Menu Button */}
+        {/* ================= MOBILE BUTTON ================= */}
         <button
           className="md:hidden text-white"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
         >
-          {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          {mobileMenuOpen ? <X /> : <Menu />}
         </button>
       </div>
+
+      {/* Mega Menus */}
       <CompanyMegaMenu
-  mode="desktop"
-  open={companyOpen}
-  onEnter={openCompanyMenu}
-  onLeave={closeCompanyMenuSoon}
-  onNavigate={scrollToSection}
-/>
-
-<SolutionMegaMenu
-  mode="desktop"
-  open={solutionOpen}
-  onEnter={openSolutionMenu}
-  onLeave={closeSolutionMenuSoon}
-  onNavigate={scrollToSection}
-/>
-
-      {/* Mobile Menu */}
-   {mounted && mobileMenuOpen &&
-  createPortal(
-    <div className="md:hidden fixed inset-0 z-[9999]">
-      {/* Backdrop */}
-      <div
-        className="absolute inset-0 bg-black/60"
-        onClick={() => setMobileMenuOpen(false)}
+        mode="desktop"
+        open={companyOpen}
+        onEnter={openCompanyMenu}
+        onLeave={closeCompanyMenuSoon}
+        onNavigate={scrollToSection}
       />
 
-      {/* Drawer */}
-      <div className="absolute right-0 top-16 h-full w-[86%] max-w-sm bg-black/90 backdrop-blur-xl border-r border-white/10">
-        {/* ✅ scroll container */}
-        <div className="h-full overflow-y-auto overscroll-contain">
-          <div className="px-6 py-6">
-            <div className="space-y-4">
-              <div>
+      <SolutionMegaMenu
+        mode="desktop"
+        open={solutionOpen}
+        onEnter={openSolutionMenu}
+        onLeave={closeSolutionMenuSoon}
+        onNavigate={scrollToSection}
+      />
+
+      {/* ================= MOBILE MENU ================= */}
+      {mounted &&
+        mobileMenuOpen &&
+        createPortal(
+          <div className="md:hidden fixed inset-0 z-[9999]">
+            <div
+              className="absolute inset-0 bg-black/60"
+              onClick={() => setMobileMenuOpen(false)}
+            />
+
+            <div className="absolute right-0 top-16 h-full w-[86%] bg-black/90 backdrop-blur-xl border-l border-white/10">
+              <div className="px-6 py-6 space-y-4">
+                <button onClick={() => scrollToSection("home")}>Home</button>
+
+                <div>
+                  <button onClick={() => toggleDropdown("solution")}>
+                    Solution
+                  </button>
+                  <SolutionMegaMenu
+                    mode="mobile"
+                    open={openDropdown === "solution"}
+                    onNavigate={scrollToSection}
+                  />
+                </div>
+
+                <div>
+                  <button onClick={() => toggleDropdown("company")}>
+                    Company
+                  </button>
+                  <CompanyMegaMenu
+                    mode="mobile"
+                    open={openDropdown === "company"}
+                    onNavigate={scrollToSection}
+                  />
+                </div>
+
+                <div>
+                  <button onClick={() => toggleDropdown("resources")}>
+                    Resources
+                  </button>
+                  {openDropdown === "resources" && (
+                    <div className="pl-4 pt-2 space-y-2">
+                      <button onClick={() => goToPage("/team")}>Team</button>
+                      <button onClick={() => goToPage("/about")}>
+                        About Us
+                      </button>
+                      <button onClick={() => goToPage("/blog")}>Blog</button>
+                    </div>
+                  )}
+                </div>
+
                 <button
-                  onClick={() => toggleDropdown("home")}
-                  className="flex items-center justify-between w-full text-left text-white/90 font-medium text-base py-2"
+                  onClick={() => scrollToSection("contact")}
+                  className="w-full bg-white text-black py-3 rounded-full"
                 >
-                  Home
-                  <span
-                    className={`transform transition-transform ${
-                      openDropdown === "home" ? "rotate-45" : ""
-                    }`}
-                  >
-                    +
-                  </span>
-                </button>
-              </div>
-
-              {/* Solution (uses SAME component) */}
-              <div className="border-t border-white/10 pt-4">
-                <button
-                  onClick={() => toggleDropdown("solution")}
-                  className="flex items-center justify-between w-full text-left text-white/90 font-medium text-base py-2"
-                >
-                  Solution
-                  <span
-                    className={`transform transition-transform ${
-                      openDropdown === "solution" ? "rotate-45" : ""
-                    }`}
-                  >
-                    +
-                  </span>
-                </button>
-
-                <SolutionMegaMenu
-                  mode="mobile"
-                  open={openDropdown === "solution"}
-                  onNavigate={scrollToSection}
-                />
-              </div>
-
-              <div className="border-t border-white/10 pt-4">
-  <button
-    onClick={() => toggleDropdown("company")}
-    className="flex items-center justify-between w-full text-left text-white/90 font-medium text-base py-2"
-  >
-    Company
-    <span
-      className={`transform transition-transform ${
-        openDropdown === "company" ? "rotate-45" : ""
-      }`}
-    >
-      +
-    </span>
-  </button>
-
-  <CompanyMegaMenu
-    mode="mobile"
-    open={openDropdown === "company"}
-    onNavigate={scrollToSection}
-  />
-</div>
-
-
-              <div className="border-t border-white/10 pt-4">
-                <button
-                  onClick={() => scrollToSection("portfolio")}
-                  className="flex items-center justify-between w-full text-left text-white/90 font-medium text-base py-2"
-                >
-                  Portfolio
-                </button>
-              </div>
-
-              <div className="border-t border-white/10 pt-4">
-                <button
-                  onClick={() => toggleDropdown("resources")}
-                  className="flex items-center justify-between w-full text-left text-white/90 font-medium text-base py-2"
-                >
-                  Resources
-                  <span
-                    className={`transform transition-transform ${
-                      openDropdown === "resources" ? "rotate-45" : ""
-                    }`}
-                  >
-                    +
-                  </span>
+                  Let’s Talk →
                 </button>
               </div>
             </div>
-
-            {/* Mobile Action Buttons */}
-            <div className="pt-6 space-y-3">
-              <button
-                onClick={() => scrollToSection("contact")}
-                className="w-full bg-white text-black px-6 py-3 rounded-full font-medium text-base hover:bg-neutral-200 transition-all"
-              >
-                Let&apos;s Talk →
-              </button>
-
-              <button
-                onClick={() => scrollToSection("login")}
-                className="w-full bg-white/10 text-white border border-white/10 px-6 py-3 rounded-full font-medium text-base hover:bg-white/15 transition-all flex items-center justify-center gap-2"
-              >
-                Login <User className="h-4 w-4" />
-              </button>
-
-              <button
-                onClick={() => scrollToSection("demo")}
-                className="w-full text-white/90 px-6 py-3 font-medium text-base hover:underline transition-all text-center flex items-center justify-center gap-1"
-              >
-                Request a Demo <ArrowUpRight className="h-4 w-4" />
-              </button>
-            </div>
-          </div>
-        </div>
-        </div>
-        </div>,
-    document.body
-      )}
+          </div>,
+          document.body
+        )}
     </nav>
   );
 }

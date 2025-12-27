@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { Linkedin, ArrowRight } from 'lucide-react';
+import React, { useState, useEffect } from "react";
+import { Linkedin, ArrowRight } from "lucide-react";
 
 const TeamMember = ({ name, title, bgColor, image }) => (
   <div className="flex-shrink-0 w-full sm:w-1/2 lg:w-1/4 px-4">
     <div className="flex flex-col group cursor-pointer">
-      <div className={`${bgColor} rounded-tl-[80px] rounded-br-[80px] overflow-hidden mb-6 transition-transform duration-300 group-hover:scale-105`}>
+      <div
+        className={`${bgColor} rounded-tl-[80px] rounded-br-[80px] overflow-hidden mb-6 transition-transform duration-300 group-hover:scale-105`}
+      >
         <div className="aspect-[3/4] flex items-end justify-center p-8">
           <div className="w-full h-full rounded-lg flex items-center justify-center text-6xl">
             {image}
@@ -26,25 +28,65 @@ const TeamMember = ({ name, title, bgColor, image }) => (
 const Teams = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
-  
+
   const team = [
-    { name: 'Mr. Jorche Milton', title: '(CTO, Co-founder)', bgColor: 'bg-gradient-to-br from-green-900 to-green-600', image: '👨‍💼' },
-    { name: 'Robert Jhonson', title: '(Marketing Head)', bgColor: 'bg-gradient-to-br from-purple-300 to-purple-400', image: '👨‍💼' },
-    { name: 'Daniel Ryan', title: '(Sr. Marketing Manager)', bgColor: 'bg-gradient-to-br from-pink-600 to-red-600', image: '👨‍💼' },
-    { name: 'Mrs. Emily Sophia', title: '(Jr. Marketing Manager)', bgColor: 'bg-gradient-to-br from-purple-300 to-purple-400', image: '👩‍💼' },
-    { name: 'Mr. John Smith', title: '(CTO, Co-founder)', bgColor: 'bg-gradient-to-br from-green-900 to-green-600', image: '👨‍💼' },
-    { name: 'Sarah Wilson', title: '(Marketing Head)', bgColor: 'bg-gradient-to-br from-purple-300 to-purple-400', image: '👩‍💼' },
-    { name: 'Michael Brown', title: '(Sr. Marketing Manager)', bgColor: 'bg-gradient-to-br from-pink-600 to-red-600', image: '👨‍💼' },
-    { name: 'Jessica Davis', title: '(Jr. Marketing Manager)', bgColor: 'bg-gradient-to-br from-purple-300 to-purple-400', image: '👩‍💼' }
+    {
+      name: "Mr. Jorche Milton",
+      title: "(CTO, Co-founder)",
+      bgColor: "bg-gradient-to-br from-green-900 to-green-600",
+      image: "👨‍💼",
+    },
+    {
+      name: "Robert Jhonson",
+      title: "(Marketing Head)",
+      bgColor: "bg-gradient-to-br from-purple-300 to-purple-400",
+      image: "👨‍💼",
+    },
+    {
+      name: "Daniel Ryan",
+      title: "(Sr. Marketing Manager)",
+      bgColor: "bg-gradient-to-br from-pink-600 to-red-600",
+      image: "👨‍💼",
+    },
+    {
+      name: "Mrs. Emily Sophia",
+      title: "(Jr. Marketing Manager)",
+      bgColor: "bg-gradient-to-br from-purple-300 to-purple-400",
+      image: "👩‍💼",
+    },
+    {
+      name: "Mr. John Smith",
+      title: "(CTO, Co-founder)",
+      bgColor: "bg-gradient-to-br from-green-900 to-green-600",
+      image: "👨‍💼",
+    },
+    {
+      name: "Sarah Wilson",
+      title: "(Marketing Head)",
+      bgColor: "bg-gradient-to-br from-purple-300 to-purple-400",
+      image: "👩‍💼",
+    },
+    {
+      name: "Michael Brown",
+      title: "(Sr. Marketing Manager)",
+      bgColor: "bg-gradient-to-br from-pink-600 to-red-600",
+      image: "👨‍💼",
+    },
+    {
+      name: "Jessica Davis",
+      title: "(Jr. Marketing Manager)",
+      bgColor: "bg-gradient-to-br from-purple-300 to-purple-400",
+      image: "👩‍💼",
+    },
   ];
 
   // Create an extended array for infinite loop effect
   const extendedTeam = [...team, ...team, ...team];
-  
+
   // Auto-play carousel
   useEffect(() => {
     if (isHovered) return;
-    
+
     const interval = setInterval(() => {
       setCurrentIndex((prev) => {
         const next = prev + 1;
@@ -73,13 +115,17 @@ const Teams = () => {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-16">
           <div className="mb-8 md:mb-0">
             <h1 className="text-5xl md:text-6xl font-bold text-white mb-4">
-              We've Most<br />Talented Team.
+              We've Most
+              <br />
+              Talented Team.
             </h1>
             <p className="text-gray-600 text-lg max-w-md">
-              To provide most expensive work for our clients in<br />the world-wide.
+              To provide most expensive work for our clients in
+              <br />
+              the world-wide.
             </p>
           </div>
-          
+
           {/* Hiring Badge */}
           <div className="relative">
             <div className="absolute -left-24 top-1/2 -translate-y-1/2 w-24 h-0.5 bg-gray-900 hidden md:block"></div>
@@ -98,15 +144,15 @@ const Teams = () => {
         </div>
 
         {/* Carousel Container */}
-        <div 
+        <div
           className="overflow-hidden mb-12"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
-          <div 
+          <div
             className="flex transition-transform duration-700 ease-in-out"
             style={{
-              transform: `translateX(-${currentIndex * (100 / 4)}%)`
+              transform: `translateX(-${currentIndex * (100 / 4)}%)`,
             }}
           >
             {extendedTeam.map((member, index) => (
@@ -128,9 +174,9 @@ const Teams = () => {
               key={index}
               onClick={() => goToSlide(index)}
               className={`h-2 rounded-full transition-all duration-300 ${
-                index === activeDot 
-                  ? 'w-8 bg-blue-600' 
-                  : 'w-2 bg-gray-300 hover:bg-gray-400'
+                index === activeDot
+                  ? "w-8 bg-blue-600"
+                  : "w-2 bg-gray-300 hover:bg-gray-400"
               }`}
               aria-label={`Go to slide ${index + 1}`}
             />
