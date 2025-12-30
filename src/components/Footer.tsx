@@ -1,68 +1,42 @@
-"use client";
-
+import React from "react";
 import {
   Linkedin,
   Github,
   Twitter,
   Facebook,
   Youtube,
-  ArrowRight,
+  // ArrowRight,
   Star,
+  Mail,
+  Phone,
+  MapPin,
 } from "lucide-react";
 
-const solutionsLeft = [
+const solutions = [
   "Managed Services",
   "IT Consulting & Advisory",
   "Cyber Security",
   "Web Development",
-];
-
-const solutionsRight = [
   "Mobile Development",
   "Cloud Services",
   "Network Connectivity",
   "ERP Solutions",
 ];
 
-const companyLeft = [
+const company = [
   "About us",
   "Why us",
   "Team",
   "Careers",
   "Partners & Certifications",
   "Reviews & Awards",
+  "Blog",
+  "Case studies",
+  "Events",
+  "FAQ",
 ];
 
-const companyRight = ["Blog", "Case studies", "Events", "FAQ"];
-
-// function LogoMark({ className = "" }: { className?: string }) {
-//   // Simple diamond mark similar to the screenshot
-//   return (
-//     <svg
-//       className={className}
-//       width="34"
-//       height="34"
-//       viewBox="0 0 48 48"
-//       fill="none"
-//       aria-hidden="true"
-//     >
-//       <path
-//         d="M24 4 44 24 24 44 4 24 24 4Z"
-//         stroke="currentColor"
-//         strokeWidth="4"
-//         strokeLinejoin="round"
-//       />
-//       <path
-//         d="M24 14 34 24 24 34 14 24 24 14Z"
-//         fill="currentColor"
-//         opacity="0.12"
-//       />
-//     </svg>
-//   );
-// }
-
 function DotsPattern({ className = "" }: { className?: string }) {
-  // Hand-placed circles to resemble the dotted cluster
   const dots = [
     { x: 8, y: 8, r: 2 },
     { x: 18, y: 10, r: 3 },
@@ -91,12 +65,7 @@ function DotsPattern({ className = "" }: { className?: string }) {
   ];
 
   return (
-    <svg
-      className={className}
-      viewBox="0 0 64 84"
-      fill="none"
-      aria-hidden="true"
-    >
+    <svg className={className} viewBox="0 0 64 84" fill="none" aria-hidden="true">
       {dots.map((d, i) => (
         <circle key={i} cx={d.x} cy={d.y} r={d.r} fill="currentColor" />
       ))}
@@ -104,241 +73,219 @@ function DotsPattern({ className = "" }: { className?: string }) {
   );
 }
 
-export default function Footer() {
+function FooterLink({ children }: { children: React.ReactNode }) {
   return (
-    <footer className="w-full">
-      {/* TOP (DARK) */}
-      <div className="bg-black text-gray-300">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14">
-          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-12">
-            {/* LEFT SIDE: Links + Newsletter */}
-            <div className="w-full lg:w-[52%]">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
-                {/* Solutions */}
-                <div>
-                  <h3 className="text-white font-semibold mb-4">Solutions</h3>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                    <ul className="space-y-2 text-sm">
-                      {solutionsLeft.map((t) => (
-                        <li key={t}>
-                          <a
-                            href="#"
-                            className="hover:text-white transition-colors"
-                          >
-                            {t}
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                    <ul className="space-y-2 text-sm">
-                      {solutionsRight.map((t) => (
-                        <li key={t}>
-                          <a
-                            href="#"
-                            className="hover:text-white transition-colors"
-                          >
-                            {t}
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
+    <a
+      href="#"
+      className="text-sm text-slate-400 hover:text-white transition-colors"
+    >
+      {children}
+    </a>
+  );
+}
 
-                {/* Company */}
-                <div>
-                  <h3 className="text-white font-semibold mb-4">Company</h3>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                    <ul className="space-y-2 text-sm">
-                      {companyLeft.map((t) => (
-                        <li key={t}>
-                          <a
-                            href="#"
-                            className="hover:text-white transition-colors"
-                          >
-                            {t}
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                    <ul className="space-y-2 text-sm">
-                      {companyRight.map((t) => (
-                        <li key={t}>
-                          <a
-                            href="#"
-                            className="hover:text-white transition-colors"
-                          >
-                            {t}
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              </div>
+function SocialIcon({
+  href,
+  label,
+  icon,
+}: {
+  href: string;
+  label: string;
+  icon: React.ReactNode;
+}) {
+  return (
+    <a
+      href={href}
+      aria-label={label}
+      className="h-10 w-10 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 text-slate-200 hover:text-white grid place-items-center transition-colors"
+    >
+      {icon}
+    </a>
+  );
+}
 
-              {/* Newsletter */}
-              <div className="mt-10 max-w-xl">
-                <div className="relative">
-                  <input
-                    type="text"
-                    placeholder="Don't miss out updates"
-                    className="w-full bg-transparent border border-white/25 rounded-sm px-4 py-3 text-sm placeholder:text-gray-500 focus:outline-none focus:border-white/40"
-                  />
-                </div>
+export default function Footer() {
+  const year = new Date().getFullYear();
 
-                <label className="mt-3 flex items-start gap-2 text-xs text-gray-500">
-                  <input
-                    type="checkbox"
-                    className="mt-1 h-3.5 w-3.5 rounded border-white/25 bg-transparent"
-                  />
-                  <span>
-                    I agree to the Privacy Policy and give my permission to
-                    process my personal data for the purposes specified in the
-                    Privacy Policy.
-                  </span>
-                </label>
-
-                <div className="mt-4">
-                  <button
-                    type="button"
-                    className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium px-6 py-3 rounded-sm transition-colors"
-                  >
-                    Send <ArrowRight className="h-4 w-4" />
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* RIGHT SIDE: Brand + dots */}
-            <div className="w-full lg:w-[44%] relative">
-              <div className="relative overflow-hidden min-h-[260px] lg:min-h-[360px] flex items-center justify-center">
-                {/* Dots cluster */}
-                <DotsPattern className="absolute top-0 left-1/2 -translate-x-1/2 text-indigo-100/90 w-[420px] h-[320px] lg:w-[520px] lg:h-[420px]" />
-
-                {/* Brand */}
-                <div className="relative z-10 text-center pt-10 lg:pt-0">
-                  <div className="flex items-center justify-center mb-3 text-white">
-                    {/* <LogoMark className="text-white" /> */}
-                    <img src="/favicon.svg" />
-                  </div>
-                  {/* <div className="text-white text-2xl font-semibold">
-                    Insweave
-                  </div> */}
-                  {/* <div className="flex items-center justify-center mb-3 text-white">
-                  <img src="/footer.svg" />
-</div> */}
-                  <button
-                    type="button"
-                    className="mt-5 inline-flex items-center justify-center bg-blue-700 hover:bg-blue-600 text-white text-sm font-semibold px-8 py-3 rounded-sm transition-colors"
-                  >
-                    Schedule Consultation
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+  return (
+    <footer className="relative w-full border-t border-blue-900/50 bg-gradient-to-b from-slate-950 to-slate-900 overflow-hidden">
+      {/* Decorative accents (kept subtle to match overall site) */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute -top-24 left-10 h-72 w-72 rounded-full bg-indigo-500/15 blur-[90px]" />
+        <div className="absolute -bottom-24 right-6 h-72 w-72 rounded-full bg-violet-500/15 blur-[100px]" />
+        <DotsPattern className="absolute -top-10 left-1/2 -translate-x-1/2 text-indigo-200/10 w-[520px] h-[420px]" />
       </div>
 
-      {/* BOTTOM (WHITE STRIP) */}
-      <div className="bg-white text-gray-900">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4">
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 items-start">
-            {/* Clutch */}
-           <div className="relative pr-6">
-  <div className="absolute right-0 top-0 bottom-0 w-[4px] rounded-full bg-gray-200" />
-              <div className="text-[11px] tracking-wide text-gray-500">
-                REVIEWED ON
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+        <div className="grid grid-cols-1 lg:grid-cols-9 gap-10">
+          {/* Brand / contact */}
+          <div className="lg:col-span-4">
+            <div className="flex items-center gap-3">
+              <img src="/footer.svg" alt="Insweave" className="h-10" />
+            </div>
+
+            <p className="mt-4 text-sm text-slate-400 leading-relaxed max-w-sm">
+              Digital infrastructure for modern enterprises — hosting, development,
+              compliance, and accounting. We weave what your business needs to grow.
+            </p>
+
+            {/* Mini review badge */}
+            <div className="mt-6 inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-4 py-2">
+              <div className="text-xs text-slate-300">
+                <span className="text-white font-semibold">Clutch</span>
+                <span className="text-slate-400"> · 31 reviews</span>
               </div>
-              <div className="flex items-end gap-3">
-                <div className="text-2xl font-semibold">Clutch</div>
-                <div className="pb-1 text-xs text-gray-500">31 REVIEWS</div>
-              </div>
-              <div className="flex gap-1 mt-2">
+              <div className="flex gap-0.5">
                 {Array.from({ length: 5 }).map((_, i) => (
                   <Star
                     key={i}
-                    className="h-4 w-4 fill-red-500 text-red-500"
+                    className="h-4 w-4 fill-indigo-400 text-indigo-400"
                   />
                 ))}
               </div>
             </div>
 
-            {/* Address */}
-                       <div className="relative pr-6">
-  <div className="absolute right-0 w-[4px] h-full rounded-full bg-gray-200" />
-            <div className="text-sm text-gray-700">
-              <div className="font-medium mb-2">
-                Seventh Ave, 20th Floor New York, NY 10018
+            <div className="mt-8 space-y-3 text-sm">
+              <div className="flex items-start gap-3 text-slate-300">
+                <MapPin className="mt-0.5 h-4 w-4 text-pink-400" />
+                <span className="text-slate-400">
+                  1234 Innovation Drive, Suite 500, San Francisco, CA 94107
+                </span>
               </div>
-            </div>
+              <div className="flex items-center gap-3 text-slate-300">
+                <Phone className="h-4 w-4 text-red-400" />
+                <a className="text-slate-400 hover:text-white" href="#">
+                  +99-763 684 4563
+                </a>
+              </div>
+              <div className="flex items-center gap-3 text-slate-300">
+                <Mail className="h-4 w-4 text-yellow-400" />
+                <a
+                  className="text-slate-400 hover:text-white"
+                  href="mailto:office@insweave.in"
+                >
+                  office@insweave.in
+                </a>
+              </div>
             </div>
 
-            {/* Contact */}
-             <div className="relative pr-6">
-  <div className="absolute right-0  w-[4px] h-full rounded-full bg-gray-200" />
-            <div className="text-sm text-gray-700">
-              <div className="mb-2">
-                <span className="text-gray-500">T:</span> 1-800-356-8933
-              </div>
-              <div>
-                <span className="text-gray-500">E:</span> office@insweave.in
-              </div>
-            </div>
-            </div>
-
-            {/* Socials */}
-            <div className="flex flex-wrap gap-12 lg:justify-end lg:col-span-2">
-              <a
+            <div className="mt-8 flex items-center gap-3">
+              <SocialIcon
                 href="#"
-                className="inline-flex flex-col items-center text-xs text-gray-900 hover:text-gray-900"
-              >
-                <Linkedin className="h-8 w-8" />
-                <span className="mt-1 font-bold">LinkedIn</span>
-              </a>
-              <a
+                label="LinkedIn"
+                icon={<Linkedin className="h-5 w-5" />}
+              />
+              <SocialIcon
                 href="#"
-                className="inline-flex flex-col items-center text-xs text-gray-900 hover:text-gray-900"
-              >
-                <Github className="h-8 w-8" />
-                <span className="mt-1 font-bold">Github</span>
-              </a>
-              <a
+                label="GitHub"
+                icon={<Github className="h-5 w-5" />}
+              />
+              <SocialIcon
                 href="#"
-                className="inline-flex flex-col items-center text-xs text-gray-900 hover:text-gray-900"
-              >
-                <Twitter className="h-8 w-8" />
-                <span className="mt-1 font-bold">Twitter</span>
-              </a>
-              <a
+                label="Twitter"
+                icon={<Twitter className="h-5 w-5" />}
+              />
+              <SocialIcon
                 href="#"
-                className="inline-flex flex-col items-center text-xs text-gray-900 hover:text-gray-900"
-              >
-                <Facebook className="h-8 w-8" />
-                <span className="mt-1 font-bold">Facebook</span>
-              </a>
-              <a
+                label="Facebook"
+                icon={<Facebook className="h-5 w-5" />}
+              />
+              <SocialIcon
                 href="#"
-                className="inline-flex flex-col items-center text-xs text-gray-900 hover:text-gray-900"
-              >
-                <Youtube className="h-8 w-8" />
-                <span className="mt-1 font-bold">Youtube</span>
-              </a>
+                label="YouTube"
+                icon={<Youtube className="h-5 w-5" />}
+              />
             </div>
           </div>
 
-          <div className="mt-2 border-t border-gray-200 pt-2">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-gray-500">
-              <div>© {new Date().getFullYear()} VamTam. All rights reserved.</div>
-              <div className="flex items-center gap-6">
-                <a href="#" className="hover:text-gray-800">
-                  Terms &amp; Conditions
-                </a>
-                <a href="#" className="hover:text-gray-800">
-                  Privacy Policy
-                </a>
+          {/* Links */}
+          <div className="lg:col-span-5">
+            <div className="grid grid-cols-2 gap-10">
+              <div>
+                <h3 className="text-xs font-semibold text-neutral-500 uppercase tracking-widest mb-4">
+                  Solutions
+                </h3>
+                <ul className="space-y-3">
+                  {solutions.map((t) => (
+                    <li key={t}>
+                      <FooterLink>{t}</FooterLink>
+                    </li>
+                  ))}
+                </ul>
               </div>
+
+              <div>
+                <h3 className="text-xs font-semibold text-neutral-500 uppercase tracking-widest mb-4">
+                  Company
+                </h3>
+                <ul className="space-y-3">
+                  {company.map((t) => (
+                    <li key={t}>
+                      <FooterLink>{t}</FooterLink>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          {/* Newsletter */}
+          {/* <div className="lg:col-span-3">
+            <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-6">
+              <h3 className="text-base font-medium text-white tracking-tight">
+                Get product updates
+              </h3>
+              <p className="mt-1 text-sm text-slate-400">
+                Monthly insights — no spam.
+              </p>
+
+              <div className="mt-4 flex gap-2">
+                <input
+                  type="email"
+                  placeholder="you@company.com"
+                  className="flex-1 min-w-0 px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-sm text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-white/30"
+                />
+                <button
+                  type="button"
+                  className="group inline-flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-medium bg-indigo-500 hover:bg-indigo-400 text-white shadow-lg shadow-indigo-500/20"
+                >
+                  Send
+                  <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
+                </button>
+              </div>
+
+              <label className="mt-4 flex items-start gap-2 text-xs text-slate-400">
+                <input
+                  type="checkbox"
+                  className="mt-0.5 h-4 w-4 rounded border-white/30 bg-white/10"
+                />
+                <span>
+                  I agree to the Privacy Policy and consent to processing of my
+                  personal data.
+                </span>
+              </label>
+
+              <button
+                type="button"
+                className="mt-6 w-full rounded-full border border-white/10 bg-white/5 hover:bg-white/10 text-white text-sm font-medium py-3 transition-colors"
+              >
+                Schedule Consultation
+              </button>
+            </div>
+          </div> */}
+        </div>
+
+        {/* Bottom bar */}
+        <div className="mt-12 border-t border-white/10 pt-6">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+            <div>© {year} Insweave. All rights reserved.</div>
+            <div className="flex items-center gap-6">
+              <a href="#" className="hover:text-slate-200 transition-colors">
+                Terms &amp; Conditions
+              </a>
+              <a href="#" className="hover:text-slate-200 transition-colors">
+                Privacy Policy
+              </a>
             </div>
           </div>
         </div>
