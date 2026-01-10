@@ -7,6 +7,11 @@ import Team from "./components/pages/Team";
 import About from "./components/pages/About";
 import Blog from "./components/pages/Blog";
 import Features from "./components/pages/Features";
+import Contact from "./components/Contact";
+import TermsOfService from "./components/pages/TermsofService";
+import PrivacyPolicy from "./components/pages/PrivacyPolicy";
+import RefundPolicy from "./components/pages/RefundPolicy";
+import CookiePolicy from "./components/pages/CookiePolicy";
 
 function App() {
   return (
@@ -31,6 +36,11 @@ function App() {
               <Route path="/about" element={<About />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/features" element={<Features />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/terms-of-service" element={<TermsOfService />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/refund-policy" element={<RefundPolicy />} />
+              <Route path="/cookie-policy" element={<CookiePolicy />} />
             </Routes>
           </main>
 

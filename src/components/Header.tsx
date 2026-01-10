@@ -156,12 +156,12 @@ export default function Header() {
                 onMouseEnter={openResourcesMenu}
                 onMouseLeave={closeResourcesMenuSoon}
               >
-                <button
+                {/* <button
                   onClick={() => goToPage("/team")}
                   className="w-full text-left px-4 py-3 text-sm text-gray-300 hover:bg-white/10 hover:text-white"
                 >
                   Team
-                </button>
+                </button> */}
 
                 <button
                   onClick={() => goToPage("/about")}
@@ -184,19 +184,20 @@ export default function Header() {
         {/* ================= DESKTOP ACTIONS ================= */}
         <div className="hidden md:flex items-center gap-3">
           <button
-            onClick={() => scrollToSection("demo")}
+            onClick={() => goToPage("/contact")}
             className="text-gray-300 hover:text-white flex items-center gap-1"
           >
             Request Demo <ArrowUpRight className="h-4 w-4" />
           </button>
 
-          <button
-            onClick={() => goToPage("/login")}
+          <Link
+            to="https://dashboard.webnexfusion.com/"
+            target="_blank"
+            rel="noopener noreferrer"
             className="px-5 py-2 rounded-full bg-white/10 border border-white/20 text-white hover:bg-white/15 flex items-center gap-2"
           >
             Login <User className="h-4 w-4" />
-          </button>
-
+          </Link>
           <button
             onClick={() => scrollToSection("contact")}
             className="px-5 py-2 rounded-full bg-white text-black hover:bg-neutral-200"

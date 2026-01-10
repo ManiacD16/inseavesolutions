@@ -16,7 +16,7 @@ export default function Home() {
       <Hero />
 
       {/* Trusted Clients */}
-      <ClientLogosSection />
+      {/* <ClientLogosSection /> */}
 
       {/* How We Work */}
       <Process />
