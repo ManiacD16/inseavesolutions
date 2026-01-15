@@ -1,7 +1,6 @@
 // src/pages/Home.tsx
 
 import ClientReviewsCarousel from "../ClientReviews";
-import ClientLogosSection from "../Clients";
 import Contact from "../Contact";
 import Hero from "../Hero";
 import Mission from "../Mission";

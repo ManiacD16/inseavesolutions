@@ -8,10 +8,10 @@ import About from "./components/pages/About";
 import Blog from "./components/pages/Blog";
 import Features from "./components/pages/Features";
 import Contact from "./components/Contact";
-import TermsOfService from "./components/pages/TermsofService";
 import PrivacyPolicy from "./components/pages/PrivacyPolicy";
 import RefundPolicy from "./components/pages/RefundPolicy";
 import CookiePolicy from "./components/pages/CookiePolicy";
+import TermsOfService from "./components/pages/TermsOfService";
 
 function App() {
   return (

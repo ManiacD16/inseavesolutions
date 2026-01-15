@@ -1,4 +1,4 @@
-import { ArrowRight, Award } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useTypewriter } from "./common/useTypewriter";
 
 export default function Hero() {

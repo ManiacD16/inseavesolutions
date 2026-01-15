@@ -8,17 +8,12 @@ import {
   Youtube,
   ArrowRight,
   Star,
-  Mail,
-  Phone,
-  MapPin,
-  Sparkles,
-  Send,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const solutionsLeft = [
   "Managed Services",
-  "IT Consulting",
+  "IT Consulting & Advisory",
   "Cyber Security",
   "Web Development",
 ];
@@ -26,33 +21,85 @@ const solutionsLeft = [
 const solutionsRight = [
   "Mobile Development",
   "Cloud Services",
-  "Network Solutions",
-  "ERP Systems",
+  "Network Connectivity",
+  "ERP Solutions",
 ];
 
 const companyLeft = [
-  "About Us",
-  "Why Choose Us",
-  "Our Team",
+  "About us",
+  "Why us",
+  "Team",
   "Careers",
-  "Certifications",
-  "Client Reviews",
+  "Partners & Certifications",
+  "Reviews & Awards",
 ];
 
-const companyRight = ["Blog", "Case Studies", "FAQs", "Contact"];
+const companyRight = ["Blog", "Case studies", "Events", "FAQ"];
+
+// function LogoMark({ className = "" }: { className?: string }) {
+//   // Simple diamond mark similar to the screenshot
+//   return (
+//     <svg
+//       className={className}
+//       width="34"
+//       height="34"
+//       viewBox="0 0 48 48"
+//       fill="none"
+//       aria-hidden="true"
+//     >
+//       <path
+//         d="M24 4 44 24 24 44 4 24 24 4Z"
+//         stroke="currentColor"
+//         strokeWidth="4"
+//         strokeLinejoin="round"
+//       />
+//       <path
+//         d="M24 14 34 24 24 34 14 24 24 14Z"
+//         fill="currentColor"
+//         opacity="0.12"
+//       />
+//     </svg>
+//   );
+// }
 
 function DotsPattern({ className = "" }: { className?: string }) {
-  const dots = Array.from({ length: 30 });
+  // Hand-placed circles to resemble the dotted cluster
+  const dots = [
+    { x: 8, y: 8, r: 2 },
+    { x: 18, y: 10, r: 3 },
+    { x: 32, y: 8, r: 2 },
+    { x: 44, y: 12, r: 2 },
+
+    { x: 10, y: 24, r: 2 },
+    { x: 22, y: 24, r: 3 },
+    { x: 36, y: 22, r: 4 },
+    { x: 48, y: 26, r: 3 },
+
+    { x: 14, y: 40, r: 2 },
+    { x: 26, y: 40, r: 4 },
+    { x: 42, y: 40, r: 2 },
+    { x: 54, y: 42, r: 3 },
+
+    { x: 10, y: 58, r: 2 },
+    { x: 22, y: 58, r: 2 },
+    { x: 38, y: 58, r: 3 },
+    { x: 52, y: 60, r: 2 },
+
+    { x: 16, y: 74, r: 2 },
+    { x: 30, y: 74, r: 3 },
+    { x: 46, y: 76, r: 2 },
+    { x: 58, y: 74, r: 2 },
+  ];
+
   return (
-    <svg className={className} viewBox="0 0 200 120" fill="currentColor">
-      {dots.map((_, i) => (
-        <circle
-          key={i}
-          cx={(i % 10) * 20 + 10}
-          cy={Math.floor(i / 10) * 20 + 10}
-          r={i % 3 === 0 ? 4 : 2}
-          opacity={0.6}
-        />
+    <svg
+      className={className}
+      viewBox="0 0 64 84"
+      fill="none"
+      aria-hidden="true"
+    >
+      {dots.map((d, i) => (
+        <circle key={i} cx={d.x} cy={d.y} r={d.r} fill="currentColor" />
       ))}
     </svg>
   );
@@ -60,167 +107,134 @@ function DotsPattern({ className = "" }: { className?: string }) {
 
 export default function Footer() {
   return (
-    <footer className="w-full relative overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-indigo-950/30 to-slate-900 pointer-events-none"></div>
-      <div className="absolute top-0 left-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-violet-500/10 rounded-full blur-3xl"></div>
-
-      {/* Grid Pattern Overlay */}
-      <div className="absolute inset-0 opacity-[0.02]">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `
-            linear-gradient(to right, rgba(255,255,255,0.1) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(255,255,255,0.1) 1px, transparent 1px)
-          `,
-            backgroundSize: "80px 80px",
-          }}
-        ></div>
-      </div>
-
-      {/* TOP SECTION */}
-      <div className="relative text-slate-300">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-            {/* Links Section */}
-            <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-12">
-              {/* Solutions */}
-              <div>
-                <h3 className="text-white text-lg font-bold mb-6 flex items-center gap-2">
-                  <div className="w-1 h-6 bg-gradient-to-b from-indigo-500 to-violet-500 rounded-full"></div>
-                  Solutions
-                </h3>
-                <div className="grid grid-cols-2 gap-6">
-                  <ul className="space-y-3">
-                    {solutionsLeft.map((item) => (
-                      <li key={item}>
-                        <a
-                          href="#"
-                          className="group inline-flex items-center gap-2 text-sm text-slate-400 hover:text-white transition-all duration-300"
-                        >
-                          <span className="w-0 h-px bg-indigo-500 group-hover:w-3 transition-all duration-300"></span>
-                          {item}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                  <ul className="space-y-3">
-                    {solutionsRight.map((item) => (
-                      <li key={item}>
-                        <a
-                          href="#"
-                          className="group inline-flex items-center gap-2 text-sm text-slate-400 hover:text-white transition-all duration-300"
-                        >
-                          <span className="w-0 h-px bg-violet-500 group-hover:w-3 transition-all duration-300"></span>
-                          {item}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
+    <footer className="w-full">
+      {/* TOP (DARK) */}
+      <div className="bg-black text-gray-300">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14">
+          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-12">
+            {/* LEFT SIDE: Links + Newsletter */}
+            <div className="w-full lg:w-[52%]">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
+                {/* Solutions */}
+                <div>
+                  <h3 className="text-white font-semibold mb-4">Solutions</h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                    <ul className="space-y-2 text-sm">
+                      {solutionsLeft.map((t) => (
+                        <li key={t}>
+                          <a
+                            href="#"
+                            className="hover:text-white transition-colors"
+                          >
+                            {t}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                    <ul className="space-y-2 text-sm">
+                      {solutionsRight.map((t) => (
+                        <li key={t}>
+                          <a
+                            href="#"
+                            className="hover:text-white transition-colors"
+                          >
+                            {t}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
-              </div>
 
-              {/* Company */}
-              <div>
-                <h3 className="text-white text-lg font-bold mb-6 flex items-center gap-2">
-                  <div className="w-1 h-6 bg-gradient-to-b from-violet-500 to-purple-500 rounded-full"></div>
-                  Company
-                </h3>
-                <div className="grid grid-cols-2 gap-6">
-                  <ul className="space-y-3">
-                    {companyLeft.map((item) => (
-                      <li key={item}>
-                        <a
-                          href="#"
-                          className="group inline-flex items-center gap-2 text-sm text-slate-400 hover:text-white transition-all duration-300"
-                        >
-                          <span className="w-0 h-px bg-violet-500 group-hover:w-3 transition-all duration-300"></span>
-                          {item}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                  <ul className="space-y-3">
-                    {companyRight.map((item) => (
-                      <li key={item}>
-                        <a
-                          href="#"
-                          className="group inline-flex items-center gap-2 text-sm text-slate-400 hover:text-white transition-all duration-300"
-                        >
-                          <span className="w-0 h-px bg-purple-500 group-hover:w-3 transition-all duration-300"></span>
-                          {item}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
+                {/* Company */}
+                <div>
+                  <h3 className="text-white font-semibold mb-4">Company</h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                    <ul className="space-y-2 text-sm">
+                      {companyLeft.map((t) => (
+                        <li key={t}>
+                          <a
+                            href="#"
+                            className="hover:text-white transition-colors"
+                          >
+                            {t}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                    <ul className="space-y-2 text-sm">
+                      {companyRight.map((t) => (
+                        <li key={t}>
+                          <a
+                            href="#"
+                            className="hover:text-white transition-colors"
+                          >
+                            {t}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
               </div>
 
               {/* Newsletter */}
-              <div className="sm:col-span-2 max-w-xl">
-                <h3 className="text-white text-lg font-bold mb-4 flex items-center gap-2">
-                  <Sparkles className="w-5 h-5 text-indigo-400" />
-                  Subscribe to Updates
-                </h3>
-                <p className="text-sm text-slate-400 mb-6">
-                  Get the latest insights, updates, and exclusive offers
-                  delivered to your inbox.
-                </p>
-                <div className="relative group">
-                  <div className="absolute -inset-0.5 bg-gradient-to-r from-indigo-500 to-violet-500 rounded-xl opacity-0 group-hover:opacity-75 blur transition-all duration-300"></div>
-                  <div className="relative flex flex-col sm:flex-row gap-3 bg-slate-900/50 backdrop-blur-sm border border-slate-700 rounded-xl p-2">
-                    <input
-                      type="email"
-                      placeholder="Enter your email address"
-                      className="flex-1 bg-transparent px-4 py-3 text-sm text-white placeholder:text-slate-500 focus:outline-none"
-                    />
-                    <button className="group/btn inline-flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white text-sm font-semibold px-6 py-3 rounded-lg transition-all duration-300 hover:scale-105 shadow-lg shadow-indigo-500/50">
-                      Subscribe
-                      <Send className="w-4 h-4 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform duration-300" />
-                    </button>
-                  </div>
+              <div className="mt-10 max-w-xl">
+                <div className="relative">
+                  <input
+                    type="text"
+                    placeholder="Don't miss out updates"
+                    className="w-full bg-transparent border border-white/25 rounded-sm px-4 py-3 text-sm placeholder:text-gray-500 focus:outline-none focus:border-white/40"
+                  />
                 </div>
-                <p className="text-xs text-slate-500 mt-4 flex items-center gap-2">
-                  <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                  We respect your privacy. Unsubscribe anytime.
-                </p>
+
+                <label className="mt-3 flex items-start gap-2 text-xs text-gray-500">
+                  <input
+                    type="checkbox"
+                    className="mt-1 h-3.5 w-3.5 rounded border-white/25 bg-transparent"
+                  />
+                  <span>
+                    I agree to the Privacy Policy and give my permission to
+                    process my personal data for the purposes specified in the
+                    Privacy Policy.
+                  </span>
+                </label>
+
+                <div className="mt-4">
+                  <button
+                    type="button"
+                    className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium px-6 py-3 rounded-sm transition-colors"
+                  >
+                    Send <ArrowRight className="h-4 w-4" />
+                  </button>
+                </div>
               </div>
             </div>
 
-            {/* Brand CTA Section */}
-            <div className="relative">
-              <div className="relative group">
-                <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500 via-violet-500 to-purple-500 rounded-3xl opacity-75 blur-xl group-hover:opacity-100 transition-all duration-500"></div>
+            {/* RIGHT SIDE: Brand + dots */}
+            <div className="w-full lg:w-[44%] relative">
+              <div className="relative overflow-hidden min-h-[260px] lg:min-h-[360px] flex items-center justify-center">
+                {/* Dots cluster */}
+                <DotsPattern className="absolute top-0 left-1/2 -translate-x-1/2 text-indigo-100/90 w-[420px] h-[320px] lg:w-[520px] lg:h-[420px]" />
 
-                <div className="relative bg-gradient-to-br from-slate-900/90 to-slate-800/90 backdrop-blur-xl border border-slate-700/50 rounded-3xl p-10 min-h-[320px] flex flex-col items-center justify-center text-center">
-                  <DotsPattern className="absolute inset-0 text-indigo-400/10" />
-
-                  <div className="relative z-10 space-y-6">
-                    {/* Logo/Icon */}
-                    <div className="inline-flex p-4 rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-500 shadow-lg shadow-indigo-500/50">
-                      <img
-                        src="/favicon.svg"
-                        alt="WebnexFusion"
-                        className="w-10 h-10"
-                      />
-                    </div>
-
-                    <div>
-                      <h3 className="text-white text-2xl font-bold mb-2">
-                        WebnexFusion
-                      </h3>
-                      <p className="text-slate-400 text-sm">
-                        Transforming Ideas into Digital Reality
-                      </p>
-                    </div>
-
-                    <button className="group/cta inline-flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-semibold px-8 py-4 rounded-xl transition-all duration-300 hover:scale-105 shadow-lg shadow-indigo-500/50">
-                      Schedule Consultation
-                      <ArrowRight className="w-5 h-5 group-hover/cta:translate-x-1 transition-transform duration-300" />
-                    </button>
+                {/* Brand */}
+                <div className="relative z-10 text-center pt-10 lg:pt-0">
+                  <div className="flex items-center justify-center mb-3 text-white">
+                    {/* <LogoMark className="text-white" /> */}
+                    <img src="/favicon.svg" />
                   </div>
+                  {/* <div className="text-white text-2xl font-semibold">
+                    Insweave
+                  </div> */}
+                  {/* <div className="flex items-center justify-center mb-3 text-white">
+                  <img src="/footer.svg" />
+</div> */}
+                  <button
+                    type="button"
+                    className="mt-5 inline-flex items-center justify-center bg-blue-700 hover:bg-blue-600 text-white text-sm font-semibold px-8 py-3 rounded-sm transition-colors"
+                  >
+                    Schedule Consultation
+                  </button>
                 </div>
               </div>
             </div>
@@ -228,117 +242,89 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* DIVIDER */}
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="h-px bg-gradient-to-r from-transparent via-slate-700 to-transparent"></div>
-      </div>
-
-      {/* BOTTOM SECTION */}
-      <div className="relative bg-gradient-to-br from-slate-900/50 to-slate-800/50 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start mb-8">
-            {/* Reviews */}
-            <div className="group">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800/50 border border-slate-700/50 text-xs text-slate-400 mb-3">
-                <Star className="w-3 h-3 fill-amber-500 text-amber-500" />
+      {/* BOTTOM (WHITE STRIP) */}
+      <div className="bg-white text-gray-900">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 items-start">
+            {/* Clutch */}
+            <div className="relative pr-6">
+              <div className="absolute right-0 top-0 bottom-0 w-[4px] rounded-full bg-gray-200" />
+              <div className="text-[11px] tracking-wide text-gray-500">
                 REVIEWED ON
               </div>
-              <div className="flex items-center gap-3 mb-2">
-                <span className="font-bold text-white text-lg">Clutch</span>
-                <span className="text-sm text-slate-400">31 Reviews</span>
+              <div className="flex items-end gap-3">
+                <div className="text-2xl font-semibold">Clutch</div>
+                <div className="pb-1 text-xs text-gray-500">31+ REVIEWS</div>
               </div>
-              <div className="flex gap-1">
+              <div className="flex gap-1 mt-2">
                 {Array.from({ length: 5 }).map((_, i) => (
-                  <Star
-                    key={i}
-                    className="w-5 h-5 fill-amber-500 text-amber-500 group-hover:scale-110 transition-transform duration-300"
-                    style={{ transitionDelay: `${i * 50}ms` }}
-                  />
+                  <Star key={i} className="h-4 w-4 fill-red-500 text-red-500" />
                 ))}
-              </div>
-              <p className="text-xs text-slate-500 mt-2">
-                Rated 5.0/5.0 by our clients
-              </p>
-            </div>
-
-            {/* Contact Info */}
-            <div className="space-y-4">
-              <h4 className="text-white font-semibold mb-4 flex items-center gap-2">
-                <MapPin className="w-4 h-4 text-indigo-400" />
-                Get in Touch
-              </h4>
-
-              <div className="space-y-3">
-                <a
-                  href="tel:+919554349235"
-                  className="group flex items-start gap-3 text-sm text-slate-400 hover:text-white transition-colors duration-300"
-                >
-                  <Phone className="w-4 h-4 mt-0.5 text-indigo-400 group-hover:scale-110 transition-transform duration-300" />
-                  <div>
-                    <div className="font-medium text-slate-300">
-                      India (Remote)
-                    </div>
-                    <div>+91 95543 49235</div>
-                  </div>
-                </a>
-
-                <a
-                  href="mailto:webnexfusion@gmail.com"
-                  className="group flex items-start gap-3 text-sm text-slate-400 hover:text-white transition-colors duration-300"
-                >
-                  <Mail className="w-4 h-4 mt-0.5 text-violet-400 group-hover:scale-110 transition-transform duration-300" />
-                  <div>webnexfusion@gmail.com</div>
-                </a>
               </div>
             </div>
 
-            {/* Social Links */}
-            <div className="lg:text-right">
-              <h4 className="text-white font-semibold mb-4">Follow Us</h4>
-              <div className="flex gap-3 justify-start lg:justify-end flex-wrap">
-                {[
-                  {
-                    Icon: Linkedin,
-                    color: "from-blue-600 to-blue-400",
-                    href: "#",
-                  },
-                  {
-                    Icon: Github,
-                    color: "from-slate-600 to-slate-400",
-                    href: "#",
-                  },
-                  {
-                    Icon: Twitter,
-                    color: "from-sky-600 to-sky-400",
-                    href: "#",
-                  },
-                  {
-                    Icon: Facebook,
-                    color: "from-blue-700 to-blue-500",
-                    href: "#",
-                  },
-                  {
-                    Icon: Youtube,
-                    color: "from-red-600 to-red-400",
-                    href: "#",
-                  },
-                ].map(({ Icon, color, href }, i) => (
-                  <a
-                    key={i}
-                    href={href}
-                    className="group relative w-11 h-11 rounded-xl bg-slate-800/50 border border-slate-700/50 hover:border-transparent flex items-center justify-center transition-all duration-300 hover:scale-110"
-                  >
-                    <div
-                      className={`absolute inset-0 bg-gradient-to-br ${color} rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
-                    ></div>
-                    <Icon className="relative w-5 h-5 text-slate-400 group-hover:text-white transition-colors duration-300" />
-                  </a>
-                ))}
+            {/* Address */}
+            <div className="relative pr-6">
+              <div className="absolute right-0 w-[4px] h-full rounded-full bg-gray-200" />
+              <div className="text-sm text-gray-700">
+                <div className="font-medium mb-2">Remotely work</div>
               </div>
+            </div>
+
+            {/* Contact */}
+            <div className="relative pr-6">
+              <div className="absolute right-0  w-[4px] h-full rounded-full bg-gray-200" />
+              <div className="text-sm text-gray-700">
+                <div className="mb-2">
+                  <span className="text-gray-500">T:</span> +91-9554349235
+                </div>
+                <div>
+                  <span className="text-gray-500">E:</span>{" "}
+                  webnexfusion@gmail.com
+                </div>
+              </div>
+            </div>
+
+            {/* Socials */}
+            <div className="flex flex-wrap gap-12 lg:justify-end lg:col-span-2">
+              <a
+                href="#"
+                className="inline-flex flex-col items-center text-xs text-gray-900 hover:text-gray-900"
+              >
+                <Linkedin className="h-8 w-8" />
+                <span className="mt-1 font-bold">LinkedIn</span>
+              </a>
+              <a
+                href="#"
+                className="inline-flex flex-col items-center text-xs text-gray-900 hover:text-gray-900"
+              >
+                <Github className="h-8 w-8" />
+                <span className="mt-1 font-bold">Github</span>
+              </a>
+              <a
+                href="#"
+                className="inline-flex flex-col items-center text-xs text-gray-900 hover:text-gray-900"
+              >
+                <Twitter className="h-8 w-8" />
+                <span className="mt-1 font-bold">Twitter</span>
+              </a>
+              <a
+                href="#"
+                className="inline-flex flex-col items-center text-xs text-gray-900 hover:text-gray-900"
+              >
+                <Facebook className="h-8 w-8" />
+                <span className="mt-1 font-bold">Facebook</span>
+              </a>
+              <a
+                href="#"
+                className="inline-flex flex-col items-center text-xs text-gray-900 hover:text-gray-900"
+              >
+                <Youtube className="h-8 w-8" />
+                <span className="mt-1 font-bold">Youtube</span>
+              </a>
             </div>
           </div>
 
-          {/* Bottom Bar */}
           <div className="pt-8 border-t border-slate-700/50">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
               <div className="flex items-center gap-2 text-sm text-slate-400">
@@ -350,45 +336,42 @@ export default function Footer() {
               <div className="flex items-center gap-6 text-sm">
                 <Link
                   to="/terms-of-service"
-                  className="text-slate-400 hover:text-white transition-colors duration-300 flex items-center gap-1"
+                  className="text-slate-400 hover:text-black transition-colors duration-300"
                 >
-                  <span>Terms of Service</span>
+                  Terms of Service
                 </Link>
 
                 <span className="text-slate-700">•</span>
 
                 <Link
                   to="/refund-policy"
-                  className="text-slate-400 hover:text-white transition-colors duration-300 flex items-center gap-1"
+                  className="text-slate-400 hover:text-black transition-colors duration-300"
                 >
-                  <span>Refund Policy</span>
+                  Refund Policy
                 </Link>
 
                 <span className="text-slate-700">•</span>
 
                 <Link
                   to="/privacy-policy"
-                  className="text-slate-400 hover:text-white transition-colors duration-300 flex items-center gap-1"
+                  className="text-slate-400 hover:text-black transition-colors duration-300"
                 >
-                  <span>Privacy Policy</span>
+                  Privacy Policy
                 </Link>
 
                 <span className="text-slate-700">•</span>
 
                 <Link
                   to="/cookie-policy"
-                  className="text-slate-400 hover:text-white transition-colors duration-300 flex items-center gap-1"
+                  className="text-slate-400 hover:text-black transition-colors duration-300"
                 >
-                  <span>Cookie Policy</span>
+                  Cookie Policy
                 </Link>
               </div>
             </div>
           </div>
         </div>
       </div>
-
-      {/* Bottom Accent Line */}
-      <div className="h-1 bg-gradient-to-r from-indigo-500 via-violet-500 to-purple-500"></div>
     </footer>
   );
 }
