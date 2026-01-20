@@ -12,10 +12,12 @@ import PrivacyPolicy from "./components/pages/PrivacyPolicy";
 import RefundPolicy from "./components/pages/RefundPolicy";
 import CookiePolicy from "./components/pages/CookiePolicy";
 import TermsOfService from "./components/pages/TermsOfService";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <div className="min-h-screen bg-[#020617] text-white relative">
         {/* Background effects */}
         <div className="fixed inset-0 z-0 pointer-events-none">
