@@ -243,7 +243,7 @@ export default function Footer() {
       </div>
 
       {/* BOTTOM (WHITE STRIP) */}
-      <div className="bg-white text-gray-900">
+      <div className="bg-black text-white">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 items-start">
             {/* Clutch */}
@@ -267,19 +267,19 @@ export default function Footer() {
             <div className="relative pr-6">
               <div className="absolute right-0 w-[4px] h-full rounded-full bg-gray-200" />
               <div className="text-sm text-gray-700">
-                <div className="font-medium mb-2">Remotely work</div>
+                <div className="font-medium text-white mb-2">Remotely work</div>
               </div>
             </div>
 
             {/* Contact */}
-            <div className="relative pr-6">
+            <div className="relative text-white pr-6">
               <div className="absolute right-0  w-[4px] h-full rounded-full bg-gray-200" />
-              <div className="text-sm text-gray-700">
+              <div className="text-sm text-white-700">
                 <div className="mb-2">
-                  <span className="text-gray-500">T:</span> +91-9554349235
+                  <span className="text-white">T:</span> +91-9554349235
                 </div>
                 <div>
-                  <span className="text-gray-500">E:</span>{" "}
+                  <span className="text-white">E:</span>{" "}
                   webnexfusion@gmail.com
                 </div>
               </div>
@@ -289,35 +289,35 @@ export default function Footer() {
             <div className="flex flex-wrap gap-12 lg:justify-end lg:col-span-2">
               <a
                 href="#"
-                className="inline-flex flex-col items-center text-xs text-gray-900 hover:text-gray-900"
+                className="inline-flex flex-col items-center text-xs text-white hover:text-gray-900"
               >
                 <Linkedin className="h-8 w-8" />
                 <span className="mt-1 font-bold">LinkedIn</span>
               </a>
               <a
                 href="#"
-                className="inline-flex flex-col items-center text-xs text-gray-900 hover:text-gray-900"
+                className="inline-flex flex-col items-center text-xs text-white hover:text-gray-900"
               >
                 <Github className="h-8 w-8" />
                 <span className="mt-1 font-bold">Github</span>
               </a>
               <a
                 href="#"
-                className="inline-flex flex-col items-center text-xs text-gray-900 hover:text-gray-900"
+                className="inline-flex flex-col items-center text-xs text-white hover:text-gray-900"
               >
                 <Twitter className="h-8 w-8" />
                 <span className="mt-1 font-bold">Twitter</span>
               </a>
               <a
                 href="#"
-                className="inline-flex flex-col items-center text-xs text-gray-900 hover:text-gray-900"
+                className="inline-flex flex-col items-center text-xs text-white hover:text-gray-900"
               >
                 <Facebook className="h-8 w-8" />
                 <span className="mt-1 font-bold">Facebook</span>
               </a>
               <a
                 href="#"
-                className="inline-flex flex-col items-center text-xs text-gray-900 hover:text-gray-900"
+                className="inline-flex flex-col items-center text-xs text-white hover:text-gray-900"
               >
                 <Youtube className="h-8 w-8" />
                 <span className="mt-1 font-bold">Youtube</span>
