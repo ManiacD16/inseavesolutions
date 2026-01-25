@@ -117,10 +117,10 @@ export default function Footer() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
                 {/* Solutions */}
                 <div>
-                  {/* <h3 className="text-white font-semibold mb-4">Solutions</h3> */}
+                  <h3 className="text-white font-semibold mb-4">Solutions</h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                     <ul className="space-y-2 text-sm">
-                      {/* {solutionsLeft.map((t) => (
+                      {solutionsLeft.map((t) => (
                         <li key={t}>
                           <a
                             href="#"
@@ -129,10 +129,10 @@ export default function Footer() {
                             {t}
                           </a>
                         </li>
-                      ))} */}
+                      ))}
                     </ul>
                     <ul className="space-y-2 text-sm">
-                      {/* {solutionsRight.map((t) => (
+                      {solutionsRight.map((t) => (
                         <li key={t}>
                           <a
                             href="#"
@@ -141,17 +141,17 @@ export default function Footer() {
                             {t}
                           </a>
                         </li>
-                      ))} */}
+                      ))}
                     </ul>
                   </div>
                 </div>
 
                 {/* Company */}
                 <div>
-                  {/* <h3 className="text-white font-semibold mb-4">Company</h3> */}
+                  <h3 className="text-white font-semibold mb-4">Company</h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                     <ul className="space-y-2 text-sm">
-                      {/* {companyLeft.map((t) => (
+                      {companyLeft.map((t) => (
                         <li key={t}>
                           <a
                             href="#"
@@ -160,9 +160,9 @@ export default function Footer() {
                             {t}
                           </a>
                         </li>
-                      ))} */}
+                      ))}
                     </ul>
-                    {/* <ul className="space-y-2 text-sm">
+                    <ul className="space-y-2 text-sm">
                       {companyRight.map((t) => (
                         <li key={t}>
                           <a
@@ -173,7 +173,7 @@ export default function Footer() {
                           </a>
                         </li>
                       ))}
-                    </ul> */}
+                    </ul>
                   </div>
                 </div>
               </div>
@@ -288,35 +288,35 @@ export default function Footer() {
             {/* Socials */}
             <div className="flex flex-wrap gap-12 lg:justify-end lg:col-span-2">
               <a
-                href="https://www.linkedin.com/company/webnex-fusion"
+                href="#"
                 className="inline-flex flex-col items-center text-xs text-white hover:text-gray-900"
               >
                 <Linkedin className="h-8 w-8" />
                 <span className="mt-1 font-bold">LinkedIn</span>
               </a>
               <a
-                href="https://github.com/webnexfusion"
+                href="#"
                 className="inline-flex flex-col items-center text-xs text-white hover:text-gray-900"
               >
                 <Github className="h-8 w-8" />
                 <span className="mt-1 font-bold">Github</span>
               </a>
               <a
-                href="https://x.com/webnexfusion"
+                href="#"
                 className="inline-flex flex-col items-center text-xs text-white hover:text-gray-900"
               >
                 <Twitter className="h-8 w-8" />
                 <span className="mt-1 font-bold">Twitter</span>
               </a>
               <a
-                href="https://www.facebook.com/p/webnexfusion-61575536985432/"
+                href="#"
                 className="inline-flex flex-col items-center text-xs text-white hover:text-gray-900"
               >
                 <Facebook className="h-8 w-8" />
                 <span className="mt-1 font-bold">Facebook</span>
               </a>
               <a
-                href="https://www.youtube.com/@webnexfusion"
+                href="#"
                 className="inline-flex flex-col items-center text-xs text-white hover:text-gray-900"
               >
                 <Youtube className="h-8 w-8" />

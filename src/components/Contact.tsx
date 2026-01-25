@@ -26,7 +26,7 @@ export default function Contact() {
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
 
   const CONTACT_EMAIL = "webnexfusion@gmail.com";
-  const WHATSAPP_NUMBER_E164 = "919554349235";
+  const WHATSAPP_NUMBER_E164 = "917067164631";
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -112,7 +112,7 @@ ${formData.message}
       label: "Phone",
       value: "+91 95543 49235",
       gradient: "from-violet-500 to-purple-500",
-      href: "tel:+919554349235",
+      href: "tel:+917067164631",
     },
     {
       icon: MapPin,
