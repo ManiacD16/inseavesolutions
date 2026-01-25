@@ -211,7 +211,7 @@ We regularly review and update our policies and procedures to ensure ongoing com
       content: `If you have any questions, concerns, or requests regarding this Privacy Policy or our privacy practices, please contact us:
 
 **Email:** webnexfusion@gmail.com
-**Phone:** +91 95543 49235
+**Phone:** +917067164631
 **Address:** Remote Operations, India
 
 We will respond to your inquiry within a reasonable timeframe, typically within 30 days. For data protection matters, please include "Privacy Inquiry" in the subject line of your email to ensure prompt handling of your request.`,
@@ -326,11 +326,10 @@ We will respond to your inquiry within a reasonable timeframe, typically within 
                 <button
                   key={section.id}
                   onClick={() => scrollToSection(section.id)}
-                  className={`w-full flex items-center gap-3 p-3 rounded-lg text-left transition-all duration-300 ${
-                    activeSection === section.id
+                  className={`w-full flex items-center gap-3 p-3 rounded-lg text-left transition-all duration-300 ${activeSection === section.id
                       ? "bg-indigo-500/20 border border-indigo-500/30 text-white"
                       : "text-slate-400 hover:text-white hover:bg-slate-800/50"
-                  }`}
+                    }`}
                 >
                   <section.icon className="w-4 h-4 flex-shrink-0" />
                   <span className="text-sm font-medium flex-1">
@@ -363,11 +362,10 @@ We will respond to your inquiry within a reasonable timeframe, typically within 
                       <button
                         key={section.id}
                         onClick={() => scrollToSection(section.id)}
-                        className={`w-full flex items-center gap-3 p-3 rounded-lg text-left transition-all duration-300 group ${
-                          activeSection === section.id
+                        className={`w-full flex items-center gap-3 p-3 rounded-lg text-left transition-all duration-300 group ${activeSection === section.id
                             ? "bg-indigo-500/20 border border-indigo-500/30 text-white"
                             : "text-slate-400 hover:text-white hover:bg-slate-800/50"
-                        }`}
+                          }`}
                       >
                         <section.icon className="w-4 h-4 flex-shrink-0" />
                         <span className="text-xs font-medium flex-1">

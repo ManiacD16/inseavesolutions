@@ -318,7 +318,7 @@ These alternatives ensure you receive value from your investment while maintaini
 
 **Contact Information:**
 Email: webnexfusion@gmail.com
-Phone: +91 95543 49235
+Phone: +917067164631
 
 Understanding this policy before engagement helps avoid future misunderstandings.`,
     },
@@ -432,11 +432,10 @@ Understanding this policy before engagement helps avoid future misunderstandings
                 <button
                   key={section.id}
                   onClick={() => scrollToSection(section.id)}
-                  className={`w-full flex items-center gap-3 p-3 rounded-lg text-left transition-all duration-300 ${
-                    activeSection === section.id
+                  className={`w-full flex items-center gap-3 p-3 rounded-lg text-left transition-all duration-300 ${activeSection === section.id
                       ? "bg-rose-500/20 border border-rose-500/30 text-white"
                       : "text-slate-400 hover:text-white hover:bg-slate-800/50"
-                  }`}
+                    }`}
                 >
                   <section.icon className="w-4 h-4 flex-shrink-0" />
                   <span className="text-sm font-medium flex-1">
@@ -469,11 +468,10 @@ Understanding this policy before engagement helps avoid future misunderstandings
                       <button
                         key={section.id}
                         onClick={() => scrollToSection(section.id)}
-                        className={`w-full flex items-center gap-3 p-3 rounded-lg text-left transition-all duration-300 group ${
-                          activeSection === section.id
+                        className={`w-full flex items-center gap-3 p-3 rounded-lg text-left transition-all duration-300 group ${activeSection === section.id
                             ? "bg-rose-500/20 border border-rose-500/30 text-white"
                             : "text-slate-400 hover:text-white hover:bg-slate-800/50"
-                        }`}
+                          }`}
                       >
                         <section.icon className="w-4 h-4 flex-shrink-0" />
                         <span className="text-xs font-medium flex-1">

@@ -123,7 +123,7 @@ export default function Header() {
           </button>
 
           {/* COMPANY */}
-          <div
+          {/* <div
             className="relative"
             onMouseEnter={openCompanyMenu}
             onMouseLeave={closeCompanyMenuSoon}
@@ -131,15 +131,18 @@ export default function Header() {
             <button className="flex items-center gap-1 hover:text-white transition-colors">
               Company <ChevronDown className="h-4 w-4" />
             </button>
-          </div>
+          </div> */}
 
           {/* SOLUTION */}
           <div
             className="relative"
-            onMouseEnter={openSolutionMenu}
-            onMouseLeave={closeSolutionMenuSoon}
+          // onMouseEnter={openSolutionMenu}
+          // onMouseLeave={closeSolutionMenuSoon}
           >
-            <button className="flex items-center gap-1 hover:text-white transition-colors">
+            <button
+              onClick={() => scrollToSection("services")}
+              className="flex items-center gap-1 hover:text-white transition-colors"
+            >
               Solution <ChevronDown className="h-4 w-4" />
             </button>
           </div>
@@ -261,9 +264,8 @@ export default function Header() {
                     >
                       Solution
                       <span
-                        className={`transition-transform ${
-                          openDropdown === "solution" ? "rotate-45" : ""
-                        }`}
+                        className={`transition-transform ${openDropdown === "solution" ? "rotate-45" : ""
+                          }`}
                       >
                         +
                       </span>
@@ -278,19 +280,18 @@ export default function Header() {
 
                   {/* COMPANY */}
                   <div className="border-t border-white/10 pt-4">
-                    <button
+                    {/* <button
                       onClick={() => toggleDropdown("company")}
                       className="flex justify-between w-full text-white/90 font-medium py-2"
                     >
                       Company
                       <span
-                        className={`transition-transform ${
-                          openDropdown === "company" ? "rotate-45" : ""
-                        }`}
+                        className={`transition-transform ${openDropdown === "company" ? "rotate-45" : ""
+                          }`}
                       >
                         +
                       </span>
-                    </button>
+                    </button> */}
 
                     <CompanyMegaMenu
                       mode="mobile"
@@ -307,9 +308,8 @@ export default function Header() {
                     >
                       Resources
                       <span
-                        className={`transition-transform ${
-                          openDropdown === "resources" ? "rotate-45" : ""
-                        }`}
+                        className={`transition-transform ${openDropdown === "resources" ? "rotate-45" : ""
+                          }`}
                       >
                         +
                       </span>

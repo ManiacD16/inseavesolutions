@@ -416,7 +416,7 @@ All changes to this policy become effective immediately upon posting unless othe
 For general questions about cookies, how we use them, or this Cookie Policy, please contact us at:
 
 Email: webnexfusion@gmail.com
-Phone: +91 95543 49235
+Phone: +917067164631
 Subject Line: "Cookie Policy Inquiry"
 
 **Cookie Preferences:**
@@ -552,11 +552,10 @@ We value your privacy and are committed to addressing your concerns promptly and
                 <button
                   key={section.id}
                   onClick={() => scrollToSection(section.id)}
-                  className={`w-full flex items-center gap-3 p-3 rounded-lg text-left transition-all duration-300 ${
-                    activeSection === section.id
+                  className={`w-full flex items-center gap-3 p-3 rounded-lg text-left transition-all duration-300 ${activeSection === section.id
                       ? "bg-amber-500/20 border border-amber-500/30 text-white"
                       : "text-slate-400 hover:text-white hover:bg-slate-800/50"
-                  }`}
+                    }`}
                 >
                   <section.icon className="w-4 h-4 flex-shrink-0" />
                   <span className="text-sm font-medium flex-1">
@@ -589,11 +588,10 @@ We value your privacy and are committed to addressing your concerns promptly and
                       <button
                         key={section.id}
                         onClick={() => scrollToSection(section.id)}
-                        className={`w-full flex items-center gap-3 p-3 rounded-lg text-left transition-all duration-300 group ${
-                          activeSection === section.id
+                        className={`w-full flex items-center gap-3 p-3 rounded-lg text-left transition-all duration-300 group ${activeSection === section.id
                             ? "bg-amber-500/20 border border-amber-500/30 text-white"
                             : "text-slate-400 hover:text-white hover:bg-slate-800/50"
-                        }`}
+                          }`}
                       >
                         <section.icon className="w-4 h-4 flex-shrink-0" />
                         <span className="text-xs font-medium flex-1">

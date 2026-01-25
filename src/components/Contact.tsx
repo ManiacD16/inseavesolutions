@@ -110,7 +110,7 @@ ${formData.message}
     {
       icon: Phone,
       label: "Phone",
-      value: "+91 95543 49235",
+      value: "+917067164631",
       gradient: "from-violet-500 to-purple-500",
       href: "tel:+917067164631",
     },
