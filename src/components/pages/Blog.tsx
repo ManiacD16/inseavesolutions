@@ -1,6 +1,7 @@
 // src/pages/Blog.tsx
 
 import { Calendar, ArrowUpRight } from "lucide-react";
+import SEO from "../SEO";
 
 interface BlogCardProps {
   title: string;
@@ -129,6 +130,11 @@ export default function Blog() {
 
   return (
     <section className="min-h-screen pt-28 pb-20 px-4 sm:px-6 lg:px-8 bg-[#020617]">
+      <SEO
+        title="Insights & Trends - WebnexFusion Blog"
+        description="Read the latest insights on web development, digital marketing, AI, and business growth from WebnexFusion."
+        canonicalUrl="https://webnexfusion.com/blog"
+      />
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">

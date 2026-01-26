@@ -7,10 +7,16 @@ import Mission from "../Mission";
 import Portfolio from "../Portfolio";
 import Process from "../Process";
 import Services from "../Services";
+import SEO from "../SEO";
 
 export default function Home() {
   return (
     <div id="home">
+      <SEO
+        title="WebnexFusion - Leading Web Development & Digital Marketing Agency"
+        description="WebnexFusion offers top-tier web development, app development, UI/UX design, and digital marketing services to grow your business."
+        canonicalUrl="https://webnexfusion.com/"
+      />
       {/* Hero Section */}
       <Hero />
 

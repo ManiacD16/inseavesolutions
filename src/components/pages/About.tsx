@@ -10,6 +10,7 @@ import {
   Users,
   Zap,
 } from "lucide-react";
+import SEO from "../SEO";
 
 function InfoCard({
   icon,
@@ -68,9 +69,8 @@ function TimelineItem({
 }) {
   return (
     <div
-      className={`flex ${
-        position === "right" ? "flex-row-reverse" : ""
-      } items-center gap-8 mb-12`}
+      className={`flex ${position === "right" ? "flex-row-reverse" : ""
+        } items-center gap-8 mb-12`}
     >
       {/* Content */}
       <div className={`flex-1 ${position === "right" ? "text-right" : ""}`}>
@@ -122,6 +122,11 @@ function StatCard({
 export default function About() {
   return (
     <section className="relative min-h-screen pt-28 pb-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-slate-950 via-indigo-950/20 to-slate-900 overflow-hidden">
+      <SEO
+        title="About WebnexFusion - IT & Digital Solutions Expert"
+        description="Learn about WebnexFusion's journey, values, and mission to empower businesses through technology, innovation, and trust."
+        canonicalUrl="https://webnexfusion.com/about"
+      />
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/20 rounded-full blur-3xl animate-pulse"></div>

@@ -11,6 +11,7 @@ import {
   ArrowRight,
   Check,
 } from "lucide-react";
+import SEO from "../SEO";
 
 interface FeatureCardProps {
   icon: React.ReactNode;
@@ -148,6 +149,11 @@ export default function Features() {
 
   return (
     <section className="relative min-h-screen pt-28 pb-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-slate-950 via-indigo-950/20 to-slate-900 overflow-hidden">
+      <SEO
+        title="Our Services - Web Design, SEO, Branding & More | WebnexFusion"
+        description="Explore WebnexFusion's comprehensive digital services including high-performance web development, security, and global infrastructure."
+        canonicalUrl="https://webnexfusion.com/features"
+      />
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 left-10 w-96 h-96 bg-indigo-500/20 rounded-full blur-3xl animate-pulse"></div>

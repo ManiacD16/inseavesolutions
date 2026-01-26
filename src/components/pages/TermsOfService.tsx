@@ -10,6 +10,7 @@ import {
   X,
   ChevronRight,
 } from "lucide-react";
+import SEO from "../SEO";
 
 export const TermsOfService = () => {
   const [activeSection, setActiveSection] = useState("acceptance");
@@ -148,6 +149,11 @@ export const TermsOfService = () => {
 
   return (
     <section className="relative min-h-screen pt-28 pb-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-slate-950 via-indigo-950/20 to-slate-900 overflow-hidden">
+      <SEO
+        title="Terms of Service - WebnexFusion"
+        description="Read WebnexFusion's Terms of Service governing the use of our website and services."
+        canonicalUrl="https://webnexfusion.com/terms-of-service"
+      />
       {/* Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl"></div>
@@ -216,11 +222,10 @@ export const TermsOfService = () => {
                 <button
                   key={section.id}
                   onClick={() => scrollToSection(section.id)}
-                  className={`w-full flex items-center gap-3 p-3 rounded-lg text-left transition-all duration-300 ${
-                    activeSection === section.id
-                      ? "bg-indigo-500/20 border border-indigo-500/30 text-white"
-                      : "text-slate-400 hover:text-white hover:bg-slate-800/50"
-                  }`}
+                  className={`w-full flex items-center gap-3 p-3 rounded-lg text-left transition-all duration-300 ${activeSection === section.id
+                    ? "bg-indigo-500/20 border border-indigo-500/30 text-white"
+                    : "text-slate-400 hover:text-white hover:bg-slate-800/50"
+                    }`}
                 >
                   <section.icon className="w-4 h-4 flex-shrink-0" />
                   <span className="text-sm font-medium flex-1">
@@ -253,11 +258,10 @@ export const TermsOfService = () => {
                       <button
                         key={section.id}
                         onClick={() => scrollToSection(section.id)}
-                        className={`w-full flex items-center gap-3 p-3 rounded-lg text-left transition-all duration-300 group ${
-                          activeSection === section.id
-                            ? "bg-indigo-500/20 border border-indigo-500/30 text-white"
-                            : "text-slate-400 hover:text-white hover:bg-slate-800/50"
-                        }`}
+                        className={`w-full flex items-center gap-3 p-3 rounded-lg text-left transition-all duration-300 group ${activeSection === section.id
+                          ? "bg-indigo-500/20 border border-indigo-500/30 text-white"
+                          : "text-slate-400 hover:text-white hover:bg-slate-800/50"
+                          }`}
                       >
                         <section.icon className="w-4 h-4 flex-shrink-0" />
                         <span className="text-xs font-medium flex-1">

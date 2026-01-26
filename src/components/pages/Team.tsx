@@ -1,6 +1,7 @@
 // src/pages/Team.tsx
 
 import { Linkedin, Mail, Crown, Briefcase, Sparkles } from "lucide-react";
+import SEO from "../SEO";
 
 function TeamCard({
   name,
@@ -125,6 +126,11 @@ function TeamCard({
 export default function Team() {
   return (
     <section className="relative min-h-screen pt-28 pb-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-slate-950 via-indigo-950/30 to-slate-900 overflow-hidden">
+      <SEO
+        title="Meet Our Team - WebnexFusion Experts"
+        description="Meet the leadership team behind WebnexFusion, combining technical excellence and strategic vision."
+        canonicalUrl="https://webnexfusion.com/team"
+      />
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-indigo-500/20 rounded-full blur-3xl animate-pulse"></div>

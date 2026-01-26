@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Send, CheckCircle, AlertCircle, Mail, Phone, MapPin } from 'lucide-react';
+import SEO from "./SEO";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -95,6 +96,11 @@ export default function Contact() {
 
   return (
     <section id="contact" className="min-h-screen py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8 border-t border-blue-900/50 bg-gradient-to-b from-slate-950 to-slate-900">
+      <SEO
+        title="Contact WebnexFusion - Get a Quote for Your Project"
+        description="Get in touch with WebnexFusion for web development, app development, and digital marketing inquiries. Start your project today!"
+        canonicalUrl="https://webnexfusion.com/contact"
+      />
       <div className="max-w-7xl mx-auto">
         {/* Header Section */}
         <div className="text-center mb-8 sm:mb-10 md:mb-12">

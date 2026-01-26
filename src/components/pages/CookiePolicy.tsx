@@ -14,6 +14,7 @@ import {
   Lock,
   Clock,
 } from "lucide-react";
+import SEO from "../SEO";
 
 export const CookiePolicy = () => {
   const [activeSection, setActiveSection] = useState("introduction");
@@ -484,6 +485,11 @@ We value your privacy and are committed to addressing your concerns promptly and
 
   return (
     <section className="relative min-h-screen pt-28 pb-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-slate-950 via-indigo-950/20 to-slate-900 overflow-hidden">
+      <SEO
+        title="Cookie Policy - WebnexFusion"
+        description="Learn about how WebnexFusion uses cookies to improve your experience and how you can manage them."
+        canonicalUrl="https://webnexfusion.com/cookie-policy"
+      />
       {/* Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl"></div>
@@ -553,8 +559,8 @@ We value your privacy and are committed to addressing your concerns promptly and
                   key={section.id}
                   onClick={() => scrollToSection(section.id)}
                   className={`w-full flex items-center gap-3 p-3 rounded-lg text-left transition-all duration-300 ${activeSection === section.id
-                      ? "bg-amber-500/20 border border-amber-500/30 text-white"
-                      : "text-slate-400 hover:text-white hover:bg-slate-800/50"
+                    ? "bg-amber-500/20 border border-amber-500/30 text-white"
+                    : "text-slate-400 hover:text-white hover:bg-slate-800/50"
                     }`}
                 >
                   <section.icon className="w-4 h-4 flex-shrink-0" />
@@ -589,8 +595,8 @@ We value your privacy and are committed to addressing your concerns promptly and
                         key={section.id}
                         onClick={() => scrollToSection(section.id)}
                         className={`w-full flex items-center gap-3 p-3 rounded-lg text-left transition-all duration-300 group ${activeSection === section.id
-                            ? "bg-amber-500/20 border border-amber-500/30 text-white"
-                            : "text-slate-400 hover:text-white hover:bg-slate-800/50"
+                          ? "bg-amber-500/20 border border-amber-500/30 text-white"
+                          : "text-slate-400 hover:text-white hover:bg-slate-800/50"
                           }`}
                       >
                         <section.icon className="w-4 h-4 flex-shrink-0" />
