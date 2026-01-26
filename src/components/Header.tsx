@@ -199,7 +199,7 @@ export default function Header() {
           </Link>
 
           <button
-            onClick={() => scrollToSection("contact")}
+            onClick={() => goToPage("/contact")}
             className="text-sm font-medium text-black bg-white hover:bg-neutral-200 px-5 py-2 rounded-full"
           >
             Let&apos;s Talk →
@@ -257,7 +257,7 @@ export default function Header() {
                   </button>
 
                   {/* SOLUTION */}
-                  <div className="border-t border-white/10 pt-4">
+                  {/* <div className="border-t border-white/10 pt-4">
                     <button
                       onClick={() => toggleDropdown("solution")}
                       className="flex justify-between w-full text-white/90 font-medium py-2"
@@ -276,7 +276,7 @@ export default function Header() {
                       open={openDropdown === "solution"}
                       onNavigate={scrollToSection}
                     />
-                  </div>
+                  </div> */}
 
                   {/* COMPANY */}
                   <div className="border-t border-white/10 pt-4">
@@ -328,7 +328,7 @@ export default function Header() {
                   {/* ACTIONS */}
                   <div className="pt-6 space-y-3">
                     <button
-                      onClick={() => scrollToSection("contact")}
+                      onClick={() => goToPage("/contact")}
                       className="w-full bg-white text-black py-3 rounded-full font-medium"
                     >
                       Let&apos;s Talk →

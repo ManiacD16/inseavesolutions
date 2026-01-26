@@ -66,7 +66,24 @@ export default function Hero() {
             </button>
 
             {/* Secondary Button */}
+            <button
+              onClick={() => scrollToSection("certifications")}
+              className="group relative inline-flex items-center justify-center gap-2
+      w-56 sm:w-60 h-14 sm:h-16
+      text-base sm:text-lg font-semibold rounded-full
+      border border-slate-700
+      bg-slate-900/60 text-slate-100
+      overflow-hidden transition-all duration-300
+      hover:border-indigo-400 hover:scale-[1.03]"
+            >
+              <span className="relative z-10 flex items-center gap-2">
+                <Award className="h-5 w-5" />
+                View Certifications
+              </span>
 
+              {/* subtle shine */}
+              <span className="absolute -left-10 top-0 h-full w-10 bg-white/10 rotate-12 translate-x-[-150%] group-hover:translate-x-[400%] transition-transform duration-700" />
+            </button>
           </div>
         </div>
       </div>
