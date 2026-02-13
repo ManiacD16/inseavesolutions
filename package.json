@@ -13,6 +13,7 @@
   "dependencies": {
     "@supabase/supabase-js": "^2.57.4",
     "@types/jsonwebtoken": "^9.0.10",
+    "axios": "^1.13.5",
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",
     "lucide-react": "^0.344.0",
@@ -22,6 +23,7 @@
     "react-helmet-async": "^2.0.5",
     "react-quill": "^2.0.0",
     "react-router-dom": "^7.11.0",
+    "recharts": "^3.7.0",
     "tailwind-merge": "3.4.0",
     "tailwindcss-animate": "1.0.7"
   },

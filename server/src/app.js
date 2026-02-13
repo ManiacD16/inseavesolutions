@@ -20,6 +20,11 @@ app.use('/api/blogs', require('./routes/blogRoutes'));
 app.use('/api/upload', require('./routes/uploadRoutes'));
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/contact', require('./routes/contactRoutes'));
+app.use('/api/analytics', require('./routes/analyticsRoutes'));
+
+// Track visitors on the main route (or you can apply it globally if preferred)
+const { trackVisitor } = require('./middleware/trackVisitor');
+app.use(trackVisitor);
 
 // Basic route
 app.get('/', (req, res) => {

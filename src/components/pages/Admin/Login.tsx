@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../../../context/AuthContext';
+import { Link } from 'react-router-dom';
 import { Lock, User } from 'lucide-react';
 
 export default function Login() {
@@ -65,7 +66,12 @@ export default function Login() {
                     </div>
 
                     <div className="space-y-2">
-                        <label className="text-sm font-medium text-neutral-300">Password</label>
+                        <div className="flex justify-between items-center">
+                            <label className="text-sm font-medium text-neutral-300">Password</label>
+                            <Link to="/admin/forgot-password" className="text-xs text-indigo-400 hover:text-indigo-300 transition">
+                                Forgot Password?
+                            </Link>
+                        </div>
                         <div className="relative">
                             <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-neutral-500" />
                             <input

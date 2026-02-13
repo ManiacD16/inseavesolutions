@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../../../context/AuthContext";
-import { Save, Lock, User, Upload } from "lucide-react";
+import { Save, Lock, User, Upload, Eye, EyeOff } from "lucide-react";
 import { useOutletContext } from "react-router-dom";
 
 interface AdminContextType {
@@ -22,6 +22,9 @@ export default function Settings() {
     const [currentPassword, setCurrentPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+    const [showNewPassword, setShowNewPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     const handleProfileUpdate = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -91,8 +94,8 @@ export default function Settings() {
     };
 
     const inputClasses = `w-full px-4 py-2 rounded-lg outline-none transition ${isDark
-            ? 'bg-white/5 border border-white/10 focus:border-indigo-500 text-white'
-            : 'bg-white border border-slate-200 focus:border-indigo-600 text-slate-900'
+        ? 'bg-white/5 border border-white/10 focus:border-indigo-500 text-white'
+        : 'bg-white border border-slate-200 focus:border-indigo-600 text-slate-900'
         }`;
 
     const labelClasses = `text-sm font-medium mb-1 block ${isDark ? 'text-neutral-300' : 'text-slate-700'}`;
@@ -203,32 +206,59 @@ export default function Settings() {
                 <form onSubmit={handlePasswordChange} className="space-y-4 max-w-md">
                     <div>
                         <label className={labelClasses}>Current Password</label>
-                        <input
-                            type="password"
-                            value={currentPassword}
-                            onChange={(e) => setCurrentPassword(e.target.value)}
-                            className={inputClasses}
-                        />
+                        <div className="relative">
+                            <input
+                                type={showCurrentPassword ? "text" : "password"}
+                                value={currentPassword}
+                                onChange={(e) => setCurrentPassword(e.target.value)}
+                                className={inputClasses}
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-neutral-300 transition"
+                            >
+                                {showCurrentPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                            </button>
+                        </div>
                     </div>
 
                     <div>
                         <label className={labelClasses}>New Password</label>
-                        <input
-                            type="password"
-                            value={newPassword}
-                            onChange={(e) => setNewPassword(e.target.value)}
-                            className={inputClasses}
-                        />
+                        <div className="relative">
+                            <input
+                                type={showNewPassword ? "text" : "password"}
+                                value={newPassword}
+                                onChange={(e) => setNewPassword(e.target.value)}
+                                className={inputClasses}
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setShowNewPassword(!showNewPassword)}
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-neutral-300 transition"
+                            >
+                                {showNewPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                            </button>
+                        </div>
                     </div>
 
                     <div>
                         <label className={labelClasses}>Confirm New Password</label>
-                        <input
-                            type="password"
-                            value={confirmPassword}
-                            onChange={(e) => setConfirmPassword(e.target.value)}
-                            className={inputClasses}
-                        />
+                        <div className="relative">
+                            <input
+                                type={showConfirmPassword ? "text" : "password"}
+                                value={confirmPassword}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
+                                className={inputClasses}
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-neutral-300 transition"
+                            >
+                                {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                            </button>
+                        </div>
                     </div>
 
                     <button

@@ -142,9 +142,106 @@ const registerInitialAdmin = async (req, res) => {
     }
 }
 
+const crypto = require('crypto');
+
+const forgotPassword = async (req, res) => {
+    const { email } = req.body;
+
+    try {
+        const { rows } = await db.query('SELECT * FROM users WHERE email = $1', [email]);
+        const user = rows[0];
+
+        if (!user) {
+            return res.status(404).json({ error: 'User with this email does not exist' });
+        }
+
+        // Generate 6-digit OTP
+        const otp = Math.floor(100000 + Math.random() * 900000).toString();
+        const expiry = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes from now
+
+        await db.query('UPDATE users SET reset_otp = $1, reset_otp_expiry = $2 WHERE id = $3', [otp, expiry, user.id]);
+
+        await sendEmail(
+            user.email,
+            'Password Reset OTP',
+            `Hello ${user.name},\n\nYour OTP for password reset is: ${otp}\n\nThis OTP is valid for 10 minutes.\n\nIf you did not request this, please ignore this email.`
+        );
+
+        res.json({ message: 'OTP sent to your email' });
+    } catch (error) {
+        console.error('Forgot password error:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
+const verifyOtp = async (req, res) => {
+    const { email, otp } = req.body;
+
+    try {
+        const { rows } = await db.query('SELECT * FROM users WHERE email = $1', [email]);
+        const user = rows[0];
+
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        if (user.reset_otp !== otp) {
+            return res.status(400).json({ error: 'Invalid OTP' });
+        }
+
+        if (new Date() > new Date(user.reset_otp_expiry)) {
+            return res.status(400).json({ error: 'OTP has expired' });
+        }
+
+        res.json({ message: 'OTP verified successfully' });
+    } catch (error) {
+        console.error('Verify OTP error:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
+const resetPassword = async (req, res) => {
+    const { email, otp, newPassword } = req.body;
+
+    try {
+        const { rows } = await db.query('SELECT * FROM users WHERE email = $1', [email]);
+        const user = rows[0];
+
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        if (user.reset_otp !== otp || new Date() > new Date(user.reset_otp_expiry)) {
+            return res.status(400).json({ error: 'Invalid or expired OTP' });
+        }
+
+        const salt = await bcrypt.genSalt(10);
+        const hash = await bcrypt.hash(newPassword, salt);
+
+        // Clear OTP and update password
+        await db.query('UPDATE users SET password_hash = $1, reset_otp = NULL, reset_otp_expiry = NULL WHERE id = $2', [hash, user.id]);
+
+        // Send confirmation email
+        const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+        await sendEmail(
+            user.email,
+            'Security Alert: Password Reset Success',
+            `Hello ${user.name},\n\nYour password has been successfully reset using OTP verification.\n\nIP Address: ${ip}`
+        );
+
+        res.json({ message: 'Password reset successfully' });
+    } catch (error) {
+        console.error('Reset password error:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
 module.exports = {
     login,
     updateProfile,
     changePassword,
-    registerInitialAdmin
+    registerInitialAdmin,
+    forgotPassword,
+    verifyOtp,
+    resetPassword
 };

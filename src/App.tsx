@@ -3,6 +3,7 @@ import { AuthProvider } from "./context/AuthContext";
 import Login from "./components/pages/Admin/Login";
 import Contacts from "./components/pages/Admin/Contacts";
 import Settings from "./components/pages/Admin/Settings";
+import ForgotPassword from "./components/pages/Admin/ForgotPassword"; // Added import
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -54,6 +55,7 @@ function App() {
 
             {/* Admin Routes */}
             <Route path="/admin/login" element={<Login />} />
+            <Route path="/admin/forgot-password" element={<ForgotPassword />} />
             <Route path="/admin" element={<AdminDashboard />}>
               <Route index element={<DashboardHome />} />
               <Route path="blogs" element={<BlogList />} />
