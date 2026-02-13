@@ -18,20 +18,51 @@ export default function Contact() {
   const handleSubmit = async () => {
     setIsSubmitting(true);
 
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
-    if (formData.fullName && formData.email && formData.phoneNumber && formData.message) {
-      setStatus('success');
-      setFormData({ fullName: '', email: '', companyName: '', countryCode: '+91', phoneNumber: '', service: '', message: '' });
-    } else {
+    if (!formData.fullName || !formData.email || !formData.phoneNumber || !formData.message) {
       setStatus('error');
+      setIsSubmitting(false);
+      return;
     }
 
-    setIsSubmitting(false);
+    try {
+      // Construct message with additional details
+      const fullMessage = `
+Service: ${formData.service}
+Company: ${formData.companyName}
+Phone: ${formData.countryCode} ${formData.phoneNumber}
 
-    setTimeout(() => {
-      setStatus('idle');
-    }, 3000);
+Message:
+${formData.message}
+        `.trim();
+
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.fullName,
+          email: formData.email,
+          subject: `New Inquiry: ${formData.service || 'General'}`,
+          message: fullMessage
+        }),
+      });
+
+      if (response.ok) {
+        setStatus('success');
+        setFormData({ fullName: '', email: '', companyName: '', countryCode: '+91', phoneNumber: '', service: '', message: '' });
+      } else {
+        setStatus('error');
+      }
+    } catch (error) {
+      console.error("Contact submit error:", error);
+      setStatus('error');
+    } finally {
+      setIsSubmitting(false);
+      setTimeout(() => {
+        setStatus('idle');
+      }, 3000);
+    }
   };
 
   const handleChange = (

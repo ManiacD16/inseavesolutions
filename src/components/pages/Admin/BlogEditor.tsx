@@ -1,12 +1,17 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useOutletContext } from "react-router-dom";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { ArrowLeft, Save } from "lucide-react";
+import { Save } from "lucide-react";
+
+interface AdminContextType {
+    isDark: boolean;
+}
 
 export default function BlogEditor() {
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
+    const { isDark } = useOutletContext<AdminContextType>();
     const isEditing = !!id;
 
     const [title, setTitle] = useState("");
@@ -20,14 +25,8 @@ export default function BlogEditor() {
 
     useEffect(() => {
         if (isEditing) {
-            // Fetch existing blog data
             const fetchBlog = async () => {
                 try {
-                    // Since we need ID to fetch for editing properly (slug might change), 
-                    // but our public API uses slug. 
-                    // However, the dashboard logic passes ID. Ideally we need an endpoint to get by ID or just filter from all.
-                    // For now, let's assume we can fetch by slug if we had it, or we need to add GET /api/blogs/id/:id
-                    // Or just fetch all and find (inefficient but works for now)
                     const response = await fetch('/api/blogs');
                     const data = await response.json();
                     const blog = data.find((b: any) => b.id === parseInt(id));
@@ -91,15 +90,22 @@ export default function BlogEditor() {
         }
     };
 
+    const inputClasses = `w-full px-4 py-2 rounded-lg outline-none transition ${isDark
+        ? 'bg-white/5 border border-white/10 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-white placeholder:text-neutral-500'
+        : 'bg-white border border-slate-200 focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 text-slate-900 placeholder:text-slate-400'
+        }`;
+
+    const labelClasses = `text-sm font-medium ${isDark ? 'text-neutral-300' : 'text-slate-700'}`;
+
     return (
-        <div className="text-white">
+        <div className={isDark ? 'text-white' : 'text-slate-900'}>
             <div className="max-w-4xl mx-auto">
                 <h1 className="text-3xl font-bold mb-8">
                     {isEditing ? "Edit Blog" : "Create New Blog"}
                 </h1>
 
                 {error && (
-                    <div className="p-4 bg-red-500/10 border border-red-500/20 text-red-300 rounded-lg mb-6">
+                    <div className="p-4 bg-red-500/10 border border-red-500/20 text-red-500 rounded-lg mb-6">
                         {error}
                     </div>
                 )}
@@ -107,50 +113,50 @@ export default function BlogEditor() {
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="space-y-2">
-                            <label className="text-sm font-medium text-neutral-300">Title</label>
+                            <label className={labelClasses}>Title</label>
                             <input
                                 type="text"
                                 value={title}
                                 onChange={(e) => setTitle(e.target.value)}
-                                className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition text-white"
+                                className={inputClasses}
                                 placeholder="Blog Title"
                                 required
                             />
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-sm font-medium text-neutral-300">Author</label>
+                            <label className={labelClasses}>Author</label>
                             <input
                                 type="text"
                                 value={author}
                                 onChange={(e) => setAuthor(e.target.value)}
-                                className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition text-white"
+                                className={inputClasses}
                                 placeholder="Author Name"
                             />
                         </div>
                     </div>
 
                     <div className="space-y-2">
-                        <label className="text-sm font-medium text-neutral-300">Description (Summary)</label>
+                        <label className={labelClasses}>Description (Summary)</label>
                         <textarea
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
-                            className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition text-white h-24 resize-none"
+                            className={`${inputClasses} h-24 resize-none`}
                             placeholder="Brief description for SEO and cards..."
                         />
                     </div>
 
                     <div className="space-y-2">
-                        <label className="text-sm font-medium text-neutral-300">Featured Image</label>
+                        <label className={labelClasses}>Featured Image</label>
                         <div className="flex gap-4 items-center">
                             <input
                                 type="text"
                                 value={imageUrl}
                                 onChange={(e) => setImageUrl(e.target.value)}
-                                className="flex-1 px-4 py-2 rounded-lg bg-white/5 border border-white/10 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition text-white"
+                                className={`flex-1 ${inputClasses}`} // Apply same input classes
                                 placeholder="Image URL or upload file"
                             />
-                            <label className="cursor-pointer bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-lg transition">
+                            <label className={`cursor-pointer px-4 py-2 rounded-lg transition ${isDark ? 'bg-white/10 hover:bg-white/20 text-white' : 'bg-slate-200 hover:bg-slate-300 text-slate-700'}`}>
                                 Upload
                                 <input
                                     type="file"
@@ -183,29 +189,29 @@ export default function BlogEditor() {
                             </label>
                         </div>
                         {imageUrl && (
-                            <img src={imageUrl} alt="Preview" className="h-32 w-auto object-cover rounded-lg border border-white/10 mt-2" />
+                            <img src={imageUrl} alt="Preview" className={`h-32 w-auto object-cover rounded-lg mt-2 ${isDark ? 'border border-white/10' : 'border border-slate-200'}`} />
                         )}
                     </div>
 
                     <div className="space-y-2">
-                        <label className="text-sm font-medium text-neutral-300">Tags (comma separated)</label>
+                        <label className={labelClasses}>Tags (comma separated)</label>
                         <input
                             type="text"
                             value={tags}
                             onChange={(e) => setTags(e.target.value)}
-                            className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition text-white"
+                            className={inputClasses}
                             placeholder="Tech, AI, Business"
                         />
                     </div>
 
                     <div className="space-y-2">
-                        <label className="text-sm font-medium text-neutral-300">Content</label>
-                        <div className="bg-white text-black rounded-lg overflow-hidden">
+                        <label className={labelClasses}>Content</label>
+                        <div className={`rounded-lg overflow-hidden ${isDark ? 'bg-white text-black' : 'bg-white border border-slate-200'}`}>
                             <ReactQuill
                                 theme="snow"
                                 value={content}
                                 onChange={setContent}
-                                className="h-64 mb-12" // mb-12 to make space for toolbar if needed or simple spacing
+                                className="h-64 mb-12"
                             />
                         </div>
                     </div>
@@ -213,7 +219,7 @@ export default function BlogEditor() {
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full md:w-auto px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium transition flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed mt-8"
+                        className="w-full md:w-auto px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium transition flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed mt-8 shadow-lg shadow-indigo-500/20"
                     >
                         <Save className="h-4 w-4" />
                         {loading ? "Saving..." : "Save Blog"}

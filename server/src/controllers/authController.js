@@ -44,10 +44,38 @@ const updateProfile = async (req, res) => {
     const userId = req.user.id;
 
     try {
+        // Get current user data to check for email change
+        const { rows: currentRows } = await db.query('SELECT * FROM users WHERE id = $1', [userId]);
+        const currentUser = currentRows[0];
+
+        if (!currentUser) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
         const { rows } = await db.query(
             'UPDATE users SET name = $1, email = $2, profile_pic = $3 WHERE id = $4 RETURNING id, username, email, name, profile_pic',
             [name, email, profile_pic, userId]
         );
+
+        // Check if email has changed
+        if (email && email !== currentUser.email) {
+            const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+
+            // Notify OLD email
+            await sendEmail(
+                currentUser.email,
+                'Security Alert: Email Address Changed',
+                `Hello ${currentUser.name},\n\nYour account email address was changed to ${email} from IP: ${ip}.\n\nIf this wasn't you, please contact support immediately.`
+            );
+
+            // Notify NEW email
+            await sendEmail(
+                email,
+                'Security Alert: Email Address Changed',
+                `Hello ${name},\n\nYour account email address has been successfully updated.\n\nLogin IP: ${ip}`
+            );
+        }
+
         res.json(rows[0]);
     } catch (error) {
         console.error('Update profile error:', error);

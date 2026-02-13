@@ -1,9 +1,15 @@
 import { useState } from "react";
 import { useAuth } from "../../../context/AuthContext";
 import { Save, Lock, User, Upload } from "lucide-react";
+import { useOutletContext } from "react-router-dom";
+
+interface AdminContextType {
+    isDark: boolean;
+}
 
 export default function Settings() {
     const { user, updateUser } = useAuth();
+    const { isDark } = useOutletContext<AdminContextType>();
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
 
@@ -84,27 +90,36 @@ export default function Settings() {
         }
     };
 
+    const inputClasses = `w-full px-4 py-2 rounded-lg outline-none transition ${isDark
+            ? 'bg-white/5 border border-white/10 focus:border-indigo-500 text-white'
+            : 'bg-white border border-slate-200 focus:border-indigo-600 text-slate-900'
+        }`;
+
+    const labelClasses = `text-sm font-medium mb-1 block ${isDark ? 'text-neutral-300' : 'text-slate-700'}`;
+    const cardClasses = `rounded-xl p-6 sm:p-8 ${isDark ? 'bg-white/5 border border-white/10' : 'bg-white border border-slate-200 shadow-sm'}`;
+    const headingClasses = `text-xl font-semibold mb-6 flex items-center gap-2 ${isDark ? 'text-white' : 'text-slate-800'}`;
+
     return (
         <div className="max-w-4xl mx-auto space-y-8">
-            <h1 className="text-3xl font-bold mb-8">Account Settings</h1>
+            <h1 className={`text-3xl font-bold mb-8 ${isDark ? 'text-white' : 'text-slate-900'}`}>Account Settings</h1>
 
             {message && (
-                <div className={`p-4 rounded-lg border ${message.type === 'success' ? 'bg-green-500/10 border-green-500/20 text-green-300' : 'bg-red-500/10 border-red-500/20 text-red-300'
+                <div className={`p-4 rounded-lg border ${message.type === 'success' ? 'bg-green-500/10 border-green-500/20 text-green-400' : 'bg-red-500/10 border-red-500/20 text-red-400'
                     }`}>
                     {message.text}
                 </div>
             )}
 
             {/* Profile Settings */}
-            <div className="bg-white/5 border border-white/10 rounded-xl p-6 sm:p-8">
-                <h2 className="text-xl font-semibold mb-6 flex items-center gap-2">
+            <div className={cardClasses}>
+                <h2 className={headingClasses}>
                     <User className="h-5 w-5 text-indigo-400" />
                     Profile Information
                 </h2>
 
                 <form onSubmit={handleProfileUpdate} className="space-y-6">
                     <div className="flex items-center gap-6 mb-6">
-                        <div className="w-20 h-20 rounded-full bg-white/10 flex items-center justify-center overflow-hidden border border-white/20">
+                        <div className={`w-20 h-20 rounded-full flex items-center justify-center overflow-hidden border ${isDark ? 'bg-white/10 border-white/20' : 'bg-slate-100 border-slate-200'}`}>
                             {profilePic ? (
                                 <img src={profilePic} alt="Profile" className="w-full h-full object-cover" />
                             ) : (
@@ -112,16 +127,16 @@ export default function Settings() {
                             )}
                         </div>
                         <div className="flex-1">
-                            <label className="text-sm font-medium text-neutral-300 mb-1 block">Profile Picture URL</label>
+                            <label className={labelClasses}>Profile Picture URL</label>
                             <div className="flex gap-2">
                                 <input
                                     type="text"
                                     value={profilePic}
                                     onChange={(e) => setProfilePic(e.target.value)}
-                                    className="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white focus:border-indigo-500 outline-none"
+                                    className={`flex-1 ${inputClasses}`}
                                     placeholder="https://..."
                                 />
-                                <label className="cursor-pointer bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-lg transition flex items-center gap-2">
+                                <label className={`cursor-pointer px-4 py-2 rounded-lg transition flex items-center gap-2 ${isDark ? 'bg-white/10 hover:bg-white/20 text-white' : 'bg-slate-200 hover:bg-slate-300 text-slate-700'}`}>
                                     <Upload className="h-4 w-4" />
                                     <input
                                         type="file"
@@ -148,21 +163,21 @@ export default function Settings() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label className="text-sm font-medium text-neutral-300 mb-1 block">Display Name</label>
+                            <label className={labelClasses}>Display Name</label>
                             <input
                                 type="text"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
-                                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white focus:border-indigo-500 outline-none"
+                                className={inputClasses}
                             />
                         </div>
                         <div>
-                            <label className="text-sm font-medium text-neutral-300 mb-1 block">Email Address</label>
+                            <label className={labelClasses}>Email Address</label>
                             <input
                                 type="email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white focus:border-indigo-500 outline-none"
+                                className={inputClasses}
                             />
                         </div>
                     </div>
@@ -179,47 +194,47 @@ export default function Settings() {
             </div>
 
             {/* Security Settings */}
-            <div className="bg-white/5 border border-white/10 rounded-xl p-6 sm:p-8">
-                <h2 className="text-xl font-semibold mb-6 flex items-center gap-2">
+            <div className={cardClasses}>
+                <h2 className={headingClasses}>
                     <Lock className="h-5 w-5 text-indigo-400" />
                     Security & Password
                 </h2>
 
                 <form onSubmit={handlePasswordChange} className="space-y-4 max-w-md">
                     <div>
-                        <label className="text-sm font-medium text-neutral-300 mb-1 block">Current Password</label>
+                        <label className={labelClasses}>Current Password</label>
                         <input
                             type="password"
                             value={currentPassword}
                             onChange={(e) => setCurrentPassword(e.target.value)}
-                            className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white focus:border-indigo-500 outline-none"
+                            className={inputClasses}
                         />
                     </div>
 
                     <div>
-                        <label className="text-sm font-medium text-neutral-300 mb-1 block">New Password</label>
+                        <label className={labelClasses}>New Password</label>
                         <input
                             type="password"
                             value={newPassword}
                             onChange={(e) => setNewPassword(e.target.value)}
-                            className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white focus:border-indigo-500 outline-none"
+                            className={inputClasses}
                         />
                     </div>
 
                     <div>
-                        <label className="text-sm font-medium text-neutral-300 mb-1 block">Confirm New Password</label>
+                        <label className={labelClasses}>Confirm New Password</label>
                         <input
                             type="password"
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
-                            className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white focus:border-indigo-500 outline-none"
+                            className={inputClasses}
                         />
                     </div>
 
                     <button
                         type="submit"
                         disabled={loading}
-                        className="bg-red-600/80 hover:bg-red-600 text-white px-6 py-2 rounded-lg transition font-medium flex items-center gap-2 disabled:opacity-50 mt-4"
+                        className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg transition font-medium flex items-center gap-2 disabled:opacity-50 mt-4 shadow-lg shadow-red-500/20"
                     >
                         <Lock className="h-4 w-4" />
                         Change Password
