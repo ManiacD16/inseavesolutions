@@ -123,7 +123,7 @@ export default function Header() {
           </button>
 
           {/* COMPANY */}
-          {/* <div
+          <div
             className="relative"
             onMouseEnter={openCompanyMenu}
             onMouseLeave={closeCompanyMenuSoon}
@@ -131,13 +131,13 @@ export default function Header() {
             <button className="flex items-center gap-1 hover:text-white transition-colors">
               Company <ChevronDown className="h-4 w-4" />
             </button>
-          </div> */}
+          </div>
 
           {/* SOLUTION */}
           <div
             className="relative"
-          // onMouseEnter={openSolutionMenu}
-          // onMouseLeave={closeSolutionMenuSoon}
+            onMouseEnter={openSolutionMenu}
+            onMouseLeave={closeSolutionMenuSoon}
           >
             <button
               onClick={() => scrollToSection("services")}
