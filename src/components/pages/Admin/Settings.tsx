@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useAuth } from "../../../context/AuthContext";
 import { Save, Lock, User, Upload, Eye, EyeOff } from "lucide-react";
 import { useOutletContext } from "react-router-dom";
+import API_BASE_URL from "../../../config/api";
 
 interface AdminContextType {
     isDark: boolean;
@@ -33,7 +34,7 @@ export default function Settings() {
 
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch('/api/auth/profile', {
+            const response = await fetch(`${API_BASE_URL}/api/auth/profile`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -66,7 +67,7 @@ export default function Settings() {
 
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch('/api/auth/password', {
+            const response = await fetch(`${API_BASE_URL}/api/auth/password`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -151,7 +152,7 @@ export default function Settings() {
                                             const formData = new FormData();
                                             formData.append('image', file);
                                             try {
-                                                const res = await fetch('/api/upload', { method: 'POST', body: formData });
+                                                const res = await fetch(`${API_BASE_URL}/api/upload`, { method: 'POST', body: formData });
                                                 if (res.ok) {
                                                     const data = await res.json();
                                                     setProfilePic(data.imageUrl);

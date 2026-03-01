@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../../../context/AuthContext";
 import { Mail, Calendar } from "lucide-react";
 import { useOutletContext } from "react-router-dom";
+import API_BASE_URL from "../../../config/api";
 
 interface Contact {
     id: number;
@@ -30,7 +31,7 @@ export default function Contacts() {
 
     const fetchContacts = async () => {
         try {
-            const response = await fetch('/api/contact', {
+            const response = await fetch(`${API_BASE_URL}/api/contact`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }

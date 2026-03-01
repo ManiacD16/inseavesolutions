@@ -3,6 +3,7 @@ import { useAuth } from "../../../context/AuthContext";
 import { FileText, MessageSquare, Users, TrendingUp } from "lucide-react";
 import { useOutletContext } from "react-router-dom";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import API_BASE_URL from "../../../config/api";
 
 interface AdminContextType {
     isDark: boolean;
@@ -28,18 +29,18 @@ export default function DashboardHome() {
         const fetchStats = async () => {
             try {
                 // Fetch Blogs Count
-                const blogsRes = await fetch('/api/blogs');
+                const blogsRes = await fetch(`${API_BASE_URL}/api/blogs`);
                 const blogsData = blogsRes.ok ? await blogsRes.json() : [];
 
                 // Fetch Contacts Count
                 const token = localStorage.getItem('token');
-                const contactsRes = await fetch('/api/contact', {
+                const contactsRes = await fetch(`${API_BASE_URL}/api/contact`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 const contactsData = contactsRes.ok ? await contactsRes.json() : [];
 
                 // Fetch Analytics
-                const analyticsRes = await fetch('/api/analytics', {
+                const analyticsRes = await fetch(`${API_BASE_URL}/api/analytics`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 const analyticsData = analyticsRes.ok ? await analyticsRes.json() : {

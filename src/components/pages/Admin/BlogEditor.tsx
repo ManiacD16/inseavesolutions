@@ -3,6 +3,7 @@ import { useNavigate, useParams, useOutletContext } from "react-router-dom";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { Save } from "lucide-react";
+import API_BASE_URL from "../../../config/api";
 
 interface AdminContextType {
     isDark: boolean;
@@ -27,7 +28,7 @@ export default function BlogEditor() {
         if (isEditing) {
             const fetchBlog = async () => {
                 try {
-                    const response = await fetch('/api/blogs');
+                    const response = await fetch(`${API_BASE_URL}/api/blogs`);
                     const data = await response.json();
                     const blog = data.find((b: any) => b.id === parseInt(id));
 
@@ -66,7 +67,7 @@ export default function BlogEditor() {
         };
 
         try {
-            const url = isEditing ? `/api/blogs/${id}` : '/api/blogs';
+            const url = isEditing ? `${API_BASE_URL}/api/blogs/${id}` : `${API_BASE_URL}/api/blogs`;
             const method = isEditing ? 'PUT' : 'POST';
 
             const response = await fetch(url, {
@@ -171,7 +172,7 @@ export default function BlogEditor() {
 
                                         try {
                                             setLoading(true);
-                                            const res = await fetch('/api/upload', {
+                                            const res = await fetch(`${API_BASE_URL}/api/upload`, {
                                                 method: 'POST',
                                                 body: formData
                                             });

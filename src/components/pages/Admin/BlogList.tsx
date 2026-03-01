@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useOutletContext } from "react-router-dom";
 import { Edit, Trash2, Plus, Eye, Calendar, User, FileText } from "lucide-react";
 import { useAuth } from "../../../context/AuthContext";
+import API_BASE_URL from "../../../config/api";
 
 interface BlogPost {
     id: number;
@@ -29,7 +30,7 @@ export default function BlogList() {
 
     const fetchBlogs = async () => {
         try {
-            const response = await fetch('/api/blogs');
+            const response = await fetch(`${API_BASE_URL}/api/blogs`);
             if (!response.ok) throw new Error('Failed to fetch blogs');
             const data = await response.json();
             setBlogs(data);
@@ -44,7 +45,7 @@ export default function BlogList() {
         if (!window.confirm('Are you sure you want to delete this blog?')) return;
 
         try {
-            const response = await fetch(`/api/blogs/${id}`, {
+            const response = await fetch(`${API_BASE_URL}/api/blogs/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useAuth } from '../../../context/AuthContext';
 import { Link } from 'react-router-dom';
 import { Lock, User } from 'lucide-react';
+import API_BASE_URL from '../../../config/api';
 
 export default function Login() {
     const [username, setUsername] = useState('');
@@ -16,7 +17,7 @@ export default function Login() {
         setLoading(true);
 
         try {
-            const response = await fetch('/api/auth/login', {
+            const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Calendar, ArrowUpRight } from "lucide-react";
 import SEO from "../SEO";
+import API_BASE_URL from "../../config/api";
 
 interface Blog {
   id: number;
@@ -63,7 +64,7 @@ export default function Blog() {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await fetch('/api/blogs');
+        const response = await fetch(`${API_BASE_URL}/api/blogs`);
         if (response.ok) {
           const data = await response.json();
           setBlogs(data);

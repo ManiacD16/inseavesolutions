@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Calendar, ArrowLeft, User, Share2 } from "lucide-react";
 import { Helmet } from "react-helmet-async";
+import API_BASE_URL from "../../config/api";
 
 interface Blog {
     id: number;
@@ -24,7 +25,7 @@ export default function BlogDetail() {
     useEffect(() => {
         const fetchBlog = async () => {
             try {
-                const response = await fetch(`/api/blogs/${slug}`);
+                const response = await fetch(`${API_BASE_URL}/api/blogs/${slug}`);
                 if (!response.ok) {
                     throw new Error("Blog not found");
                 }

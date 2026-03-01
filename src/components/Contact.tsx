@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Send, CheckCircle, AlertCircle, Mail, Phone, MapPin } from 'lucide-react';
 import SEO from "./SEO";
+import API_BASE_URL from "../config/api";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -35,7 +36,7 @@ Message:
 ${formData.message}
         `.trim();
 
-      const response = await fetch('/api/contact', {
+      const response = await fetch(`${API_BASE_URL}/api/contact`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
