@@ -10,7 +10,7 @@ const seedAdmin = async () => {
         }
 
         const salt = await bcrypt.genSalt(10);
-        const hash = await bcrypt.hash('admin123', salt);
+        const hash = await bcrypt.hash('12345', salt);
 
         await db.query(
             'INSERT INTO users (username, password_hash, name, email, profile_pic) VALUES ($1, $2, $3, $4, $5)',
@@ -19,7 +19,7 @@ const seedAdmin = async () => {
 
         console.log('Admin user created successfully');
         console.log('Username: admin');
-        console.log('Password: admin123');
+        console.log('Password: 12345');
     } catch (error) {
         console.error('Error seeding admin:', error);
     }

@@ -22,6 +22,8 @@ const createTables = async () => {
         email VARCHAR(255) UNIQUE,
         name VARCHAR(100),
         profile_pic VARCHAR(512),
+        reset_otp VARCHAR(10),
+        reset_otp_expiry TIMESTAMP,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 
@@ -33,6 +35,15 @@ const createTables = async () => {
         message TEXT,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
+
+    CREATE TABLE IF NOT EXISTS visitors (
+        id SERIAL PRIMARY KEY,
+        ip_address VARCHAR(45) NOT NULL,
+        visit_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+
+    ALTER TABLE users ADD COLUMN IF NOT EXISTS reset_otp VARCHAR(10);
+    ALTER TABLE users ADD COLUMN IF NOT EXISTS reset_otp_expiry TIMESTAMP;
   `;
 
     try {

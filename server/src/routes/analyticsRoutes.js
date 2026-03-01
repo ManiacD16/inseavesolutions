@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db');
 const { recordVisit } = require('../middleware/trackVisitor');
+const { sendDbAwareError } = require('../utils/dbError');
 
 // Public endpoint to record a visit
 router.post('/visit', recordVisit);
@@ -60,8 +61,7 @@ router.get('/', async (req, res) => {
             graph: graph.rows
         });
     } catch (error) {
-        console.error('Error fetching analytics:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        sendDbAwareError(res, 'Error fetching analytics', error);
     }
 });
 

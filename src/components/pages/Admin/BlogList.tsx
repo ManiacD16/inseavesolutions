@@ -3,6 +3,8 @@ import { Link, useOutletContext } from "react-router-dom";
 import { Edit, Trash2, Plus, Eye, Calendar, User, FileText } from "lucide-react";
 import { useAuth } from "../../../context/AuthContext";
 import API_BASE_URL from "../../../config/api";
+import toast from 'react-hot-toast';
+import Loader from "../../Loader";
 
 interface BlogPost {
     id: number;
@@ -35,7 +37,9 @@ export default function BlogList() {
             const data = await response.json();
             setBlogs(data);
         } catch (err) {
-            setError(err instanceof Error ? err.message : 'An error occurred');
+            const message = err instanceof Error ? err.message : 'An error occurred';
+            setError(message);
+            toast.error(message);
         } finally {
             setIsLoading(false);
         }
@@ -44,6 +48,7 @@ export default function BlogList() {
     const handleDelete = async (id: number) => {
         if (!window.confirm('Are you sure you want to delete this blog?')) return;
 
+        const deleteToast = toast.loading('Deleting blog...');
         try {
             const response = await fetch(`${API_BASE_URL}/api/blogs/${id}`, {
                 method: 'DELETE',
@@ -54,15 +59,16 @@ export default function BlogList() {
 
             if (response.ok) {
                 setBlogs(blogs.filter(blog => blog.id !== id));
+                toast.success('Blog deleted successfully', { id: deleteToast });
             } else {
                 throw new Error('Failed to delete blog');
             }
         } catch (err) {
-            alert('Error deleting blog');
+            toast.error('Error deleting blog', { id: deleteToast });
         }
     };
 
-    if (isLoading) return <div className={`p-8 text-center ${isDark ? 'text-neutral-400' : 'text-neutral-500'}`}>Loading blogs...</div>;
+    if (isLoading) return <div className="p-8"><Loader /></div>;
     if (error) return <div className="p-8 text-center text-red-400">{error}</div>;
 
     return (

@@ -2,7 +2,10 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const path = require('path');
-require('dotenv').config();
+const { envFileName } = require('./config/env');
+const db = require('./db');
+const { bootstrapDatabase } = require('./db/bootstrap');
+const { getDbErrorResponse } = require('./utils/dbError');
 
 const app = express();
 
@@ -41,6 +44,32 @@ app.get('/', (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+const startServer = async () => {
+    try {
+        await db.testConnection();
+    } catch (error) {
+        const response = getDbErrorResponse(error);
+        console.error(`Database startup check failed: ${response.error}`);
+        process.exit(1);
+    }
+
+    if (process.env.AUTO_DB_BOOTSTRAP !== 'false') {
+        try {
+            const { seededAdmin } = await bootstrapDatabase();
+            if (seededAdmin) {
+                console.log('Admin user created from environment defaults.');
+            }
+        } catch (error) {
+            const response = getDbErrorResponse(error);
+            console.error(`Database bootstrap failed: ${response.error}`);
+            process.exit(1);
+        }
+    }
+
+    app.listen(PORT, () => {
+        console.log(`Using env file: ${envFileName}`);
+        console.log(`Server is running on port ${PORT}`);
+    });
+};
+
+startServer();

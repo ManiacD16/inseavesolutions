@@ -2,6 +2,7 @@ const db = require('../db');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const sendEmail = require('../utils/emailService');
+const { sendDbAwareError } = require('../utils/dbError');
 
 const login = async (req, res) => {
     const { username, password } = req.body;
@@ -34,9 +35,14 @@ const login = async (req, res) => {
             },
         });
     } catch (error) {
-        console.error('Login error:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        sendDbAwareError(res, 'Login error', error);
     }
+};
+
+const logout = async (req, res) => {
+    // In a stateless JWT implementation, we just return a success response.
+    // The actual token invalidation happens on the frontend.
+    res.json({ message: 'Logged out successfully' });
 };
 
 const updateProfile = async (req, res) => {
@@ -78,8 +84,7 @@ const updateProfile = async (req, res) => {
 
         res.json(rows[0]);
     } catch (error) {
-        console.error('Update profile error:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        sendDbAwareError(res, 'Update profile error', error);
     }
 };
 
@@ -113,8 +118,7 @@ const changePassword = async (req, res) => {
 
         res.json({ message: 'Password updated successfully' });
     } catch (error) {
-        console.error('Change password error:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        sendDbAwareError(res, 'Change password error', error);
     }
 };
 
@@ -137,8 +141,7 @@ const registerInitialAdmin = async (req, res) => {
 
         res.status(201).json(newUser[0]);
     } catch (error) {
-        console.error("Register error", error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        sendDbAwareError(res, 'Register error', error);
     }
 }
 
@@ -169,8 +172,7 @@ const forgotPassword = async (req, res) => {
 
         res.json({ message: 'OTP sent to your email' });
     } catch (error) {
-        console.error('Forgot password error:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        sendDbAwareError(res, 'Forgot password error', error);
     }
 };
 
@@ -195,8 +197,7 @@ const verifyOtp = async (req, res) => {
 
         res.json({ message: 'OTP verified successfully' });
     } catch (error) {
-        console.error('Verify OTP error:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        sendDbAwareError(res, 'Verify OTP error', error);
     }
 };
 
@@ -231,13 +232,13 @@ const resetPassword = async (req, res) => {
 
         res.json({ message: 'Password reset successfully' });
     } catch (error) {
-        console.error('Reset password error:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        sendDbAwareError(res, 'Reset password error', error);
     }
 };
 
 module.exports = {
     login,
+    logout,
     updateProfile,
     changePassword,
     registerInitialAdmin,

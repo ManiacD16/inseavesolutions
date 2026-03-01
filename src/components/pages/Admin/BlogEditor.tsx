@@ -3,7 +3,9 @@ import { useNavigate, useParams, useOutletContext } from "react-router-dom";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { Save } from "lucide-react";
+import toast from 'react-hot-toast';
 import API_BASE_URL from "../../../config/api";
+import Loader from "../../Loader";
 
 interface AdminContextType {
     isDark: boolean;
@@ -40,11 +42,15 @@ export default function BlogEditor() {
                         setImageUrl(blog.image_url || "");
                         setTags(blog.tags ? blog.tags.join(", ") : "");
                     } else {
-                        setError("Blog not found");
+                        const message = "Blog not found";
+                        setError(message);
+                        toast.error(message);
                     }
                 } catch (err) {
+                    const message = "Failed to load blog";
                     console.error(err);
-                    setError("Failed to load blog");
+                    setError(message);
+                    toast.error(message);
                 }
             };
 
@@ -66,6 +72,7 @@ export default function BlogEditor() {
             tags: tags.split(",").map(t => t.trim()).filter(t => t),
         };
 
+        const saveToast = toast.loading(isEditing ? 'Updating blog...' : 'Creating blog...');
         try {
             const url = isEditing ? `${API_BASE_URL}/api/blogs/${id}` : `${API_BASE_URL}/api/blogs`;
             const method = isEditing ? 'PUT' : 'POST';
@@ -83,9 +90,12 @@ export default function BlogEditor() {
                 throw new Error(data.error || "Failed to save blog");
             }
 
+            toast.success(isEditing ? 'Blog updated successfully!' : 'Blog created successfully!', { id: saveToast });
             navigate('/admin');
         } catch (err) {
-            setError(err instanceof Error ? err.message : "An error occurred");
+            const message = err instanceof Error ? err.message : "An error occurred";
+            setError(message);
+            toast.error(message, { id: saveToast });
         } finally {
             setLoading(false);
         }
@@ -100,6 +110,7 @@ export default function BlogEditor() {
 
     return (
         <div className={isDark ? 'text-white' : 'text-slate-900'}>
+            {loading && <Loader fullScreen />}
             <div className="max-w-4xl mx-auto">
                 <h1 className="text-3xl font-bold mb-8">
                     {isEditing ? "Edit Blog" : "Create New Blog"}
@@ -170,6 +181,7 @@ export default function BlogEditor() {
                                         const formData = new FormData();
                                         formData.append('image', file);
 
+                                        const uploadToast = toast.loading('Uploading image...');
                                         try {
                                             setLoading(true);
                                             const res = await fetch(`${API_BASE_URL}/api/upload`, {
@@ -179,9 +191,11 @@ export default function BlogEditor() {
                                             if (!res.ok) throw new Error('Upload failed');
                                             const data = await res.json();
                                             setImageUrl(data.imageUrl);
+                                            toast.success('Image uploaded', { id: uploadToast });
                                         } catch (err) {
                                             console.error(err);
                                             setError('Image upload failed');
+                                            toast.error('Image upload failed', { id: uploadToast });
                                         } finally {
                                             setLoading(false);
                                         }

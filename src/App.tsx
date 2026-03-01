@@ -1,4 +1,5 @@
 import { Routes, Route, useLocation } from "react-router-dom";
+import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from "./context/AuthContext";
 import Login from "./components/pages/Admin/Login";
 import Contacts from "./components/pages/Admin/Contacts";
@@ -30,6 +31,7 @@ function App() {
 
   return (
     <AuthProvider>
+      <Toaster position="top-right" />
       <ScrollToTop />
       <div className="min-h-screen bg-[#020617] text-white relative">
         {/* Background effects */}

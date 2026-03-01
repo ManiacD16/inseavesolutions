@@ -1,4 +1,5 @@
 const db = require('../db');
+const { sendDbAwareError } = require('../utils/dbError');
 
 const trackVisitor = async (req, res, next) => {
     // Only track GET requests to the main site, or specifically marked routes
@@ -19,8 +20,7 @@ const recordVisit = async (req, res) => {
         await db.query('INSERT INTO visitors (ip_address) VALUES ($1)', [ip]);
         res.status(200).json({ message: 'Visit recorded' });
     } catch (error) {
-        console.error('Error recording visit:', error);
-        res.status(500).json({ error: 'Failed to record visit' });
+        sendDbAwareError(res, 'Error recording visit', error);
     }
 };
 

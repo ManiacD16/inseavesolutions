@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db');
 const authMiddleware = require('../middleware/authMiddleware');
+const { sendDbAwareError } = require('../utils/dbError');
 
 // Public: Submit contact form
 router.post('/', async (req, res) => {
@@ -13,8 +14,7 @@ router.post('/', async (req, res) => {
         );
         res.status(201).json({ message: 'Message sent successfully' });
     } catch (error) {
-        console.error('Contact submit error:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        sendDbAwareError(res, 'Contact submit error', error);
     }
 });
 
@@ -24,8 +24,7 @@ router.get('/', authMiddleware, async (req, res) => {
         const { rows } = await db.query('SELECT * FROM contacts ORDER BY created_at DESC');
         res.json(rows);
     } catch (error) {
-        console.error('Fetch contacts error:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        sendDbAwareError(res, 'Fetch contacts error', error);
     }
 });
 

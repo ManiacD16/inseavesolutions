@@ -1,5 +1,7 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useContext, useState, ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import API_BASE_URL from '../config/api';
 
 interface User {
     id: number;
@@ -38,15 +40,32 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setUser(newUser);
         localStorage.setItem('token', newToken);
         localStorage.setItem('user', JSON.stringify(newUser));
+        toast.success(`Welcome back, ${newUser.name || newUser.username}!`);
         navigate('/admin');
     };
 
-    const logout = () => {
-        setToken(null);
-        setUser(null);
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        navigate('/admin/login');
+    const logout = async () => {
+        const loadingToastId = toast.loading('Logging out...');
+        try {
+            if (token) {
+                await fetch(`${API_BASE_URL}/api/auth/logout`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+            }
+            toast.success('Logged out successfully', { id: loadingToastId });
+        } catch (error) {
+            console.error('Logout error:', error);
+            toast.error('Session ended', { id: loadingToastId });
+        } finally {
+            setToken(null);
+            setUser(null);
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            navigate('/admin/login');
+        }
     };
 
     const updateUser = (updatedUser: User) => {

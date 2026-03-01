@@ -1,4 +1,5 @@
 const db = require('../db');
+const { sendDbAwareError } = require('../utils/dbError');
 
 // Helper to generate slug
 const generateSlug = (title) => {
@@ -13,8 +14,7 @@ const getAllBlogs = async (req, res) => {
         const { rows } = await db.query('SELECT * FROM blogs ORDER BY created_at DESC');
         res.json(rows);
     } catch (error) {
-        console.error('Error fetching blogs:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        sendDbAwareError(res, 'Error fetching blogs', error);
     }
 };
 
@@ -27,8 +27,7 @@ const getBlogBySlug = async (req, res) => {
         }
         res.json(rows[0]);
     } catch (error) {
-        console.error('Error fetching blog by slug:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        sendDbAwareError(res, 'Error fetching blog by slug', error);
     }
 };
 
@@ -52,7 +51,7 @@ const createBlog = async (req, res) => {
         if (error.code === '23505') { // Unique constraint violation for slug
             return res.status(400).json({ error: 'A blog with this title already exists' });
         }
-        res.status(500).json({ error: error.message, details: error });
+        sendDbAwareError(res, 'Error creating blog', error);
     }
 };
 
@@ -75,8 +74,7 @@ const updateBlog = async (req, res) => {
         }
         res.json(rows[0]);
     } catch (error) {
-        console.error('Error updating blog:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        sendDbAwareError(res, 'Error updating blog', error);
     }
 };
 
@@ -89,8 +87,7 @@ const deleteBlog = async (req, res) => {
         }
         res.status(204).send(); // No content
     } catch (error) {
-        console.error('Error deleting blog:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        sendDbAwareError(res, 'Error deleting blog', error);
     }
 };
 
