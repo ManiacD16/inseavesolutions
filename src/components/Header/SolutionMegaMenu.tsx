@@ -11,7 +11,7 @@ type Props = {
   onEnter?: () => void;
   onLeave?: () => void;
 
-  onNavigate?: (id: string) => void;
+  onNavigate?: (path: string) => void;
 
   // mobile: collapse control (optional)
   title?: string;
@@ -26,32 +26,32 @@ export default function SolutionMegaMenu({
   // title = "Solution",
 }: Props) {
   const services = [
-    { label: "Managed Services", id: "services" },
-    { label: "IT Consulting & Advisory", id: "services" },
-    { label: "Cyber Security", id: "services" },
-    { label: "Web Development", id: "services" },
-    { label: "Mobile Development", id: "services" },
-    { label: "Cloud Services", id: "services" },
+    { label: "Managed Services", path: "/solutions/managed-services" },
+    { label: "IT Consulting & Advisory", path: "/solutions/it-consulting-advisory" },
+    { label: "Cyber Security", path: "/solutions/cyber-security" },
+    { label: "Web Development", path: "/solutions/web-development" },
+    { label: "Mobile Development", path: "/solutions/mobile-development" },
+    { label: "Cloud Services", path: "/solutions/cloud-services" },
   ];
 
   const challenges = [
-    { label: "Digital Transformation", icon: Workflow, id: "solution" },
-    { label: "Security", icon: ShieldCheck, id: "solution" },
-    { label: "Automation", icon: Cog, id: "solution" },
-    { label: "Gaining Efficiency", icon: Gauge, id: "solution" },
+    { label: "Digital Transformation", icon: Workflow, path: "/solutions/digital-transformation" },
+    { label: "Security", icon: ShieldCheck, path: "/solutions/security" },
+    { label: "Automation", icon: Cog, path: "/solutions/automation" },
+    { label: "Gaining Efficiency", icon: Gauge, path: "/solutions/gaining-efficiency" },
   ];
 
   const industries = [
-    { label: "Industry Manufacturing", id: "industries" },
-    { label: "Transportation Logistics", id: "industries" },
-    { label: "Healthcare", id: "industries" },
-    { label: "Banks & Insurance", id: "industries" },
-    { label: "Consulting Providers", id: "industries" },
-    { label: "Non Profit", id: "industries" },
+    { label: "Industry Manufacturing", path: "/solutions/industry/industry-manufacturing" },
+    { label: "Transportation Logistics", path: "/solutions/industry/transportation-logistics" },
+    { label: "Healthcare", path: "/solutions/industry/healthcare" },
+    { label: "Banks & Insurance", path: "/solutions/industry/banks-insurance" },
+    { label: "Consulting Providers", path: "/solutions/industry/consulting-providers" },
+    { label: "Non Profit", path: "/solutions/industry/non-profit" },
   ];
 
-  const go = (id: string) => {
-    onNavigate?.(id);
+  const go = (path: string) => {
+    onNavigate?.(path);
   };
 
   // ---- Desktop wrapper (full width overlay under header)
@@ -82,7 +82,7 @@ export default function SolutionMegaMenu({
                     {services.map((s) => (
                       <button
                         key={s.label}
-                        onClick={() => go(s.id)}
+                        onClick={() => go(s.path)}
                         className="block text-left w-full text-white/75 hover:text-white transition-colors"
                       >
                         {s.label}
@@ -103,7 +103,7 @@ export default function SolutionMegaMenu({
                       return (
                         <button
                           key={c.label}
-                          onClick={() => go(c.id)}
+                          onClick={() => go(c.path)}
                           className="group text-left rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 transition-colors p-5"
                         >
                           <div className="h-10 w-10 rounded-xl bg-white/10 border border-white/10 flex items-center justify-center">
@@ -130,7 +130,7 @@ export default function SolutionMegaMenu({
                     {industries.map((i) => (
                       <button
                         key={i.label}
-                        onClick={() => go(i.id)}
+                        onClick={() => go(i.path)}
                         className="block text-left w-full text-white/75 hover:text-white transition-colors"
                       >
                         {i.label}
@@ -139,7 +139,7 @@ export default function SolutionMegaMenu({
                   </div>
 
                   <button
-                    onClick={() => go("industries")}
+                    onClick={() => go("/solutions/industries")}
                     className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-white/80 hover:text-white transition-colors"
                   >
                     View all <ArrowUpRight className="h-4 w-4" />
@@ -170,7 +170,7 @@ export default function SolutionMegaMenu({
       {services.map((s) => (
         <button
           key={s.label}
-          onClick={() => go(s.id)}
+          onClick={() => go(s.path)}
           className="w-full text-left px-2 py-2 rounded-xl text-white/75 hover:text-white hover:bg-white/10 transition-colors"
         >
           {s.label}
@@ -183,7 +183,7 @@ export default function SolutionMegaMenu({
       {challenges.map((c) => (
         <button
           key={c.label}
-          onClick={() => go(c.id)}
+          onClick={() => go(c.path)}
           className="w-full text-left px-2 py-2 rounded-xl text-white/75 hover:text-white hover:bg-white/10 transition-colors"
         >
           {c.label}
@@ -196,7 +196,7 @@ export default function SolutionMegaMenu({
       {industries.map((i) => (
         <button
           key={i.label}
-          onClick={() => go(i.id)}
+          onClick={() => go(i.path)}
           className="w-full text-left px-2 py-2 rounded-xl text-white/75 hover:text-white hover:bg-white/10 transition-colors"
         >
           {i.label}
@@ -204,7 +204,7 @@ export default function SolutionMegaMenu({
       ))}
 
       <button
-        onClick={() => go("industries")}
+        onClick={() => go("/solutions/industries")}
         className="mt-2 w-full inline-flex items-center justify-center gap-2 rounded-xl bg-white/10 border border-white/10 px-3 py-2 text-sm font-semibold text-white hover:bg-white/15 transition-colors"
       >
         View all <ArrowUpRight className="h-4 w-4" />

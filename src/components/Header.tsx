@@ -73,8 +73,13 @@ export default function Header() {
   };
 
   /* ================= NAV HELPERS ================= */
-  const scrollToSection = (id: string) => {
-    const el = document.getElementById(id);
+  const scrollToSection = (idOrPath: string) => {
+    if (idOrPath.startsWith("/")) {
+      goToPage(idOrPath);
+      return;
+    }
+
+    const el = document.getElementById(idOrPath);
     if (el) el.scrollIntoView({ behavior: "smooth" });
 
     setMobileMenuOpen(false);
@@ -91,6 +96,10 @@ export default function Header() {
     setCompanyOpen(false);
     setSolutionOpen(false);
     setResourcesOpen(false);
+  };
+
+  const goToSolution = (path: string) => {
+    goToPage(path);
   };
 
   const toggleDropdown = (menu: string) => {
@@ -139,10 +148,7 @@ export default function Header() {
             onMouseEnter={openSolutionMenu}
             onMouseLeave={closeSolutionMenuSoon}
           >
-            <button
-              onClick={() => scrollToSection("services")}
-              className="flex items-center gap-1 hover:text-white transition-colors"
-            >
+            <button className="flex items-center gap-1 hover:text-white transition-colors">
               Solution <ChevronDown className="h-4 w-4" />
             </button>
           </div>
@@ -168,6 +174,12 @@ export default function Header() {
                   className="w-full text-left px-4 py-3 text-sm text-gray-300 hover:bg-white/10 hover:text-white"
                 >
                   About Us
+                </button>
+                <button
+                  onClick={() => goToPage("/team")}
+                  className="w-full text-left px-4 py-3 text-sm text-gray-300 hover:bg-white/10 hover:text-white"
+                >
+                  Team
                 </button>
                 <button
                   onClick={() => goToPage("/blog")}
@@ -230,7 +242,7 @@ export default function Header() {
         open={solutionOpen}
         onEnter={openSolutionMenu}
         onLeave={closeSolutionMenuSoon}
-        onNavigate={scrollToSection}
+        onNavigate={goToSolution}
       />
 
       {/* ================= MOBILE MENU ================= */}
@@ -257,7 +269,7 @@ export default function Header() {
                   </button>
 
                   {/* SOLUTION */}
-                  {/* <div className="border-t border-white/10 pt-4">
+                  <div className="border-t border-white/10 pt-4">
                     <button
                       onClick={() => toggleDropdown("solution")}
                       className="flex justify-between w-full text-white/90 font-medium py-2"
@@ -274,9 +286,9 @@ export default function Header() {
                     <SolutionMegaMenu
                       mode="mobile"
                       open={openDropdown === "solution"}
-                      onNavigate={scrollToSection}
+                      onNavigate={goToSolution}
                     />
-                  </div> */}
+                  </div>
 
                   {/* COMPANY */}
                   <div className="border-t border-white/10 pt-4">
@@ -303,7 +315,7 @@ export default function Header() {
                   {/* RESOURCES */}
                   <div className="border-t border-white/10 pt-4">
                     <button
-                      onClick={() => toggleDropdown("resources")}
+                    onClick={() => toggleDropdown("resources")}
                       className="flex justify-between w-full text-white/90 font-medium py-2"
                     >
                       Resources
@@ -320,6 +332,7 @@ export default function Header() {
                         <button onClick={() => goToPage("/about")}>
                           About Us
                         </button>
+                        <button onClick={() => goToPage("/team")}>Team</button>
                         <button onClick={() => goToPage("/blog")}>Blog</button>
                       </div>
                     )}

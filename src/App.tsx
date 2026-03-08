@@ -24,6 +24,9 @@ import RefundPolicy from "./components/pages/RefundPolicy";
 import CookiePolicy from "./components/pages/CookiePolicy";
 import TermsOfService from "./components/pages/TermsOfService";
 import ScrollToTop from "./components/ScrollToTop";
+import SolutionRouter from "./components/pages/Solutions/SolutionRouter";
+import SolutionsOverview from "./components/pages/Solutions/SolutionsOverview";
+import CompanyRouter from "./components/pages/Company/CompanyRouter";
 
 function App() {
   const location = useLocation();
@@ -54,6 +57,10 @@ function App() {
             <Route path="/blog/:slug" element={<BlogDetail />} />
             <Route path="/features" element={<Features />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/company/:slug" element={<CompanyRouter />} />
+            <Route path="/solutions/industries" element={<SolutionsOverview />} />
+            <Route path="/solutions/industry/:slug" element={<SolutionRouter />} />
+            <Route path="/solutions/:slug" element={<SolutionRouter />} />
 
             {/* Admin Routes */}
             <Route path="/admin/login" element={<Login />} />

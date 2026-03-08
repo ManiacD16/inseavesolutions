@@ -12,7 +12,7 @@ type Props = {
   mode?: "desktop" | "mobile";
   onEnter?: () => void;
   onLeave?: () => void;
-  onNavigate?: (id: string) => void;
+  onNavigate?: (path: string) => void;
 };
 
 export default function CompanyMegaMenu({
@@ -23,21 +23,21 @@ export default function CompanyMegaMenu({
   onNavigate,
 }: Props) {
   const companyLinks = [
-    { label: "About Us", id: "company" },
-    { label: "Leadership", id: "company" },
-    { label: "Careers", id: "company" },
-    { label: "Partners", id: "company" },
-    { label: "Contact", id: "contact" },
+    { label: "About Us", path: "/about" },
+    { label: "Leadership", path: "/company/leadership" },
+    { label: "Careers", path: "/company/careers" },
+    { label: "Partners", path: "/company/partners" },
+    { label: "Contact", path: "/contact" },
   ];
 
   const highlights = [
-    { label: "Our Team", icon: Users, id: "company" },
-    { label: "Company Values", icon: ShieldCheck, id: "company" },
-    { label: "Press & Media", icon: Newspaper, id: "resources" },
-    { label: "Careers", icon: Briefcase, id: "company" },
+    { label: "Our Team", icon: Users, path: "/team" },
+    { label: "Company Values", icon: ShieldCheck, path: "/company/company-values" },
+    { label: "Press & Media", icon: Newspaper, path: "/company/press-media" },
+    { label: "Careers", icon: Briefcase, path: "/company/careers" },
   ];
 
-  const go = (id: string) => onNavigate?.(id);
+  const go = (path: string) => onNavigate?.(path);
 
   // ---------------- Desktop (full width overlay)
   if (mode === "desktop") {
@@ -73,7 +73,7 @@ export default function CompanyMegaMenu({
                     {companyLinks.map((l) => (
                       <button
                         key={l.label}
-                        onClick={() => go(l.id)}
+                        onClick={() => go(l.path)}
                         className="block text-left w-full text-white/75 hover:text-white transition-colors"
                       >
                         {l.label}
@@ -82,7 +82,7 @@ export default function CompanyMegaMenu({
                   </div>
 
                   <button
-                    onClick={() => go("company")}
+                    onClick={() => go("/about")}
                     className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-white/80 hover:text-white transition-colors"
                   >
                     Learn more <ArrowUpRight className="h-4 w-4" />
@@ -101,7 +101,7 @@ export default function CompanyMegaMenu({
                       return (
                         <button
                           key={h.label}
-                          onClick={() => go(h.id)}
+                          onClick={() => go(h.path)}
                           className="group text-left rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 transition-colors p-5"
                         >
                           <div className="h-10 w-10 rounded-xl bg-white/10 border border-white/10 flex items-center justify-center">
@@ -172,7 +172,7 @@ export default function CompanyMegaMenu({
       {companyLinks.map((l) => (
         <button
           key={l.label}
-          onClick={() => go(l.id)}
+          onClick={() => go(l.path)}
           className="w-full text-left px-2 py-2 rounded-xl text-white/75 hover:text-white hover:bg-white/10 transition-colors"
         >
           {l.label}
@@ -186,7 +186,7 @@ export default function CompanyMegaMenu({
       {highlights.map((h) => (
         <button
           key={h.label}
-          onClick={() => go(h.id)}
+          onClick={() => go(h.path)}
           className="w-full text-left px-2 py-2 rounded-xl text-white/75 hover:text-white hover:bg-white/10 transition-colors"
         >
           {h.label}
@@ -194,7 +194,7 @@ export default function CompanyMegaMenu({
       ))}
 
       <button
-        onClick={() => go("contact")}
+        onClick={() => go("/contact")}
         className="mt-3 w-full inline-flex items-center justify-center gap-2 rounded-xl bg-white text-black px-4 py-2 text-sm font-semibold hover:bg-neutral-200 transition-colors"
       >
         Talk to us <ArrowUpRight className="h-4 w-4" />
