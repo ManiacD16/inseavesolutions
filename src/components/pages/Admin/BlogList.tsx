@@ -9,8 +9,8 @@ import Loader from "../../Loader";
 interface BlogPost {
     id: number;
     title: string;
-    description: string;
-    image_url: string;
+    description: string | null;
+    image_url: string | null;
     created_at: string;
     author_name?: string;
 }
@@ -34,8 +34,8 @@ export default function BlogList() {
         try {
             const response = await fetch(`${API_BASE_URL}/api/blogs`);
             if (!response.ok) throw new Error('Failed to fetch blogs');
-            const data = await response.json();
-            setBlogs(data);
+            const result = await response.json();
+            setBlogs(result.data || []);
         } catch (err) {
             const message = err instanceof Error ? err.message : 'An error occurred';
             setError(message);
@@ -133,7 +133,7 @@ export default function BlogList() {
                             </div>
 
                             <p className={`text-sm line-clamp-2 ${isDark ? 'text-neutral-400' : 'text-neutral-500'}`}>
-                                {blog.description}
+                                {blog.description || ""}
                             </p>
 
                             <div className={`pt-4 border-t flex gap-3 ${isDark ? 'border-white/10' : 'border-slate-100'}`}>

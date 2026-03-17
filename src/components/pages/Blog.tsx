@@ -10,10 +10,13 @@ interface Blog {
   id: number;
   title: string;
   slug: string;
-  description: string;
-  date: string; // Map created_at to date for display?? Or just use created_at
+  description: string | null;
+  content: string;
+  author: string;
+  tags: string[] | null;
+  image_url: string | null;
   created_at: string;
-  tags: string[];
+  updated_at: string;
 }
 
 interface BlogCardProps {
@@ -66,8 +69,8 @@ export default function Blog() {
       try {
         const response = await fetch(`${API_BASE_URL}/api/blogs`);
         if (response.ok) {
-          const data = await response.json();
-          setBlogs(data);
+          const result = await response.json();
+          setBlogs(result.data || []);
         } else {
           console.error("Failed to fetch blogs");
         }
@@ -113,13 +116,13 @@ export default function Blog() {
                 <BlogCard
                   key={blog.id}
                   title={blog.title}
-                  description={blog.description}
+                  description={blog.description || (blog.content ? blog.content.replace(/<[^>]*>/g, '').substring(0, 150) + '...' : '')}
                   date={new Date(blog.created_at).toLocaleDateString("en-US", {
                     month: "short",
                     day: "numeric",
                     year: "numeric",
                   })}
-                  tag={blog.tags && blog.tags.length > 0 ? blog.tags[0] : "Tech"}
+                  tag={blog.tags && Array.isArray(blog.tags) && blog.tags.length > 0 ? blog.tags[0] : "Tech"}
                   slug={blog.slug}
                 />
               ))

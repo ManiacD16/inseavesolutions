@@ -16,10 +16,16 @@ import AdminFooter from "./AdminFooter";
 
 export default function AdminDashboardLayout() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-    const [isDark, setIsDark] = useState(false); // Default Light Mode
+    const [isDark, setIsDark] = useState(() => {
+        return localStorage.getItem('adminTheme') === 'dark';
+    });
     const location = useLocation();
     const navigate = useNavigate();
     const { user, logout, isAuthenticated } = useAuth();
+
+    useEffect(() => {
+        localStorage.setItem('adminTheme', isDark ? 'dark' : 'light');
+    }, [isDark]);
     // Removed local blog state
 
     useEffect(() => {

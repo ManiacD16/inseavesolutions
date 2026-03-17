@@ -31,8 +31,8 @@ export default function BlogEditor() {
             const fetchBlog = async () => {
                 try {
                     const response = await fetch(`${API_BASE_URL}/api/blogs`);
-                    const data = await response.json();
-                    const blog = data.find((b: any) => b.id === parseInt(id));
+                    const result = await response.json();
+                    const blog = (result.data || []).find((b: any) => b.id === parseInt(id));
 
                     if (blog) {
                         setTitle(blog.title);
@@ -86,8 +86,8 @@ export default function BlogEditor() {
             });
 
             if (!response.ok) {
-                const data = await response.json();
-                throw new Error(data.error || "Failed to save blog");
+                const result = await response.json();
+                throw new Error(result.message || "Failed to save blog");
             }
 
             toast.success(isEditing ? 'Blog updated successfully!' : 'Blog created successfully!', { id: saveToast });
@@ -189,8 +189,8 @@ export default function BlogEditor() {
                                                 body: formData
                                             });
                                             if (!res.ok) throw new Error('Upload failed');
-                                            const data = await res.json();
-                                            setImageUrl(data.imageUrl);
+                                            const result = await res.json();
+                                            setImageUrl(result.data.imageUrl);
                                             toast.success('Image uploaded', { id: uploadToast });
                                         } catch (err) {
                                             console.error(err);

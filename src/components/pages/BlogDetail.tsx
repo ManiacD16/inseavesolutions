@@ -8,11 +8,11 @@ interface Blog {
     id: number;
     title: string;
     slug: string;
-    description: string;
+    description: string | null;
     content: string;
     author: string;
-    tags: string[];
-    image_url: string;
+    tags: string[] | null;
+    image_url: string | null;
     created_at: string;
 }
 
@@ -29,8 +29,8 @@ export default function BlogDetail() {
                 if (!response.ok) {
                     throw new Error("Blog not found");
                 }
-                const data = await response.json();
-                setBlog(data);
+                const result = await response.json();
+                setBlog(result.data || result); // Defensive: handle both wrapped and unwrapped
             } catch (err) {
                 setError(err instanceof Error ? err.message : "Failed to load blog");
             } finally {
@@ -66,7 +66,7 @@ export default function BlogDetail() {
         <div className="min-h-screen bg-[#020617] pt-28 pb-20 px-4 sm:px-6 lg:px-8">
             <Helmet>
                 <title>{blog.title} - WebnexFusion</title>
-                <meta name="description" content={blog.description} />
+                <meta name="description" content={blog.description || ""} />
                 <link rel="canonical" href={`https://webnexfusion.com/blog/${blog.slug}`} />
             </Helmet>
 
@@ -83,7 +83,7 @@ export default function BlogDetail() {
                 {/* Header */}
                 <header className="mb-12">
                     <div className="flex flex-wrap gap-2 mb-6">
-                        {blog.tags && blog.tags.map((tag, index) => (
+                        {blog.tags && Array.isArray(blog.tags) && blog.tags.map((tag, index) => (
                             <span
                                 key={index}
                                 className="px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-300 text-sm font-medium border border-indigo-500/20"

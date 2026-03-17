@@ -25,11 +25,23 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [user, setUser] = useState<User | null>(() => {
-        const storedUser = localStorage.getItem('user');
-        return storedUser ? JSON.parse(storedUser) : null;
+        try {
+            const storedUser = localStorage.getItem('user');
+            if (!storedUser || storedUser === 'undefined') return null;
+            return JSON.parse(storedUser);
+        } catch (e) {
+            console.error("AuthContext: Failed to parse user", e);
+            return null;
+        }
     });
     const [token, setToken] = useState<string | null>(() => {
-        return localStorage.getItem('token');
+        try {
+            const storedToken = localStorage.getItem('token');
+            if (!storedToken || storedToken === 'undefined') return null;
+            return storedToken;
+        } catch (e) {
+            return null;
+        }
     });
     const navigate = useNavigate();
 

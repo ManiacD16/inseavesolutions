@@ -1,0 +1,36 @@
+RewriteEngine On
+RewriteBase /api/
+
+# Prevent Hostinger default protections from blocking API requests
+Options -Indexes +FollowSymLinks
+
+# Allow CORS headers if needed for direct API access
+Header set Access-Control-Allow-Origin "*"
+Header set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+Header set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With"
+
+# Provide early response to OPTIONS pre-flight requests
+RewriteCond %{REQUEST_METHOD} OPTIONS
+RewriteRule ^(.*)$ $1 [R=200,L]
+
+# Only route if the file or directory does NOT actually exist physically
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Route /api/auth/{action} -> api/auth.php?action={action}
+RewriteRule ^auth/([^/]+)/?$ auth.php?action=$1 [QSA,L]
+
+# Route /api/analytics/{action} -> api/analytics.php?action={action}
+RewriteRule ^analytics/([^/]+)/?$ analytics.php?action=$1 [QSA,L]
+RewriteRule ^analytics/?$ analytics.php [QSA,L]
+
+# Route /api/contact -> api/contact.php
+RewriteRule ^contact/?$ contact.php [QSA,L]
+
+# Route /api/upload -> api/upload.php
+RewriteRule ^upload/?$ upload.php [QSA,L]
+
+# Route /api/blogs/{id_or_slug} -> api/blogs.php
+RewriteRule ^blogs/([0-9]+)/?$ blogs.php?id=$1 [QSA,L]
+RewriteRule ^blogs/([^/]+)/?$ blogs.php?slug=$1 [QSA,L]
+RewriteRule ^blogs/?$ blogs.php [QSA,L]

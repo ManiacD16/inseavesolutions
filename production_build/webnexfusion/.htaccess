@@ -1,0 +1,13 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  
+  # Handle API requests - proxy to server_php internally
+  RewriteRule ^api/(.*)$ server_php/api/$1 [QSA,L]
+  
+  # React SPA Routing - fix for refresh 404
+  # Use relative 'index.html' to ensure it works when the subfolder is masked
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . index.html [L]
+</IfModule>

@@ -43,10 +43,11 @@ export default function Settings() {
                 body: JSON.stringify({ name, email, profile_pic: profilePic }),
             });
 
-            if (!response.ok) throw new Error('Failed to update profile');
-            const updatedUser = await response.json();
+            const result = await response.json();
 
-            updateUser(updatedUser);
+            if (!response.ok) throw new Error(result.message || 'Failed to update profile');
+
+            updateUser(result.data);
             setMessage({ type: 'success', text: 'Profile updated successfully' });
         } catch (error) {
             setMessage({ type: 'error', text: 'Update failed' });
@@ -154,8 +155,8 @@ export default function Settings() {
                                             try {
                                                 const res = await fetch(`${API_BASE_URL}/api/upload`, { method: 'POST', body: formData });
                                                 if (res.ok) {
-                                                    const data = await res.json();
-                                                    setProfilePic(data.imageUrl);
+                                                    const result = await res.json();
+                                                    setProfilePic(result.data.imageUrl);
                                                 }
                                             } catch (err) { console.error(err); }
                                         }}

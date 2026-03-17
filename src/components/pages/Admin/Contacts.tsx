@@ -36,10 +36,9 @@ export default function Contacts() {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            if (!response.ok) throw new Error('Failed to fetch contacts');
-            const data = await response.json();
+            const result = await response.json();
             // Add mock status for now
-            const dataWithStatus = data.map((contact: any) => ({
+            const dataWithStatus = (result.data || []).map((contact: any) => ({
                 ...contact,
                 status: 'new'
             }));
