@@ -3,6 +3,7 @@
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../utils/security.php';
 require_once __DIR__ . '/../middleware/auth.php';
+require_once __DIR__ . '/../utils/email_utils.php';
 
 $database = new Database();
 $db = $database->getConnection();
@@ -30,6 +31,9 @@ switch($method) {
             $stmt->bindParam(':message', $message);
             
             if ($stmt->execute()) {
+                // Send professional auto-reply email to client
+                sendAutoReply($email, $name);
+                
                 sendResponse("success", "Message sent successfully", [], 201);
             } else {
                 sendResponse("error", "Failed to send message", [], 500);
