@@ -29,6 +29,8 @@ import ScrollToTop from "./components/ScrollToTop";
 import SolutionRouter from "./components/pages/Solutions/SolutionRouter";
 import SolutionsOverview from "./components/pages/Solutions/SolutionsOverview";
 import CompanyRouter from "./components/pages/Company/CompanyRouter";
+import ToolsHub from "./components/pages/Tools";
+import SingleTool from "./components/pages/Tools/SingleTool";
 
 function App() {
   const location = useLocation();
@@ -64,6 +66,8 @@ function App() {
             <Route path="/solutions/industry/:slug" element={<SolutionRouter />} />
             <Route path="/solutions/:slug" element={<SolutionRouter />} />
             <Route path="/careers" element={<Careers />} />
+            <Route path="/resources/tools" element={<ToolsHub />} />
+            <Route path="/resources/tools/:toolId" element={<SingleTool />} />
 
             {/* Admin Routes */}
             <Route path="/admin/login" element={<Login />} />

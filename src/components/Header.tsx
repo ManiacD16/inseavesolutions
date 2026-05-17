@@ -187,6 +187,12 @@ export default function Header() {
                 >
                   Blog
                 </button>
+                <button
+                  onClick={() => goToPage("/resources/tools")}
+                  className="w-full text-left px-4 py-3 text-sm text-gray-300 hover:bg-white/10 hover:text-white"
+                >
+                  Tools
+                </button>
               </div>
             )}
           </div>
@@ -334,6 +340,7 @@ export default function Header() {
                         </button>
                         <button onClick={() => goToPage("/team")}>Team</button>
                         <button onClick={() => goToPage("/blog")}>Blog</button>
+                        <button onClick={() => goToPage("/resources/tools")}>Tools</button>
                       </div>
                     )}
                   </div>
