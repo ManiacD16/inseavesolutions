@@ -7,6 +7,7 @@ interface User {
     id: number;
     username: string;
     email?: string; // Optional
+    phone?: string; // Optional
     name?: string;  // Optional
     role?: string;  // Optional
     profile_pic?: string; // Optional

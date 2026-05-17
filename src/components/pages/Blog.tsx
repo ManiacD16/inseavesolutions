@@ -25,11 +25,18 @@ interface BlogCardProps {
   date: string;
   tag: string;
   slug: string;
+  imageUrl?: string | null;
 }
 
-function BlogCard({ title, description, date, tag, slug }: BlogCardProps) {
+function BlogCard({ title, description, date, tag, slug, imageUrl }: BlogCardProps) {
   return (
-    <div className="group bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 transition-all hover:border-indigo-500/40 hover:shadow-indigo-500/20 hover:shadow-2xl flex flex-col h-full">
+    <div className="group bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden transition-all hover:border-indigo-500/40 hover:shadow-indigo-500/20 hover:shadow-2xl flex flex-col h-full">
+      {imageUrl && (
+        <div className="w-full h-48 overflow-hidden bg-white/5">
+          <img src={imageUrl} alt={title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+        </div>
+      )}
+      <div className="p-6 flex flex-col h-full">
       <div className="inline-block px-3 py-1 text-xs rounded-full bg-indigo-500/10 text-indigo-300 mb-4 w-fit">
         {tag}
       </div>
@@ -55,6 +62,7 @@ function BlogCard({ title, description, date, tag, slug }: BlogCardProps) {
           Read More
           <ArrowUpRight className="h-4 w-4" />
         </Link>
+      </div>
       </div>
     </div>
   );
@@ -124,6 +132,7 @@ export default function Blog() {
                   })}
                   tag={blog.tags && Array.isArray(blog.tags) && blog.tags.length > 0 ? blog.tags[0] : "Tech"}
                   slug={blog.slug}
+                  imageUrl={blog.image_url}
                 />
               ))
             ) : (

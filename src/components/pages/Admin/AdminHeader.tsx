@@ -1,4 +1,5 @@
 import { Menu, Bell, LogOut, Sun, Moon, User } from "lucide-react";
+import { Link } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
 
 interface AdminHeaderProps {
@@ -6,9 +7,10 @@ interface AdminHeaderProps {
     title: string;
     isDark: boolean;
     toggleTheme: () => void;
+    unreadCount: number;
 }
 
-export default function AdminHeader({ onMenuClick, title, isDark, toggleTheme }: AdminHeaderProps) {
+export default function AdminHeader({ onMenuClick, title, isDark, toggleTheme, unreadCount }: AdminHeaderProps) {
     const { user, logout } = useAuth();
     const role = (user as any)?.role || "Administrator";
 
@@ -33,10 +35,14 @@ export default function AdminHeader({ onMenuClick, title, isDark, toggleTheme }:
                     </button>
 
                     {/* Notifications */}
-                    <button className={`relative p-2 rounded-lg transition-colors ${isDark ? 'text-neutral-400 hover:text-white hover:bg-white/10' : 'text-neutral-500 hover:text-slate-900 hover:bg-slate-100'}`}>
+                    <Link to="/admin/contacts" className={`relative p-2 rounded-lg transition-colors ${isDark ? 'text-neutral-400 hover:text-white hover:bg-white/10' : 'text-neutral-500 hover:text-slate-900 hover:bg-slate-100'}`} title="Notifications">
                         <Bell className="h-5 w-5" />
-                        <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border-2 border-[#0B1120]"></span>
-                    </button>
+                        {unreadCount > 0 && (
+                            <span className="absolute top-1 right-1 w-4 h-4 bg-red-500 rounded-full border border-[#0B1120] text-[10px] font-bold text-white flex items-center justify-center">
+                                {unreadCount > 9 ? '9+' : unreadCount}
+                            </span>
+                        )}
+                    </Link>
 
                     {/* Logout Button */}
                     <button

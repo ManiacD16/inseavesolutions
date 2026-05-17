@@ -17,6 +17,8 @@ import AdminDashboard from "./components/pages/Admin/Dashboard";
 import DashboardHome from "./components/pages/Admin/DashboardHome"; // New
 import BlogList from "./components/pages/Admin/BlogList"; // New
 import BlogEditor from "./components/pages/Admin/BlogEditor";
+import Careers from "./components/pages/Careers";
+import CareerManagement from "./components/pages/Admin/CareerManagement";
 import Features from "./components/pages/Features";
 import Contact from "./components/Contact";
 import PrivacyPolicy from "./components/pages/PrivacyPolicy";
@@ -61,6 +63,7 @@ function App() {
             <Route path="/solutions/industries" element={<SolutionsOverview />} />
             <Route path="/solutions/industry/:slug" element={<SolutionRouter />} />
             <Route path="/solutions/:slug" element={<SolutionRouter />} />
+            <Route path="/careers" element={<Careers />} />
 
             {/* Admin Routes */}
             <Route path="/admin/login" element={<Login />} />
@@ -69,6 +72,7 @@ function App() {
               <Route index element={<DashboardHome />} />
               <Route path="blogs" element={<BlogList />} />
               <Route path="contacts" element={<Contacts />} />
+              <Route path="careers" element={<CareerManagement />} />
               <Route path="settings" element={<Settings />} />
               <Route path="blogs/new" element={<BlogEditor />} />
               <Route path="blogs/edit/:id" element={<BlogEditor />} />

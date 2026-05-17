@@ -14,9 +14,11 @@ import {
   Lock,
   Clock,
 } from "lucide-react";
+import { useSettings } from "../../hooks/useSettings";
 import SEO from "../SEO";
 
 export const CookiePolicy = () => {
+  const { settings } = useSettings();
   const [activeSection, setActiveSection] = useState("introduction");
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
@@ -416,8 +418,8 @@ All changes to this policy become effective immediately upon posting unless othe
 **General Inquiries:**
 For general questions about cookies, how we use them, or this Cookie Policy, please contact us at:
 
-Email: webnexfusion@gmail.com
-Phone: +917067164631
+Email: {settings.contact_email}
+Phone: {settings.contact_phone}
 Subject Line: "Cookie Policy Inquiry"
 
 **Cookie Preferences:**
@@ -690,7 +692,7 @@ We value your privacy and are committed to addressing your concerns promptly and
                   </p>
                   <div className="flex flex-col sm:flex-row gap-4 justify-center">
                     <a
-                      href="mailto:webnexfusion@gmail.com"
+                      href={`mailto:${settings.contact_email}`}
                       className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white font-semibold transition-all duration-300 hover:scale-105 shadow-lg shadow-amber-500/50"
                     >
                       Contact Us

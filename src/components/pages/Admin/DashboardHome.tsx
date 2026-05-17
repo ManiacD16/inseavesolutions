@@ -28,16 +28,12 @@ export default function DashboardHome() {
     useEffect(() => {
         const fetchStats = async () => {
             try {
-                // Fetch Blogs Count
-                const blogsRes = await fetch(`${API_BASE_URL}/api/blogs`);
-                const blogsData = blogsRes.ok ? await blogsRes.json() : [];
-
-                // Fetch Contacts Count
+                // Fetch Stats
                 const token = localStorage.getItem('token');
-                const contactsRes = await fetch(`${API_BASE_URL}/api/contact`, {
+                const statsRes = await fetch(`${API_BASE_URL}/api/stats.php`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
-                const contactsData = contactsRes.ok ? await contactsRes.json() : [];
+                const statsData = statsRes.ok ? await statsRes.json() : null;
 
                 // Fetch Analytics
                 const analyticsRes = await fetch(`${API_BASE_URL}/api/analytics`, {
@@ -48,8 +44,8 @@ export default function DashboardHome() {
                 };
 
                 setStats({
-                    totalBlogs: Array.isArray(blogsData) ? blogsData.length : 0,
-                    totalContacts: Array.isArray(contactsData) ? contactsData.length : 0,
+                    totalBlogs: statsData?.data?.totalBlogs || 0,
+                    totalContacts: statsData?.data?.totalContacts || 0,
                     visitors: analyticsData
                 });
             } catch (error) {

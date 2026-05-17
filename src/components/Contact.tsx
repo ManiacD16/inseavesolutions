@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { Send, CheckCircle, AlertCircle, Mail, Phone, MapPin } from 'lucide-react';
+import { useSettings } from '../hooks/useSettings';
 import SEO from "./SEO";
 import API_BASE_URL from "../config/api";
 
 export default function Contact() {
+  const { settings } = useSettings();
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -75,8 +77,8 @@ ${formData.message}
     });
   };
 
-  const WHATSAPP_NUMBER_E164 = "917636844563";
-  const CONTACT_EMAIL = "info@example.com";
+  const WHATSAPP_NUMBER_E164 = settings.contact_phone.replace(/[^0-9]/g, '');
+  const CONTACT_EMAIL = settings.contact_email;
 
   const buildWhatsAppUrl = () => {
     const name = formData.fullName?.trim();
@@ -160,7 +162,7 @@ ${formData.message}
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="text-xs sm:text-sm text-neutral-400 mb-1">Send Us Mail</p>
-                    <p className="text-sm sm:text-base text-white font-medium break-all">webnexfusion@gmail.com</p>
+                    <p className="text-sm sm:text-base text-white font-medium break-all">{settings.contact_email}</p>
                   </div>
                 </div>
               </div>
@@ -174,7 +176,7 @@ ${formData.message}
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="text-xs sm:text-sm text-neutral-400 mb-1">Call 24/7 Hours</p>
-                    <p className="text-sm sm:text-base text-white font-medium">+91-7067164631</p>
+                    <p className="text-sm sm:text-base text-white font-medium">{settings.contact_phone}</p>
                   </div>
                 </div>
               </div>

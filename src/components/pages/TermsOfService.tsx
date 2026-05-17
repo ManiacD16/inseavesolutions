@@ -10,9 +10,11 @@ import {
   X,
   ChevronRight,
 } from "lucide-react";
+import { useSettings } from "../../hooks/useSettings";
 import SEO from "../SEO";
 
 export const TermsOfService = () => {
+  const { settings } = useSettings();
   const [activeSection, setActiveSection] = useState("acceptance");
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
@@ -356,7 +358,7 @@ export const TermsOfService = () => {
                   </p>
                   <div className="flex flex-col sm:flex-row gap-4 justify-center">
                     <a
-                      href="mailto:webnexfusion@gmail.com"
+                      href={`mailto:${settings.contact_email}`}
                       className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-semibold transition-all duration-300 hover:scale-105 shadow-lg shadow-indigo-500/50"
                     >
                       Contact Us

@@ -12,6 +12,7 @@ import {
   MapPin,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useSettings } from "../hooks/useSettings";
 
 const solutions = [
   "Managed Services",
@@ -33,7 +34,7 @@ const company = [
   { name: "Contact Us", href: "/contact" },
   // { name: "FAQ", href: "/faq" },
   { name: "Blog", href: "/blog" },
-  // { name: "Case studies", href: "/case-studies" },
+  { name: "Careers", href: "/careers" },
 ];
 
 function DotsPattern({ className = "" }: { className?: string }) {
@@ -114,6 +115,7 @@ function SocialIcon({
 }
 
 export default function Footer() {
+  const { settings } = useSettings();
   const year = new Date().getFullYear();
 
   return (
@@ -163,17 +165,17 @@ export default function Footer() {
               </div>
               <div className="flex items-center gap-3 text-slate-300">
                 <Phone className="h-4 w-4 text-red-400" />
-                <a className="text-slate-400 hover:text-white" href="#">
-                  +91-7067164631
+                <a className="text-slate-400 hover:text-white" href={`tel:${settings.contact_phone}`}>
+                  {settings.contact_phone}
                 </a>
               </div>
               <div className="flex items-center gap-3 text-slate-300">
                 <Mail className="h-4 w-4 text-yellow-400" />
                 <a
                   className="text-slate-400 hover:text-white"
-                  href="mailto:webnexusion@gmail.com "
+                  href={`mailto:${settings.contact_email}`}
                 >
-                  webnexfusion@gmail.com
+                  {settings.contact_email}
                 </a>
               </div>
             </div>

@@ -13,9 +13,11 @@ import {
   ChevronRight,
   Info,
 } from "lucide-react";
+import { useSettings } from "../../hooks/useSettings";
 import SEO from "../SEO";
 
 export const RefundPolicy = () => {
+  const { settings } = useSettings();
   const [activeSection, setActiveSection] = useState("overview");
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
@@ -307,7 +309,7 @@ These alternatives ensure you receive value from your investment while maintaini
 
 **Pre-Engagement Clarification:** We strongly encourage discussing any concerns about this policy before engaging our services.
 
-**Written Inquiries:** Send detailed questions via email to webnexfusion@gmail.com with subject line "Refund Policy Inquiry."
+**Written Inquiries:** Send detailed questions via email to {settings.contact_email} with subject line "Refund Policy Inquiry."
 
 **Contract Review:** Review your service contract carefully as it contains specific terms related to your project.
 
@@ -318,8 +320,8 @@ These alternatives ensure you receive value from your investment while maintaini
 **Final Authority:** This Refund Policy, along with our Terms of Service, constitutes the complete understanding regarding refunds.
 
 **Contact Information:**
-Email: webnexfusion@gmail.com
-Phone: +917067164631
+Email: {settings.contact_email}
+Phone: {settings.contact_phone}
 
 Understanding this policy before engagement helps avoid future misunderstandings.`,
     },
@@ -607,7 +609,7 @@ Understanding this policy before engagement helps avoid future misunderstandings
                   </p>
                   <div className="flex flex-col sm:flex-row gap-4 justify-center">
                     <a
-                      href="mailto:webnexfusion@gmail.com"
+                      href={`mailto:${settings.contact_email}`}
                       className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-rose-600 to-orange-600 hover:from-rose-500 hover:to-orange-500 text-white font-semibold transition-all duration-300 hover:scale-105 shadow-lg shadow-rose-500/50"
                     >
                       Contact Us

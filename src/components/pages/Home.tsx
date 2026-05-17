@@ -13,8 +13,9 @@ export default function Home() {
   return (
     <div id="home">
       <SEO
-        title="WebnexFusion - Leading Web Development & Digital Marketing Agency"
-        description="WebnexFusion offers top-tier web development, app development, UI/UX design, and digital marketing services to grow your business."
+        title="WebnexFusion | Best Web Development & Digital Marketing Agency"
+        description="WebnexFusion is a premier digital agency providing expert web development, mobile app creation, UI/UX design, and SEO services. Boost your online presence with our innovative tech solutions."
+        keywords="WebnexFusion, web development agency, digital marketing, SEO experts, app development, UI/UX design, software solutions, India IT company"
         canonicalUrl="https://webnexfusion.com/"
       />
       {/* Hero Section */}

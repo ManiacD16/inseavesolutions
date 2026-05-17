@@ -24,6 +24,8 @@ export default function Contacts() {
     const [contacts, setContacts] = useState<Contact[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 8;
 
     useEffect(() => {
         fetchContacts();
@@ -37,12 +39,26 @@ export default function Contacts() {
                 }
             });
             const result = await response.json();
-            // Add mock status for now
-            const dataWithStatus = (result.data || []).map((contact: any) => ({
+            const fetchedContacts = result.data || [];
+            
+            const dataWithStatus = fetchedContacts.map((contact: any) => ({
                 ...contact,
-                status: 'new'
+                status: (contact.is_read == 0 || contact.is_read == null) ? 'new' : 'replied'
             }));
             setContacts(dataWithStatus);
+
+            // If there are unread messages, mark them as read in the background
+            const hasUnread = dataWithStatus.some((c: any) => c.status === 'new');
+            if (hasUnread) {
+                fetch(`${API_BASE_URL}/api/contact.php`, {
+                    method: 'PUT',
+                    headers: { 
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({})
+                }).catch(console.error);
+            }
         } catch (err) {
             setError(err instanceof Error ? err.message : 'An error occurred');
         } finally {
@@ -60,7 +76,7 @@ export default function Contacts() {
             </div>
 
             <div className="space-y-4">
-                {contacts.map((contact) => (
+                {contacts.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((contact) => (
                     <div key={contact.id} className={`border rounded-xl p-6 transition-all hover:shadow-lg ${isDark ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'}`}>
                         <div className="flex flex-col lg:flex-row gap-6">
                             {/* Sender Info */}
@@ -102,6 +118,38 @@ export default function Contacts() {
                         </div>
                     </div>
                 ))}
+                
+                {Math.ceil(contacts.length / itemsPerPage) > 1 && (
+                    <div className="flex justify-center items-center gap-2 pt-6">
+                        <button
+                            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                            disabled={currentPage === 1}
+                            className={`px-3 py-1.5 rounded-lg font-medium transition-colors ${isDark ? 'bg-white/5 hover:bg-white/10 text-white disabled:opacity-50' : 'bg-slate-100 hover:bg-slate-200 text-slate-700 disabled:opacity-50'}`}
+                        >
+                            Previous
+                        </button>
+                        
+                        <div className="flex gap-1 overflow-x-auto max-w-[200px] sm:max-w-none no-scrollbar">
+                            {Array.from({ length: Math.ceil(contacts.length / itemsPerPage) }, (_, i) => i + 1).map(page => (
+                                <button
+                                    key={page}
+                                    onClick={() => setCurrentPage(page)}
+                                    className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors shrink-0 ${currentPage === page ? 'bg-indigo-600 text-white font-medium' : isDark ? 'hover:bg-white/10 text-neutral-400' : 'hover:bg-slate-200 text-slate-600'}`}
+                                >
+                                    {page}
+                                </button>
+                            ))}
+                        </div>
+
+                        <button
+                            onClick={() => setCurrentPage(prev => Math.min(prev + 1, Math.ceil(contacts.length / itemsPerPage)))}
+                            disabled={currentPage === Math.ceil(contacts.length / itemsPerPage)}
+                            className={`px-3 py-1.5 rounded-lg font-medium transition-colors ${isDark ? 'bg-white/5 hover:bg-white/10 text-white disabled:opacity-50' : 'bg-slate-100 hover:bg-slate-200 text-slate-700 disabled:opacity-50'}`}
+                        >
+                            Next
+                        </button>
+                    </div>
+                )}
 
                 {contacts.length === 0 && (
                     <div className={`text-center py-12 border-2 border-dashed rounded-xl ${isDark ? 'border-white/10' : 'border-slate-200'}`}>

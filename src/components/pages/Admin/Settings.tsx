@@ -17,6 +17,7 @@ export default function Settings() {
     // Profile Form State
     const [name, setName] = useState(user?.name || "");
     const [email, setEmail] = useState(user?.email || "");
+    const [phone, setPhone] = useState(user?.phone || "");
     const [profilePic, setProfilePic] = useState(user?.profile_pic || "");
 
     // Password Form State
@@ -40,7 +41,7 @@ export default function Settings() {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify({ name, email, profile_pic: profilePic }),
+                body: JSON.stringify({ name, email, phone, profile_pic: profilePic }),
             });
 
             const result = await response.json();
@@ -150,15 +151,42 @@ export default function Settings() {
                                         onChange={async (e) => {
                                             const file = e.target.files?.[0];
                                             if (!file) return;
+                                            
+                                            // Optional: Show loading state (could add a local loading state variable if desired)
+                                            setMessage({ type: 'success', text: 'Uploading image...' });
+                                            
                                             const formData = new FormData();
                                             formData.append('image', file);
+                                            
                                             try {
-                                                const res = await fetch(`${API_BASE_URL}/api/upload`, { method: 'POST', body: formData });
-                                                if (res.ok) {
-                                                    const result = await res.json();
-                                                    setProfilePic(result.data.imageUrl);
+                                                const token = localStorage.getItem('token');
+                                                const response = await fetch(`${API_BASE_URL}/api/upload.php`, {
+                                                    method: 'POST',
+                                                    headers: {
+                                                        'Authorization': `Bearer ${token}`
+                                                    },
+                                                    body: formData
+                                                });
+                                                
+                                                let result;
+                                                try {
+                                                    result = await response.json();
+                                                } catch (e) {
+                                                    throw new Error('Server returned invalid response');
                                                 }
-                                            } catch (err) { console.error(err); }
+                                                
+                                                if (!response.ok) {
+                                                    throw new Error(result.message || 'Upload failed');
+                                                }
+                                                
+                                                setProfilePic(result.data.imageUrl);
+                                                setMessage({ type: 'success', text: 'Image uploaded successfully' });
+                                            } catch (err) {
+                                                const errorMsg = err instanceof Error ? err.message : 'Error uploading image';
+                                                setMessage({ type: 'error', text: errorMsg });
+                                            } finally {
+                                                e.target.value = '';
+                                            }
                                         }}
                                     />
                                 </label>
@@ -183,6 +211,16 @@ export default function Settings() {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 className={inputClasses}
+                            />
+                        </div>
+                        <div>
+                            <label className={labelClasses}>Contact Number</label>
+                            <input
+                                type="text"
+                                value={phone}
+                                onChange={(e) => setPhone(e.target.value)}
+                                className={inputClasses}
+                                placeholder="+91-XXXXXXXXXX"
                             />
                         </div>
                     </div>

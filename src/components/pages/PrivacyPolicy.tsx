@@ -14,9 +14,11 @@ import {
   X,
   ChevronRight,
 } from "lucide-react";
+import { useSettings } from "../../hooks/useSettings";
 import SEO from "../SEO";
 
 export const PrivacyPolicy = () => {
+  const { settings } = useSettings();
   const [activeSection, setActiveSection] = useState("introduction");
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
@@ -211,8 +213,8 @@ We regularly review and update our policies and procedures to ensure ongoing com
       icon: Mail,
       content: `If you have any questions, concerns, or requests regarding this Privacy Policy or our privacy practices, please contact us:
 
-**Email:** webnexfusion@gmail.com
-**Phone:** +917067164631
+**Email:** {settings.contact_email}
+**Phone:** {settings.contact_phone}
 **Address:** Remote Operations, India
 
 We will respond to your inquiry within a reasonable timeframe, typically within 30 days. For data protection matters, please include "Privacy Inquiry" in the subject line of your email to ensure prompt handling of your request.`,
@@ -465,7 +467,7 @@ We will respond to your inquiry within a reasonable timeframe, typically within 
                   </p>
                   <div className="flex flex-col sm:flex-row gap-4 justify-center">
                     <a
-                      href="mailto:webnexfusion@gmail.com"
+                      href={`mailto:${settings.contact_email}`}
                       className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-semibold transition-all duration-300 hover:scale-105 shadow-lg shadow-indigo-500/50"
                     >
                       Contact Us

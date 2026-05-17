@@ -9,16 +9,19 @@ import {
     X,
     User,
     Menu,
+    Briefcase,
 } from "lucide-react";
 import { useAuth } from "../../../context/AuthContext";
 import AdminHeader from "./AdminHeader";
 import AdminFooter from "./AdminFooter";
+import API_BASE_URL from "../../../config/api";
 
 export default function AdminDashboardLayout() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [isDark, setIsDark] = useState(() => {
         return localStorage.getItem('adminTheme') === 'dark';
     });
+    const [unreadCount, setUnreadCount] = useState(0);
     const location = useLocation();
     const navigate = useNavigate();
     const { user, logout, isAuthenticated } = useAuth();
@@ -26,7 +29,6 @@ export default function AdminDashboardLayout() {
     useEffect(() => {
         localStorage.setItem('adminTheme', isDark ? 'dark' : 'light');
     }, [isDark]);
-    // Removed local blog state
 
     useEffect(() => {
         if (!isAuthenticated) {
@@ -34,12 +36,36 @@ export default function AdminDashboardLayout() {
         }
     }, [isAuthenticated, navigate]);
 
+    // Poll for notifications
+    useEffect(() => {
+        if (!isAuthenticated) return;
+
+        const checkNotifications = async () => {
+             const token = localStorage.getItem('token');
+             try {
+                 const res = await fetch(`${API_BASE_URL}/api/stats.php`, {
+                     headers: { 'Authorization': `Bearer ${token}` }
+                 });
+                 if (res.ok) {
+                     const data = await res.json();
+                     setUnreadCount(data.data.unreadContacts || 0);
+                 }
+             } catch (e) { }
+        };
+
+        checkNotifications(); // Check immediately
+        const interval = setInterval(checkNotifications, 15000); // Poll every 15s
+
+        return () => clearInterval(interval);
+    }, [isAuthenticated, location.pathname]);
+
     // Removed fetchBlogs effect logic
 
     const navItems = [
         { icon: LayoutDashboard, label: "Dashboard", path: "/admin" },
         { icon: FileText, label: "Blogs", path: "/admin/blogs" }, // Updated Path
         { icon: MessageSquare, label: "Contacts", path: "/admin/contacts" },
+        { icon: Briefcase, label: "Careers", path: "/admin/careers" },
         { icon: Settings, label: "Settings", path: "/admin/settings" },
     ];
 
@@ -49,6 +75,7 @@ export default function AdminDashboardLayout() {
     const getPageTitle = () => {
         if (location.pathname === '/admin') return 'Dashboard';
         if (location.pathname.startsWith('/admin/contacts')) return 'Contacts';
+        if (location.pathname.startsWith('/admin/careers')) return 'Career Applications';
         if (location.pathname.startsWith('/admin/settings')) return 'Settings';
         if (location.pathname.startsWith('/admin/blogs')) return 'Blog Management';
         return 'Admin Panel';
@@ -158,6 +185,7 @@ export default function AdminDashboardLayout() {
                     title={getPageTitle()}
                     isDark={isDark}
                     toggleTheme={() => setIsDark(!isDark)}
+                    unreadCount={unreadCount}
                 />
 
                 <main className="flex-1 p-6 lg:p-8 overflow-y-auto">

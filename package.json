@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "backend": "C:\\xampp\\php\\php.exe -S localhost:8001 -t server_php server_php/router.php",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
