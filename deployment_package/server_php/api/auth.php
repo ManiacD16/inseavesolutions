@@ -3,6 +3,7 @@
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../utils/security.php';
 require_once __DIR__ . '/../middleware/auth.php';
+require_once __DIR__ . '/../utils/email_utils.php';
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -59,6 +60,145 @@ switch($action) {
             sendResponse("error", "Invalid username or password", [], 401);
         } catch(Throwable $e) {
             sendResponse("error", "Database error during login", [], 500);
+        }
+        break;
+
+    case 'forgot-password':
+        if ($method !== 'POST') sendResponse("error", "Method not allowed", [], 405);
+        
+        $usernameOrEmail = $input['usernameOrEmail'] ?? $input['email'] ?? '';
+
+        if (empty($usernameOrEmail)) {
+            sendResponse("error", "Username or Email is required", [], 400);
+        }
+
+        try {
+            // Find user by username or email
+            $query = "SELECT * FROM users WHERE username = :u_search OR email = :e_search LIMIT 1";
+            $stmt = $db->prepare($query);
+            $stmt->bindParam(":u_search", $usernameOrEmail);
+            $stmt->bindParam(":e_search", $usernameOrEmail);
+            $stmt->execute();
+
+            if ($stmt->rowCount() === 0) {
+                sendResponse("error", "User not found", [], 404);
+            }
+
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            $email = $user['email'];
+            $name = $user['name'] ?? $user['username'];
+
+            if (empty($email)) {
+                sendResponse("error", "No email registered for this account", [], 400);
+            }
+
+            // Generate 6 digit OTP
+            $otp = strval(rand(100000, 999999));
+            $expiry = date('Y-m-d H:i:s', strtotime('+10 minutes'));
+
+            // Update user table with OTP and expiry
+            $updateQuery = "UPDATE users SET reset_otp = :otp, reset_otp_expiry = :expiry WHERE id = :id";
+            $updateStmt = $db->prepare($updateQuery);
+            $updateStmt->bindParam(":otp", $otp);
+            $updateStmt->bindParam(":expiry", $expiry);
+            $updateStmt->bindParam(":id", $user['id']);
+            $updateStmt->execute();
+
+            // Send OTP email
+            $emailSent = sendOtpEmail($email, $otp, $name);
+            if ($emailSent) {
+                sendResponse("success", "OTP sent successfully to " . $email, ["email" => $email]);
+            } else {
+                sendResponse("error", "Failed to send email. Please check your SMTP settings.", [], 500);
+            }
+        } catch (Throwable $e) {
+            sendResponse("error", "Database error during password reset request: " . $e->getMessage(), [], 500);
+        }
+        break;
+
+    case 'verify-otp':
+        if ($method !== 'POST') sendResponse("error", "Method not allowed", [], 405);
+        
+        $usernameOrEmail = $input['usernameOrEmail'] ?? $input['email'] ?? '';
+        $otp = $input['otp'] ?? '';
+
+        if (empty($usernameOrEmail) || empty($otp)) {
+            sendResponse("error", "Username/Email and OTP are required", [], 400);
+        }
+
+        try {
+            $query = "SELECT * FROM users WHERE username = :u_search OR email = :e_search LIMIT 1";
+            $stmt = $db->prepare($query);
+            $stmt->bindParam(":u_search", $usernameOrEmail);
+            $stmt->bindParam(":e_search", $usernameOrEmail);
+            $stmt->execute();
+
+            if ($stmt->rowCount() === 0) {
+                sendResponse("error", "User not found", [], 404);
+            }
+
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($user['reset_otp'] !== $otp) {
+                sendResponse("error", "Invalid OTP", [], 400);
+            }
+
+            $expiryTime = strtotime($user['reset_otp_expiry']);
+            if (time() > $expiryTime) {
+                sendResponse("error", "OTP has expired", [], 400);
+            }
+
+            sendResponse("success", "OTP verified successfully");
+        } catch (Throwable $e) {
+            sendResponse("error", "Database error during OTP verification", [], 500);
+        }
+        break;
+
+    case 'reset-password':
+        if ($method !== 'POST') sendResponse("error", "Method not allowed", [], 405);
+
+        $usernameOrEmail = $input['usernameOrEmail'] ?? $input['email'] ?? '';
+        $otp = $input['otp'] ?? '';
+        $newPassword = $input['newPassword'] ?? '';
+
+        if (empty($usernameOrEmail) || empty($otp) || empty($newPassword)) {
+            sendResponse("error", "All fields are required", [], 400);
+        }
+
+        try {
+            $query = "SELECT * FROM users WHERE username = :u_search OR email = :e_search LIMIT 1";
+            $stmt = $db->prepare($query);
+            $stmt->bindParam(":u_search", $usernameOrEmail);
+            $stmt->bindParam(":e_search", $usernameOrEmail);
+            $stmt->execute();
+
+            if ($stmt->rowCount() === 0) {
+                sendResponse("error", "User not found", [], 404);
+            }
+
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($user['reset_otp'] !== $otp) {
+                sendResponse("error", "Invalid OTP", [], 400);
+            }
+
+            $expiryTime = strtotime($user['reset_otp_expiry']);
+            if (time() > $expiryTime) {
+                sendResponse("error", "OTP has expired", [], 400);
+            }
+
+            // Hash the new password with SHA256 (same as login/other methods in this codebase)
+            $passwordHash = hash('sha256', $newPassword);
+
+            $updateQuery = "UPDATE users SET password_hash = :password_hash, reset_otp = NULL, reset_otp_expiry = NULL WHERE id = :id";
+            $updateStmt = $db->prepare($updateQuery);
+            $updateStmt->bindParam(":password_hash", $passwordHash);
+            $updateStmt->bindParam(":id", $user['id']);
+            $updateStmt->execute();
+
+            sendResponse("success", "Password updated successfully");
+        } catch (Throwable $e) {
+            sendResponse("error", "Database error during password reset", [], 500);
         }
         break;
 

@@ -9,8 +9,8 @@ interface SiteSettings {
 
 const defaultSettings: SiteSettings = {
     contact_email: 'webnexfusion@gmail.com',
-    contact_phone: '+91-7067164631',
-    site_name: 'Inseave Solutions'
+    contact_phone: '+91-9554349235',
+    site_name: 'Webnexfusion'
 };
 
 export const useSettings = () => {

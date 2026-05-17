@@ -30,6 +30,10 @@ RewriteRule ^contact/?$ contact.php [QSA,L]
 # Route /api/upload -> api/upload.php
 RewriteRule ^upload/?$ upload.php [QSA,L]
 
+# Route /api/careers/{id} -> api/careers.php?id={id}
+RewriteRule ^careers/([0-9]+)/?$ careers.php?id=$1 [QSA,L]
+RewriteRule ^careers/?$ careers.php [QSA,L]
+
 # Route /api/blogs/{id_or_slug} -> api/blogs.php
 RewriteRule ^blogs/([0-9]+)/?$ blogs.php?id=$1 [QSA,L]
 RewriteRule ^blogs/([^/]+)/?$ blogs.php?slug=$1 [QSA,L]

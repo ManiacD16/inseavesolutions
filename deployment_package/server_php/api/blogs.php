@@ -105,73 +105,73 @@ switch ($method) {
                 sendResponse("success", "Blog created", $inserted, 201);
             }
         } catch (PDOException $e) {
-            sendResponse("error", "Failed to create blog", [], 500);
+            sendResponse("error", "Failed to create blog: " . $e->getMessage(), [], 500);
         }
         break;
-
-    case 'PUT':
-        requireLogin(); // Admin required
-        if ($inId <= 0)
-            sendResponse("error", "ID required for update", [], 400);
-
-        $title = $input['title'] ?? '';
-        $description = $input['description'] ?? '';
-        $content = $input['content'] ?? '';
-        $author = $input['author'] ?? '';
-        $tags = isset($input['tags']) && is_array($input['tags']) ? json_encode($input['tags']) : '[]';
-        $image_url = $input['image_url'] ?? '';
-
-        $customSlug = $input['slug'] ?? '';
-        $meta_title = $input['meta_title'] ?? null;
-        $meta_description = $input['meta_description'] ?? null;
-        $focus_keyword = $input['focus_keyword'] ?? null;
-
-        $slugQuery = "";
-        $slugValue = null;
-        if (!empty($customSlug)) {
-            $slug = generateSlug($customSlug);
-            $baseSlug = $slug;
-            $counter = 1;
-            while (true) {
-                $checkStmt = $db->prepare("SELECT id FROM blogs WHERE slug = :slug AND id != :id");
-                $checkStmt->execute([':slug' => $slug, ':id' => $inId]);
-                if ($checkStmt->rowCount() === 0)
-                    break;
-                $slug = $baseSlug . '-' . $counter;
-                $counter++;
-            }
-            $slugQuery = "slug = :slug, ";
-            $slugValue = $slug;
-        }
-
-        try {
-            $query = "UPDATE blogs SET $slugQuery title = :title, description = :description, content = :content, author = :author, tags = :tags, image_url = :image_url, meta_title = :meta_title, meta_description = :meta_description, focus_keyword = :focus_keyword, updated_at = CURRENT_TIMESTAMP WHERE id = :id";
-            $stmt = $db->prepare($query);
-            if ($slugValue !== null)
-                $stmt->bindParam(':slug', $slugValue);
-            $stmt->bindParam(':title', $title);
-            $stmt->bindParam(':description', $description);
-            $stmt->bindParam(':content', $content);
-            $stmt->bindParam(':author', $author);
-            $stmt->bindParam(':tags', $tags);
-            $stmt->bindParam(':image_url', $image_url);
-            $stmt->bindParam(':meta_title', $meta_title);
-            $stmt->bindParam(':meta_description', $meta_description);
-            $stmt->bindParam(':focus_keyword', $focus_keyword);
-            $stmt->bindParam(':id', $inId);
-
-            if ($stmt->execute()) {
-                if ($stmt->rowCount() > 0) {
-                    $updated = $db->query("SELECT * FROM blogs WHERE id = $inId")->fetch(PDO::FETCH_ASSOC);
-                    sendResponse("success", "Blog updated", $updated);
-                } else {
-                    sendResponse("error", "Blog not found or no changes made", [], 404);
-                }
-            }
-        } catch (Exception $e) {
-            sendResponse("error", "Failed to update blog", [], 500);
-        }
-        break;
+ 
+     case 'PUT':
+         requireLogin(); // Admin required
+         if ($inId <= 0)
+             sendResponse("error", "ID required for update", [], 400);
+ 
+         $title = $input['title'] ?? '';
+         $description = $input['description'] ?? '';
+         $content = $input['content'] ?? '';
+         $author = $input['author'] ?? '';
+         $tags = isset($input['tags']) && is_array($input['tags']) ? json_encode($input['tags']) : '[]';
+         $image_url = $input['image_url'] ?? '';
+ 
+         $customSlug = $input['slug'] ?? '';
+         $meta_title = $input['meta_title'] ?? null;
+         $meta_description = $input['meta_description'] ?? null;
+         $focus_keyword = $input['focus_keyword'] ?? null;
+ 
+         $slugQuery = "";
+         $slugValue = null;
+         if (!empty($customSlug)) {
+             $slug = generateSlug($customSlug);
+             $baseSlug = $slug;
+             $counter = 1;
+             while (true) {
+                 $checkStmt = $db->prepare("SELECT id FROM blogs WHERE slug = :slug AND id != :id");
+                 $checkStmt->execute([':slug' => $slug, ':id' => $inId]);
+                 if ($checkStmt->rowCount() === 0)
+                     break;
+                 $slug = $baseSlug . '-' . $counter;
+                 $counter++;
+             }
+             $slugQuery = "slug = :slug, ";
+             $slugValue = $slug;
+         }
+ 
+         try {
+             $query = "UPDATE blogs SET $slugQuery title = :title, description = :description, content = :content, author = :author, tags = :tags, image_url = :image_url, meta_title = :meta_title, meta_description = :meta_description, focus_keyword = :focus_keyword, updated_at = CURRENT_TIMESTAMP WHERE id = :id";
+             $stmt = $db->prepare($query);
+             if ($slugValue !== null)
+                 $stmt->bindParam(':slug', $slugValue);
+             $stmt->bindParam(':title', $title);
+             $stmt->bindParam(':description', $description);
+             $stmt->bindParam(':content', $content);
+             $stmt->bindParam(':author', $author);
+             $stmt->bindParam(':tags', $tags);
+             $stmt->bindParam(':image_url', $image_url);
+             $stmt->bindParam(':meta_title', $meta_title);
+             $stmt->bindParam(':meta_description', $meta_description);
+             $stmt->bindParam(':focus_keyword', $focus_keyword);
+             $stmt->bindParam(':id', $inId);
+ 
+             if ($stmt->execute()) {
+                 if ($stmt->rowCount() > 0) {
+                     $updated = $db->query("SELECT * FROM blogs WHERE id = $inId")->fetch(PDO::FETCH_ASSOC);
+                     sendResponse("success", "Blog updated", $updated);
+                 } else {
+                     sendResponse("error", "Blog not found or no changes made", [], 404);
+                 }
+             }
+         } catch (PDOException $e) {
+             sendResponse("error", "Failed to update blog: " . $e->getMessage(), [], 500);
+         }
+         break;
 
     case 'DELETE':
         requireLogin(); // Admin required

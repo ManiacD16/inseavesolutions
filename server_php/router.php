@@ -13,16 +13,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
+// Dynamically normalize path to strip any subfolder nesting before 'api/'
+$apiPos = strpos($path, 'api/');
+if ($apiPos !== false) {
+    $path = substr($path, $apiPos);
+} else {
+    $path = ltrim($path, '/');
+}
+
 // Serve existing files
-if (is_file(__DIR__ . $path)) {
-    if (pathinfo(__DIR__ . $path, PATHINFO_EXTENSION) === 'php') {
-        require __DIR__ . $path;
+if (is_file(__DIR__ . '/' . $path)) {
+    if (pathinfo(__DIR__ . '/' . $path, PATHINFO_EXTENSION) === 'php') {
+        require __DIR__ . '/' . $path;
         exit;
     }
     return false; // Let PHP serve static files natively
 }
-
-$path = ltrim($path, '/');
 
 // Emulate .htaccess rewrites
 if (preg_match('#^api/auth/([^/]+)/?$#', $path, $matches)) {

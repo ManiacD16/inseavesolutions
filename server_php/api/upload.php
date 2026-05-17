@@ -122,10 +122,17 @@ $destination = $uploadDir . $newFilename;
 // Run conversion
 $converted = convertToWebp($file['tmp_name'], $destination, 80, 1200);
 
+// Protocol and Host detection
+$protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http";
+$host = $_SERVER['HTTP_HOST'];
+
+// 100% Dynamic Subfolder detection for Hostinger and Local environments
+$scriptName = str_replace('\\', '/', $_SERVER['SCRIPT_NAME']);
+$uploadsUrlPath = dirname(dirname($scriptName)) . '/uploads';
+$uploadsUrlPath = '/' . trim($uploadsUrlPath, '/');
+
 if ($converted) {
-    $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http";
-    $host = $_SERVER['HTTP_HOST'];
-    $imageUrl = $protocol . "://" . $host . '/uploads/' . $newFilename;
+    $imageUrl = $protocol . "://" . $host . $uploadsUrlPath . '/' . $newFilename;
     sendResponse("success", "File uploaded and converted to WebP successfully", ["imageUrl" => $imageUrl]);
 } else {
     // Fallback: move original file if GD conversion failed or wasn't supported
@@ -133,9 +140,7 @@ if ($converted) {
     $fallbackDestination = $uploadDir . $fallbackFilename;
     
     if (move_uploaded_file($file['tmp_name'], $fallbackDestination)) {
-        $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http";
-        $host = $_SERVER['HTTP_HOST'];
-        $imageUrl = $protocol . "://" . $host . '/uploads/' . $fallbackFilename;
+        $imageUrl = $protocol . "://" . $host . $uploadsUrlPath . '/' . $fallbackFilename;
         sendResponse("success", "File uploaded successfully (fallback to original format)", ["imageUrl" => $imageUrl]);
     } else {
         sendResponse("error", "Failed to upload file.", [], 500);
